@@ -1,0 +1,143 @@
+﻿body.inner
+{
+	margin: 0px 0px 0px 0px;
+	padding:0px 0px 0px 0px;
+	background-color: #E0DED2;
+	font-family: Arial;
+	font-size: 12px;
+}
+
+a.basiclink
+{
+	color: White;
+	font-size: 12px;
+}
+
+input
+{
+	width: 150px;	
+}
+
+table.navigation
+{
+	border: solid 0px black;
+	margin: auto;
+	width: 920px;
+}
+
+table.account
+{
+	width: 300px;
+	
+}
+td.account
+{
+	color : White;
+	text-align: left;
+	height: 20px;
+	
+}
+
+td
+{
+	margin: 0px 0px 0px 0px;
+	padding:0px 0px 0px 0px;
+	height: 25px;
+}
+
+td.navigation
+{
+	margin: 2px 2px 2px 2px;
+	padding:0px 0px 0px 0px;
+	height: 25px;
+	width: 100px;
+	text-align: center;
+}
+#signindiv
+{
+	background-color: Transparent;
+	position: absolute;
+	width: 200px;
+	
+	
+}
+#mainframe
+{
+	border-style: none;
+	width: 800px;
+	height: 600px;
+	
+}
+
+#bannerlogo
+{
+	width:60px;
+	 height:55px;
+	 
+}
+
+#bannerrow
+{
+	height: 60px;
+	/*background-color: #500000;*/
+	background-color: #8FBC8F;/* #D3F07B;*/
+}
+
+#searchrow
+{
+	height: 25px;
+	background-color: #565252;
+	
+}
+#maincontent
+{
+    height: 615px;
+    background-color: White;
+    vertical-align: top;
+}
+
+#headertable
+{
+	width:800px;
+	margin:auto;
+}
+
+.clear { /* generic container (i.e. div) for floating buttons */
+    overflow: hidden;
+    width: 100%;
+}
+
+a.button {
+    background: transparent url('../images/bg_button_a.png') no-repeat scroll top right;
+    color: #444;
+    display: block;
+    float: left;
+    font: normal 12px arial, sans-serif;
+    height: 18px;
+    margin-right: 6px;
+    padding-right: 18px; /* sliding doors padding */
+    text-decoration: none;
+}
+
+a.button span {
+    background: transparent url('../images/bg_button_span.png') no-repeat;
+    display: block;
+    line-height: 14px;
+    padding: 5px 0 5px 18px;
+}
+
+a.button:active {
+    background-position: bottom right;
+    color: #000;
+    outline: none; /* hide dotted outline in Firefox */
+}
+
+a.button:active span {
+    background-position: bottom left;
+    padding: 6px 0 4px 18px; /* push text down 1px */
+}
+
+table.hometext
+{
+    width:90%;
+}

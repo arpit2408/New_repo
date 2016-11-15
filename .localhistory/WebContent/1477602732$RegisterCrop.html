@@ -1,0 +1,124 @@
+﻿<html>
+    <head>
+        <title>Contact Form Tutorial by Bootstrapious.com</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+        <link href='css/custom.css' rel='stylesheet' type='text/css'>
+        <link href='css/registerCrop.css' rel='stylesheet' type='text/css'>
+        <script type="text/javascript" src="/WebContent/Javascript/cropAdd.js"></script>
+    </head>
+    <body>
+          
+        <div class="container" style="background-color:#eee">
+             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+            <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+    
+            <!-- Modal content-->
+            <div class="modal-content" style="height:auto;width:800px;">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Crop Information</h4>
+                </div>
+                <div class="modal-body" style="background-color:#eee">
+                  
+            <div class="row" >
+
+                <div class="col-lg-8 col-lg-offset-2">
+
+                
+
+                    <form id="contact-form" method="post" action="contact.php" role="form">
+
+                        <div class="messages"></div>
+
+                        <div class="controls">
+
+                            <div class="row">
+                                
+                               <div class="col-md-6">
+                                    <div class="form-group">
+                                            <label for="form_phone">Plant Type *:</label>
+                                            <select onchange="print_crop('crop',this.selectedIndex);" id="plant" name="plant"  class="form-control" required></select>
+                                    </div>
+                                </div>
+                                 <div class="col-md-6">
+                                    <div class="form-group">
+				                            <label for="form_phone">Crop Type *:</label>
+                                             <select id="crop" name="crop" class="form-control" required></select>
+                                             <script type="text/javascript ">print_plant("plant");</script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                       <label for="form_phone">Crop Year *:</label>
+                                        <input id="Tel2" type="tel" name="phone" class="form-control" placeholder="Please enter your phone">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_phone">Number of Acres *:</label>
+                                        <input id="form_phone" type="tel" name="phone" class="form-control" placeholder="Please enter your phone">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_phone">County *:</label>
+                                        <input id="Tel1" type="tel" name="phone" class="form-control" placeholder="Please enter your phone">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4">
+                                     <div class="panel panel-default" >
+                                            <!-- Default panel contents -->
+                                         <div class="panel-heading">Certified Organic Crop
+     
+                                                <div class="material-switch pull-right">
+                                                <input id="someSwitchOptionSuccess" name="someSwitchOption001" type="checkbox"/>
+                                                <label for="someSwitchOptionSuccess" class="label-success"></label>
+                                                </div>
+                                           </div> 
+                                     </div>            
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="form_message">Comments or Description: *</label>
+                                        <textarea id="form_message" name="message" class="form-control" placeholder="Message for me *" rows="4" required="required" data-error="Please,leave us a message."></textarea>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="submit" class="btn btn-primary btn-send" value="Save">
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </form>
+                    </div>
+                </div>
+
+                </div>
+              </div>
+      
+            </div>
+          </div>
+  
+            
+        </div> <!-- /.container-->
+
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    </body>
+</html>

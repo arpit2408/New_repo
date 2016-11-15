@@ -1,0 +1,503 @@
+﻿/*Reset 
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    font-size: 100%;
+    margin: 0;
+    outline: 0 none;
+    padding: 0;
+    vertical-align: baseline;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+strong, th {
+    font-weight: bold;
+}
+td, td img {
+    vertical-align: top;
+}
+/*end of reset*/
+
+
+#maplegend {
+    padding: 10px;
+}
+table.producer
+{
+    border: solid 0px black;
+	margin: auto;
+	width: 920px;
+}
+#description
+{
+    font-family:Arial;
+    font-size:12px;
+    padding: 0 0 4px 4px;
+}
+h3 
+{
+    color: #385503;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    text-align: center;
+}
+table
+{
+    text-align:left;
+	font-family:Arial;
+	font-size:12px;
+	width: 910px;
+	margin: auto;
+}
+td
+{
+	text-align:left;
+	font-family:Arial;
+	width: 250px;
+	height:25px;
+}
+table.optionslist
+{
+    text-align:center;
+	font-family:Arial;
+	font-size:12px;
+	width: 250px;
+	margin: auto;
+	
+	/*height:500px;*/
+	/*border: 1px solid #000000;*/
+}
+table.optionslist td
+{
+    text-align:left;
+	font-family:Arial;
+	width: 250px;
+    height:20px;
+    vertical-align: top;
+   
+}
+#nocrop
+{
+  margin-left : 5px;
+  padding-left: 5px;
+  color:White;
+  font-weight:bold;
+}
+table.optionslist label
+{
+    color:White;
+}
+input.addlocation
+{
+    width:200px;
+}
+#viewoptions
+{
+    border: 1px solid #000000; 
+    height: 500px; 
+    width:250px;
+    background: url(../images/Green_Gradient2Large.png) repeat-x scroll 0 0;
+}
+#mapcontent
+{
+	/*height: 600px;*/
+	background-color:White ;
+	vertical-align:top;
+}
+#mapcontent td
+{
+    
+}
+table.mapcroplocs
+{
+    width: 654px;
+	margin: auto;
+	height:502px;
+	border: 1px solid #000000;
+}
+table.tableview
+{
+    width: 654px;
+	margin: auto;
+	border-collapse:collapse;
+}
+.tableview th
+{
+    background: url(../images/Green_Gradient2.png) repeat-x scroll 0 0;
+    border-bottom: 1px solid #FFFFFF;
+    color:#FFFFFF;
+    padding: 8px;
+    vertical-align: baseline;
+}
+.tableview td
+{
+    background: url(../images/Green_Gradient3.png) repeat-x scroll 0 0;
+    border-bottom: 0px solid #FFFFFF;
+	padding: 8px;
+    vertical-align: middle;
+    height:20px;
+}
+ul#list-nav {
+list-style:none;
+margin:0px;
+padding:0;
+width:400px;
+}
+ul#list-nav li {
+display:inline
+}
+ul#list-nav li a {
+text-decoration:none;
+padding:5px 0;
+width:100px;
+background:Gray;
+color:#eee;
+float:left;
+text-align:center;
+border-left:1px solid #fff;
+}
+ul#list-nav li a:hover {
+background:black;
+color:white;
+cursor: hand;cursor: pointer;
+}
+a.clickable
+{
+    font-size: 10px;
+	color: Blue;
+}
+a.clickable:hover
+{
+	font-weight: bold;
+	cursor: hand;cursor: pointer;
+
+}
+a.rctlr
+{
+    font-size: 10px;
+	color: Blue;
+	float:right;
+	padding-right:10px;
+}
+a.rctlr:hover
+{
+	font-weight: bold;
+	cursor: hand;cursor: pointer;
+
+}
+.pushpinStyle_nuts
+{
+    position:relative;
+    background: url(../images/pushpins/pushpinblue10.png) no-repeat 0 0;
+    top: 10px;
+    text-align:center;
+    font:bold 10px Arial;
+    height:10px;
+    width:10px;
+    color: white;
+    /*cursor:pointer;*/
+}
+.pushpinStyle_field
+{
+    position:relative;
+    background: url(../images/pushpins/pushpingreen10.png) no-repeat 0 0;
+    top: 10px;
+    text-align:center;
+    font:bold 10px Arial;
+    color: white;
+    height:10px;
+    width:10px;
+    /*cursor:pointer;*/
+}
+.pushpinStyle_nursery
+{
+    position:relative;
+    background: url(../images/pushpins/pushpinred10.png) no-repeat 0 0;
+    top: 10px;
+    text-align:center;
+    font:bold 10px Arial;
+    color: white;
+    height:10px;
+    width:10px;
+    /*cursor:pointer;*/
+}
+.pushpinStyle_vegetables
+{
+    position:relative;
+    background: url(../images/pushpins/pushpinpurple10.png) no-repeat 0 0;
+    top: 10px;
+    text-align:center;
+    font:bold 10px Arial;
+    color: white;
+    
+    height:10px;
+    width:10px;
+    /*cursor:pointer;*/
+}
+.pushpinStyle_forage
+{
+    position:relative;
+    background: url(../images/pushpins/pushpinwhite10.png) no-repeat 0 0;
+    top: 10px;
+    text-align:center;
+    font:bold 10px Arial;
+    color: black;
+    height:10px;
+    width:10px;
+    /*cursor:pointer;*/
+}
+.pushpinStyle_bees
+{
+    position:relative;
+    background: url(../images/pushpins/pushpinyellow10.png) no-repeat 0 0;
+    top: 10px;
+    text-align:center;
+    vertical-align:middle;
+    font:bold 10px Arial;
+    color:black;
+    height:10px;
+    width:10px;
+    /*cursor:pointer;*/
+}
+.pushpinStyle_unknown
+{
+    position:relative;
+    background: url(../images/pushpins/pushpinunknown10.png) no-repeat 0 0;
+    top: 10px;
+    text-align:center;
+    vertical-align:middle;
+    font:bold 10px Arial;
+    color:black;
+    height:10px;
+    width:10px;
+    /*cursor:pointer;*/
+}
+.icon1
+{
+    position:relative;
+    background: url(../images/fruits_nuts_20x20.png) no-repeat 0 0;
+    /*top:-15px;*/
+    text-align:center;
+    font:bold 10px Arial;
+    height:20px;
+    width:20px;
+}
+.icon2
+{
+    position:relative;
+    background: url(../images/vegetables_20x20S.png) no-repeat 0 0;
+    /*top:-15px;*/
+    text-align:center;
+    font:bold 10px Arial;
+    height:20px;
+    width:20px;
+}
+.icon1 .text, .icon2 .text
+{
+    position:relative;
+    top:0px;
+    color:White;
+}
+/* help overlay */
+.overlay
+{
+    background-color: gray;
+    height: 100%;
+    left: 0;
+    line-height: 40px;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+    
+}
+.closeoverlay{
+    background: url("../images/closebtn30px.png") no-repeat scroll 0 0 transparent;
+    float: right;
+    height: 30px;
+    margin-right: 0;
+    margin-top: 0;
+    padding-left: 0;
+    padding-top: 0;
+    text-align: center;
+    width: 30px;
+}
+a.boxclose
+{
+    color: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 27px;
+}
+#box1
+{
+    height: 101px;
+    left: 0;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 350px;
+    z-index: 10000;
+}
+#box2
+{
+    bottom: 240px;
+    height: 35px;
+    left: 45px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    width: 165px;
+    z-index: 10000;
+}
+#box3
+{
+    bottom: 0;
+    height: 200px;
+    left: 15px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    width: 194px;
+    z-index: 10000;
+}
+#box4
+{
+   height: 160px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 162px;
+    width: 159px;
+    z-index: 10000;
+}
+#pointer
+{
+    height: 260px;
+    left: 0;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    top: 95px;
+    width: 260px;
+    z-index: 10000;
+}
+#pointer2
+{
+    bottom: 0;
+    height: 120px;
+    left: 190px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    width: 730px;
+    z-index: 10000;
+}
+#pointer3
+{
+    height: 100px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: 12px;
+    top: 72px;
+    width: 95px;
+    z-index: 10000;
+}
+#tbox1
+{
+    height: 101px;
+    left: 0;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: 350px;
+    z-index: 10000;
+}
+#tbox2
+{
+    bottom: 240px;
+    height: 35px;
+    left: 45px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    width: 165px;
+    z-index: 10000;
+}
+#tbox3
+{
+    height: 160px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: 143px;
+    top: -3px;
+    width: 159px;
+    z-index: 10000;
+}
+#tbox4
+{
+   height: 130px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: 16px;
+    top: 231px;
+    width: 276px;
+    z-index: 10000;
+}
+#tpointer
+{
+    height: 260px;
+    left: 0;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    top: 95px;
+    width: 260px;
+    z-index: 10000;
+}
+#tpointer2
+{
+   height: 36px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: 10px;
+    top: 72px;
+    width: 143px;
+    z-index: 10000;
+}
+#tpointer3
+{
+    height: 98px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: 17px;
+    top: 145px;
+    width: 147px;
+    z-index: 10000;
+}

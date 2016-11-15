@@ -1,0 +1,338 @@
+﻿/**********DropDown Menu****/
+
+/****Left side Menu****/
+#div_DropMenu {
+    display: inline;
+    
+}
+#div_Login {
+    display: inline;
+    background: none;
+    height: 30px;
+    border: none;
+}
+#div_Account {
+    display: inline;
+    background: none;
+    height: 30px;
+    border: none;
+}
+#nav-two {
+    height: 30px;
+}
+
+ul.dropmenu{
+	position: relative;
+	margin: 0px;
+	padding: 1px 0px 0px 0px;
+	/*background:transparent url(../images/navigationBG.png) repeat-x scroll 0 0;*/
+	display:block;
+	height: 60px;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size: 11px;
+    background-color:  #500000;
+    
+}
+
+.dropmenu li{
+	position: relative;
+	list-style: none;
+	float: left;
+	margin: 0px;
+	padding: 0px;
+}
+.dropmenu li a{
+	height: 22px;
+	padding: 9px 30px 0px 15px;
+	display: block;
+	/*background-color: red;*/
+	/*border-right: solid 1px #79913d;*/
+	color: #FFFFFF;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+/*displays the drop down menu on LINKS*/
+.dropmenu li:hover ul, .dropmenu li:hover div{
+	display: block;
+    
+}
+.dropmenu li  a:hover span{
+	/*background:transparent url(../images/arrow_hover.png) repeat-x scroll 0 0;
+    color: black;*/
+    
+}
+.dropmenu ul{
+	position: relative;
+	display: none;
+	/*width: 140px;*/
+	padding: 0px;
+	margin: 0px;
+	border-bottom: 1px solid #332c2c;
+	/*background: #FFFFFF url(../images/gradient.png) repeat-x scroll 0 0;*/
+}
+.dropmenu ul li{
+	border: 0;
+	float: none;
+}
+.dropmenu ul a {
+  border: 1px solid #ccc;
+  border-bottom: 0;
+  white-space: nowrap;
+  display:block;
+  text-decoration: underline;
+  text-transform: none;
+}
+.dropmenu li span{
+	display: block;
+	float: right;
+	height: 8px;
+	width: 8px;
+	background:url(../images/arrow_up.png) no-repeat 0 0;
+	position: absolute;
+	top: 12px;
+	right: 10px;
+    background-color: #500000;
+}
+
+
+a.selected, a:hover{
+	
+	/*background: green url(../images/gradient.png) repeat-x scroll 0 0;*/
+    color: #332c2c;
+    background-color: #332c2c;
+}
+a.selected span{
+	background:transparent url(../images/arrow_hover.png) repeat-x scroll 0 0;
+}
+
+.dropmenu ul a:hover {
+	color:white;
+	text-decoration: none;
+	
+    background-color:#332c2c;
+	background-image: none;
+}
+.dropmenu {
+    background-color: red;
+}
+.haschildren {
+    background-color:#500000;
+}
+.dropmenu div ul{
+	position: relative;
+	display: block;
+}
+/*.dropmenu li div{
+	background: #FFFFFF url(../images/gradient.png) repeat-x scroll 0 0;
+	border: 0px solid #ccc;
+	
+	display: none;
+	position: absolute;
+}*/
+/*.dropmenu li div ul{
+	border: none;
+	background: none;
+	position: relative !important;
+}*/
+.dropmenu li div a{
+    color: white;
+	border: none;
+    
+    /*background:transparent url(../images/navigationBG.png) repeat-x scroll 0 0;*/
+	/*border-bottom: 1px solid #ccc;*/
+}
+/*.dropmenu li div div{
+	display: block;
+	position: relative;
+	background: none;
+	border: none;
+}*/
+/*.dropmenu li div div a{
+	display: inline;
+	border: none;
+	color: white;
+	text-decoration: underline;
+	padding: 0px;
+	margin: 0px;
+	text-transform: none;
+}*/
+/*.dropmenu li div div a:hover{
+	color: black;
+	text-decoration: underline;
+}*/
+ul.left{
+	float: left;
+	width: 145px;
+}
+ul.right{
+	float: right;
+	width: 145px;
+}
+.small{
+	color: #666;
+	font-size: 10px;
+	padding: 10px 5px 8px 5px !important;
+	display: block;
+	clear: both;
+}
+
+
+button{
+	/*background: #4A779D url(../images/navigationBG.png) repeat-x scroll 0 0;*/
+	color: #FFF;
+	border:1px solid #332c2c;
+	padding: 4px 10px;
+	width: 180px;
+    background-color: #500000;
+}
+
+/****Right side on Menu (Login region)****/
+table.usermenu
+{
+    position: relative;
+	margin: 0px 0px 0px 0px;
+	/*padding: 0px 4px 0px 4px;*/
+	/*background:transparent url(../images/navigationBG.png) repeat-x scroll 0 0;*/
+	display:block;
+	/*height: 36px;*/
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-size: 11px;
+    /*top: 4px;
+    left: -3px;
+    width: 424px;*/
+
+}
+
+
+td.usermenu
+{
+    /*width:116px;*/
+    /*height:19px;*/
+    text-align:center;
+}
+
+input.usermenu
+{
+    font-size: 11px;
+    position: relative;
+    /*top: 3px;*/
+    height:14px;
+    color: #999999;
+    width: 120px;
+   
+}
+div.usermenu
+{
+    position: relative;
+    
+    color: #999999;
+    cursor: text;
+    /*top: 10px;*/
+    display: inline;
+    white-space: nowrap;
+    color: white;
+}
+td.smallbutton
+{
+    width:62px; height:19px; /*text-align:right;*/
+}
+input.smallbutton
+{
+    /*background: url("../images/button_green_small.png") repeat-x scroll 0 center #006600;*/
+    border-color: #332c2c;
+    border-style: none;
+    border-width: medium;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: bold;
+    height: 19px;
+    background-color: #999999;
+    top: 7px;
+    width: 60px;
+    /*background-color: #5B74A8;
+    background-image: url("https://s-static.ak.fbcdn.net/rsrc.php/v2/ym/r/NRGEePMfwP2.png");
+    background-position: -352px -103px;
+    background-repeat: no-repeat;
+    border-color: #29447E #29447E #1A356E;*/
+}
+input.smallbutton:hover
+{
+    cursor: pointer;
+}
+
+input.bigbutton
+{
+    /*background: url("../images/button_green_small.png") repeat-x scroll 0 center #006600;*/
+    border-color: #332c2c;
+    border-style: none;
+    border-width: medium;
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: bold;
+    height: 19px;
+    position: relative;
+   /* right: 6px;*/
+    text-align: center;
+    /*top: 7px;*/
+    width: 100px;
+    background-color: #999999;
+    /*background-color: #5B74A8;
+    background-image: url("https://s-static.ak.fbcdn.net/rsrc.php/v2/ym/r/NRGEePMfwP2.png");
+    background-position: -352px -103px;
+    background-repeat: no-repeat;
+    border-color: #29447E #29447E #1A356E;*/
+}
+input.bigbutton:hover
+{
+    cursor: pointer;
+}
+
+
+label
+{
+    color:White;
+}
+a.basiclink
+{
+    color: White;
+	font-size: 12px;
+}
+#user
+{
+    height: 22px;
+    padding: 9px 30px 0px 15px;
+    display: block;
+   
+    border-right: none;
+    color: #FFFFFF;
+    text-transform: none;
+    text-decoration: none;
+    font-weight: bold;
+    font-style: italic;
+    border-right-width: 0px;
+}
+#user span
+{
+    display: block;
+	float: right;
+	height: 10px;
+	width: 10px;
+	/*background:transparent url(../images/arrow_up.png) repeat-x scroll 0 0;*/
+	position: absolute;
+	top: 12px;
+	right: 10px;
+}
+
+td.signup
+{
+	text-align:left;
+	font-family:Arial;
+	width: 200px;
+}
+table.signup
+{
+	text-align:left;
+	font-family:Arial;
+	width: 400px;
+	margin: auto;
+}

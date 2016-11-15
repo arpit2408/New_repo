@@ -1,0 +1,461 @@
+﻿
+
+table.applicator
+{
+    border: solid 0px black;
+	margin: auto;
+	width: 800px;
+}
+#preferences {
+    width: 800px;
+}
+#appareas {
+    width: 800px;
+}
+div {
+    /*background-color: white;*/
+}
+table {
+    background-color: white;
+}
+
+#description
+{
+    width: 800px;
+    font-family:Arial;
+    font-size:12px;
+    padding: 0 0 2px 2px;
+}
+maplegendimage {
+    height: 20px;
+    width: 20px;
+}
+
+/*h2
+{
+    
+    font-size: 16px;
+    color: black;
+
+}*/
+
+#maplegend {
+    /*border: 1px solid #000000;*/
+    text-align: center;
+}
+#apppagination {
+    width: 200px;
+    max-width: 200px;
+}
+    #apppagination.table {
+        width: 200px;
+    }
+
+#croppagination {
+    width: 200px;
+}
+#mapareapanel {
+    text-align: center;
+}
+#appareapanel {
+    
+    width:200px;
+}
+#cropareapanel {
+    
+    width:200px;
+}
+
+h3 
+{
+    color: #385503;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    text-align: center;
+}
+table
+{
+    text-align:left;
+	font-family:Arial;
+	font-size:12px;
+	width: 910px;
+	margin: auto;
+}
+td
+{
+    vertical-align: top;
+	text-align:left;
+	font-family:Arial;
+	width: 200px;
+	height:25px;
+}
+/*table.preferences
+{
+	text-align:left;
+	font-family:Arial;
+	font-size:12px;
+	width: 910px;
+	margin: auto;
+}*/
+td.preferences
+{
+    height:20px;
+    margin:auto;
+    width:200px;
+}
+
+
+
+input.stdbutton {
+    font-size: 10px;
+    /*height: 24px;*/
+    /*width: 90px;*/
+    padding: 2px;
+}
+input.smallbutton {
+    font-size: 8px;
+    width: auto;
+    padding: 1px;
+    margin: 1px;
+}
+table.appareaslist
+{
+   /* display: block; */
+    font-family: Arial;
+    font-size: 12px;
+    width: 200px;
+    max-width: 200px;
+    /*height: 374px;*/
+    /*margin: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: left;
+    width: 200px;*/
+    /*text-align:left;
+	font-family:Arial;
+	font-size:12px;
+	width: 198px;
+	margin: auto;
+	height:375px;*/
+	/*border: 1px solid #000000;*/
+}
+#croplist {
+    vertical-align: top;
+}
+#cropareas {
+    /*border: 1px solid #000000; 
+    height: 374px;
+     width:200px;*/
+}
+#areaslist {
+    vertical-align: top;
+}
+table.appareaslist td
+{
+    text-align:left;
+	/*font-family:Arial;*/
+	width: 90px;
+    /*height:20px;*/
+    vertical-align: top;
+}
+#list {
+    /*border: 1px solid #000000;*/ 
+    vertical-align: top;
+    /*height: 374px; width:200px;*/
+}
+input.addlocation
+{
+    width:200px;
+}
+
+#mapcontent
+{
+	/*height: 600px;*/
+	background-color:White ;
+}
+table.mapappareas
+{
+    width: 502px;
+	margin: auto;
+	height:375px;
+	border: 4px solid #000000;
+}
+ul#list-nav {
+list-style:none;
+margin:0px;
+padding:0;
+width:400px;
+}
+ul#list-nav li {
+display:inline
+}
+ul#list-nav li a {
+text-decoration:none;
+padding:5px 0;
+width:100px;
+background:Gray;
+color:#eee;
+float:left;
+text-align:center;
+border-left:1px solid #fff;
+}
+ul#list-nav li a:hover {
+background:black;
+color:white;
+cursor: pointer;
+}
+a.clickable
+{
+    font-size: 12px;
+	color: Blue;
+}
+a.clickable:hover
+{
+	font-weight: bold;
+	cursor: pointer;
+
+}
+a.rctlr
+{
+    font-size: 10px;
+	color: Blue;
+	float:right;
+	padding-right:10px;
+}
+a.rctlr:hover
+{
+	font-weight: bold;
+	cursor: pointer;
+
+}
+#emailopt input
+{
+    margin: 0;
+    padding: 0;
+    width: 15px;
+}
+#emailopt label
+{
+    font-size: 12px;
+}
+
+/* ----------------- Rama Changes beginv----------------------*/
+.pushpinapparea
+{
+    position:relative;
+    background: url(../images/pushpins/applicatorpushpin.png) no-repeat 0 0;
+    /*top:-15px;*/
+    text-align:center;
+    font:bold 10px;
+    color: black;
+    height:32px;
+    width:32px;
+    /*cursor:pointer;*/
+}
+.pushpinapparea .text
+{
+    position:relative;
+    top:4px;
+    color:black;
+    font-size: 10px;
+}
+/* ----------------- Rama Changes end----------------------*/
+.pushpinStyle2
+{
+    position:relative;
+    background: url(../images/vegetables_32x32S.png) no-repeat 0 0;
+    /*top:-15px;*/
+    text-align:center;
+    font:bold 10px;
+    height:32px;
+    width:32px;
+    /*cursor:pointer;*/
+}
+.pushpinStyle2 .text
+{
+    position:relative;
+    top:4px;
+    color:White;
+}
+/* help overlay */
+.overlay
+{
+    background-color: gray;
+    height: 100%;
+    left: 0;
+    line-height: 40px;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+    
+}
+.closeoverlay{
+    background: url("../images/closebtn30px.png") no-repeat scroll 0 0 transparent;
+    float: right;
+    height: 30px;
+    margin-right: 0;
+    margin-top: 0;
+    padding-left: 0;
+    padding-top: 0;
+    text-align: center;
+    width: 30px;
+}
+a.boxclose
+{
+    color: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 27px;
+}
+#box1
+{
+    height: 147px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: 105px;
+    top: 10px;
+    width: 200px;
+    z-index: 10000;
+}
+#pointer1
+{
+    height: 46px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: 6px;
+    top: 81px;
+    width: 110px;
+    z-index: 10000;
+}
+#box2
+{
+    height: 139px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: -3px;
+    top: 254px;
+    width: 200px;
+    z-index: 10000;
+}
+#pointer2
+{
+    height: 79px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: 6px;
+    top: 187px;
+    width: 105px;
+    z-index: 10000;
+}
+/*Rama Changes begin*/
+#box3
+{
+    bottom: 134px;
+    height: 139px;
+    left: 20px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    width: 192px;
+    z-index: 10000;
+}
+#pointer3
+{
+    bottom: 260px;
+    height: 122px;
+    left: 5px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    width: 120px;
+    z-index: 10000;
+}
+/*Rama Changes end*/
+#box4
+{
+    height: 148px;
+    left: 288px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    top: 251px;
+    width: 200px;
+    z-index: 10000;
+}
+#pointer4
+{
+    height: 92px;
+    left: 220px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    top: 236px;
+    width: 81px;
+    z-index: 10000;
+}
+/*Rama Changes begin*/
+#box5
+{
+    height: 139px;
+    left: 181px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    top: 488px;
+    width: 160px;
+    z-index: 10000;
+}
+#pointer5
+{
+    height: 69px;
+    left: 11px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    top: 520px;
+    width: 182px;
+    z-index: 10000;
+}
+
+/*Rama Changes  end*/
+#box6
+{
+   height: 94px;
+    left: 192px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    top: 27px;
+    width: 250px;
+    z-index: 10000;
+}
+#pointer6
+{
+    height: 132px;
+    left: -1px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    top: 73px;
+    width: 205px;
+    z-index: 10000;
+}

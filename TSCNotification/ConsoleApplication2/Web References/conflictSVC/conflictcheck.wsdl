@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="RealTimeConflictCheck">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="appuser" type="tns:user" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="user">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="password2" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="firstname" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lastname" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="companyname" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="city" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="state" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="zip" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="website" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="phone1" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="phone2" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="activated" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="preferences" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="prefoptions" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RealTimeConflictCheckResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RealTimeConflictCheckResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RealTimeConflictCheckArea">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="userapparea" type="tns:AppArea" />
+            <s:element minOccurs="0" maxOccurs="1" name="user" type="tns:user" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="AppArea">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="usremail" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="appareaname" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="county" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="coordinates" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="areacentroid" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="buffercoords" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="acres" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="license" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="pesticidename" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="moddate" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="comment" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="RealTimeConflictCheckAreaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RealTimeConflictCheckAreaResult" type="tns:ArrayOfString" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckApplicatorNotification">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="appuser" type="tns:user" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CheckApplicatorNotificationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CheckApplicatorNotificationResult" type="tns:ArrayOfConflictedcrop" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfConflictedcrop">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="conflictedcrop" nillable="true" type="tns:conflictedcrop" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="conflictedcrop">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="cropid" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="distance" type="s:float" />
+          <s:element minOccurs="1" maxOccurs="1" name="conflictflag" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="appareaname" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="RealTimeConflictCheckSoapIn">
+    <wsdl:part name="parameters" element="tns:RealTimeConflictCheck" />
+  </wsdl:message>
+  <wsdl:message name="RealTimeConflictCheckSoapOut">
+    <wsdl:part name="parameters" element="tns:RealTimeConflictCheckResponse" />
+  </wsdl:message>
+  <wsdl:message name="RealTimeConflictCheckAreaSoapIn">
+    <wsdl:part name="parameters" element="tns:RealTimeConflictCheckArea" />
+  </wsdl:message>
+  <wsdl:message name="RealTimeConflictCheckAreaSoapOut">
+    <wsdl:part name="parameters" element="tns:RealTimeConflictCheckAreaResponse" />
+  </wsdl:message>
+  <wsdl:message name="CheckApplicatorNotificationSoapIn">
+    <wsdl:part name="parameters" element="tns:CheckApplicatorNotification" />
+  </wsdl:message>
+  <wsdl:message name="CheckApplicatorNotificationSoapOut">
+    <wsdl:part name="parameters" element="tns:CheckApplicatorNotificationResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ConflictCheckSoap">
+    <wsdl:operation name="RealTimeConflictCheck">
+      <wsdl:input message="tns:RealTimeConflictCheckSoapIn" />
+      <wsdl:output message="tns:RealTimeConflictCheckSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RealTimeConflictCheckArea">
+      <wsdl:input message="tns:RealTimeConflictCheckAreaSoapIn" />
+      <wsdl:output message="tns:RealTimeConflictCheckAreaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckApplicatorNotification">
+      <wsdl:input message="tns:CheckApplicatorNotificationSoapIn" />
+      <wsdl:output message="tns:CheckApplicatorNotificationSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ConflictCheckHttpGet" />
+  <wsdl:portType name="ConflictCheckHttpPost" />
+  <wsdl:binding name="ConflictCheckSoap" type="tns:ConflictCheckSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RealTimeConflictCheck">
+      <soap:operation soapAction="http://tempuri.org/RealTimeConflictCheck" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RealTimeConflictCheckArea">
+      <soap:operation soapAction="http://tempuri.org/RealTimeConflictCheckArea" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckApplicatorNotification">
+      <soap:operation soapAction="http://tempuri.org/CheckApplicatorNotification" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ConflictCheckSoap12" type="tns:ConflictCheckSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RealTimeConflictCheck">
+      <soap12:operation soapAction="http://tempuri.org/RealTimeConflictCheck" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RealTimeConflictCheckArea">
+      <soap12:operation soapAction="http://tempuri.org/RealTimeConflictCheckArea" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckApplicatorNotification">
+      <soap12:operation soapAction="http://tempuri.org/CheckApplicatorNotification" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ConflictCheckHttpGet" type="tns:ConflictCheckHttpGet">
+    <http:binding verb="GET" />
+  </wsdl:binding>
+  <wsdl:binding name="ConflictCheckHttpPost" type="tns:ConflictCheckHttpPost">
+    <http:binding verb="POST" />
+  </wsdl:binding>
+  <wsdl:service name="ConflictCheck">
+    <wsdl:port name="ConflictCheckSoap" binding="tns:ConflictCheckSoap">
+      <soap:address location="http://kel.tamu.edu/TexasCropRegistry/conflictcheck.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ConflictCheckSoap12" binding="tns:ConflictCheckSoap12">
+      <soap12:address location="http://kel.tamu.edu/TexasCropRegistry/conflictcheck.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ConflictCheckHttpGet" binding="tns:ConflictCheckHttpGet">
+      <http:address location="http://kel.tamu.edu/TexasCropRegistry/conflictcheck.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ConflictCheckHttpPost" binding="tns:ConflictCheckHttpPost">
+      <http:address location="http://kel.tamu.edu/TexasCropRegistry/conflictcheck.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+      
+    <title>Geolocation</title>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 70%;
+      }
+    </style>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/Register.css">
+        <link rel="stylesheet" type="text/css" href="css/mapStyling.css">
+        <link href='css/custom.css' rel='stylesheet' type='text/css'>
+        <link href='css/registerCrop.css' rel='stylesheet' type='text/css'>
+        <script type="text/javascript" src="../javascript/bootstrap.js"></script>
+        <script type="text/javascript" src="/WebContent/Javascript/countries.js"></script>
+        <script type="text/javascript" src="/WebContent/Javascript/map.js"></script>
+		<!-- Website Font style -->
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+		<!-- Google Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="css/landingPage.css">
+
+
+  </head>
+    <script>
+        $.get("header.html", function (data) {
+            $("#header").replaceWith(data);
+        });
+        $.get("RegisterCrop.html", function (data) {
+            $("#modalDiv").replaceWith(data);
+        });
+</script>
+  <body>
+      <style>
+            #wrapper { position: relative; }
+            #SearchContainer { position: absolute; }
+            #map_canvas { position: relative; }
+      </style>
+
+
+      <!-- /.header  -->
+      <div id="header" >
+            </div>
+      <div id="spaceDiv" style="height:120px;width:50px;">
+          </div>
+        <div id="wrapperMenu" style="padding-left:30px;height:120px;width:300px;background-color:#fff;">
+                    
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                                <div class="btn-group" >
+                                    <div class="row">
+                                        <button type="button" class="btn btn-default ">Draw Polygon</button>
+                                    </div>
+                                    <div class="row">
+                                        <button type="button" class="btn btn-default ">Choose Flag for Crops</button>
+                                        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Set Flag Red</a></li>
+                                            <li><a href="#">Set Flag Bright Yellow</a></li>
+                                            <li><a href="#">Set Flag White</a></li>
+                                            <li><a href="#">Set Flag Teal</a></li>
+                                            <li><a href="#">Set Flag Bright Green</a></li>
+                                            <li><a href="#">Set Flag Black</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                            </div><!-- /.navbar-collapse -->
+                    
+      <div id="wrapper" style="height:677px;width:1923px;top:53px">
+          <div id="modalDiv"></div>
+        <div id="map_canvas" style="height:677px;width:1903px;"></div>
+          <div id="SearchContainer" contextmenu="mc-static2mapcontainer panel ng-scope" style="height:50px;width:500px;position:absolute">
+             <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+             <input id="Text1" class="controls" type="text" placeholder="Search Box">  
+             </div>                 
+          </div>
+      <div id="footer">
+        </div>
+   <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7FTNE22Wl6S6DTQF83sTZTqbFFPzEkmU&libraries=drawing,places,geometry&callback=initMap">
+    </script>
+      <script>
+          $.get("footer.html", function (data) {
+              $("#footer").replaceWith(data);
+          });
+</script>
+
+  </body>
+</html>

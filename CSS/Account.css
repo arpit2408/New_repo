@@ -1,0 +1,119 @@
+﻿td.signup
+{
+	text-align:left;
+	font-family:Arial;
+	width: 200px;
+}
+table.signup
+{
+	text-align:left;
+	font-family:Arial;
+	width: 400px;
+	margin: auto;
+    background-color: white;
+}
+div {
+    background-color: white;
+}
+h3 
+{
+    color: #385503;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+/*link as button*/
+a.rctlr
+{
+    font-size: 10px;
+	color: Blue;
+	float:right;
+	padding-right:10px;
+}
+a.rctlr:hover
+{
+	font-weight: bold;
+	cursor: hand;cursor: pointer;
+
+}	
+/* help overlay */
+.overlay
+{
+    background-color: gray;
+    height: 100%;
+    left: 0;
+    line-height: 40px;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+    
+}
+.closeoverlay{
+    /*background-color: #FFFFFF;
+    border: 1px solid black;
+    border-radius: 40px 40px 40px 40px;*/
+    background: url("../images/closebtn30px.png") no-repeat scroll 0 0 transparent;
+    float: right;
+    height: 30px;
+    margin-right: 0;
+    margin-top: 0;
+    padding-left: 0;
+    padding-top: 0;
+    text-align: center;
+    width: 30px;
+    
+}
+a.boxclose
+{
+    color: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 27px;
+}
+#box1
+{
+    left: 0;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    width: 260px;
+    opacity:1.0;
+    position: absolute;
+    z-index: 10000;
+}
+#box2
+{
+    bottom: 50px;
+    height: 120px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    width: 300px;
+    z-index: 10000;
+}
+#box3
+{
+    bottom: 20px;
+    left: 0;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    width: 260px;
+    z-index: 10000;
+}
+#pointer
+{
+    bottom: 58px;
+    left: 165px;
+    margin: 0;
+    opacity: 1;
+    padding: 0;
+    position: absolute;
+    width: 450px;
+    z-index: 10000;
+}

@@ -1,0 +1,227 @@
+﻿/***********************************************
+Map.css is the is the general 
+stylesheet for the maps section
+full page fixed width
+************************************************/
+
+ /*{
+  margin: 0;
+  padding: 0;
+	} */
+
+body {
+	font-size: 11px;
+	line-height: 17px;
+	background-color:#ffffff;
+	font-family:Verdana;
+	color: #404040;
+	}
+h1 {
+	font: 30px Verdana;
+}
+h2 {
+	font: 24px Verdana;
+}
+h3{
+	padding-top:0px;
+	margin-top:0px;
+	padding-bottom:0px;
+	margin-bottom:0px;
+	font: 17px Verdana;
+	/*color:blue;*/
+	
+	text-align:left;
+}
+a.rctlr
+{
+    font-size: 10px;
+	color: Blue;
+	float:right;
+	padding-right:10px;
+}
+a.rctlr:hover
+{
+	font-weight: bold;
+	cursor: hand;cursor: pointer;
+
+}	
+/*div.clear	
+{
+   height:50px;
+}*/
+/*~~~~~~Tables ~~~~~~~~~~~~~~~~~~*/
+
+
+table.main_table
+{
+	 border: solid 1px #dddddd;
+    width:95%;
+    vertical-align:top;
+    background-color:rgb(80, 15, 15);
+}
+
+td.MapArea
+{
+    border: solid 1px #dddddd;
+    padding:3px 3px 3px 3px;
+    vertical-align:top;
+    	background-color:#f1f1f1;
+}	
+td.ResultsArea
+{
+    border: solid 1px #dddddd;
+    padding: 3px 3px 3px 3px;
+    vertical-align: top;
+    background-color:#f1f1f1;
+}	
+td.SpaceArea
+{
+    width:8px;
+}
+
+div.SubPannel{	
+	position:relative;
+	background:url(../images/gradientbar.gif) repeat-x 0 0;
+	background-color:#fff;
+	margin:5px 5px 5px 5px;
+	border:1px solid #ffffff;
+	padding:5px 5px 5px 5px;
+	line-height:20px;
+	
+	}
+div.SubPannel span.title	 
+{
+    border: 1px solid #dddddd; 
+    /*background: #cccccc url(../images/navigation.png) repeat-x 0 0;*/
+    background-color:#dcd8c5;
+    color: #385503; 
+    font: 13px Georgia;
+    padding: 5px 5px; position: relative; 
+    text-align:left;
+    display: block;
+    margin-bottom:5px;
+}
+div.SubPannel  p
+{
+   /* padding: .4em 1em; position: relative;
+ 
+     background-color: #f7f7f7;*/
+        display: block;
+}
+
+.btn {
+  color: #FFF;
+  background-color: #1d4f24;
+  font-weight: bold;
+  border: 3px outset #efefef;
+  padding:2px 2px 2px 2px;
+ 
+}
+.btn:hover {
+  color: #19290e;
+  background: #dddb7b;
+}
+
+span.Red
+{
+    color:Red;
+    font-weight:bold;
+    font-size:12px;
+}
+/**/
+div.divPanel 
+{
+    border: solid 1px #dddddd;
+    width:80%;
+    vertical-align:top;
+    background-color:#f1f1f1;	
+    padding:10px 10px 10px 10px;
+    }
+div.divPanel input.sizeXS, div.divPanel select.sizeXS { width: 30px; margin-bottom: 8px;}
+div.divPanel  input.sizeS, div.divPanel select.sizeS { width: 50px; margin-bottom: 8px;}
+div.divPanel  input.sizeM, div.divPanel select.sizeM { width: 112px; margin-bottom: 8px;}
+div.divPanel input.sizeL, div.divPanel select.sizeL { width: 210px; margin-bottom: 8px;}
+div.divPanel input.sizeXL, div.divPanel select.sizeXL { width: 350px; margin-bottom: 8px;}
+div.divPanel textarea { width: 257px; margin-bottom: 8px;    height: 189px;}
+
+#form1 label.error 
+{
+    color:Red;
+	margin-left: 10px;
+	width: auto;
+	display: inline;
+}
+.highrightResult{
+	background-color:#ffebe8;
+	border:1px solid #dd3c10;
+	padding:7px 3px;
+	text-align:left;
+	margin:10px 10px 10px 0px;
+	padding-left:10px;
+	font-weight:bold;
+}
+/*collapsible panel*/
+.collapsibleContainer{    border: solid 1px #9BB5C1;}
+.collapsibleContainerTitle{    cursor:pointer; }
+.collapsibleContainerTitle div    
+{
+   /*   background: #cccccc url(../images/divTitleBG.png) repeat-x 0 0;*/
+    padding:5px 10px 5px 10px;    
+    background-color:#9BB5C1;    
+	font: 17px Georgia;
+	color:#385503;
+	text-align:left;}
+.collapsibleContainerContent{    padding: 10px;}
+
+/* help overlay */
+.overlay
+{
+    background-color: gray;
+    height: 100%;
+    left: 0;
+    line-height: 40px;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+    
+}
+.closeoverlay{
+    background: url("../images/closebtn30px.png") no-repeat scroll 0 0 transparent;
+    float: right;
+    height: 30px;
+    margin-right: 0;
+    margin-top: 0;
+    padding-left: 0;
+    padding-top: 0;
+    text-align: center;
+    width: 30px;
+    
+}
+a.boxclose
+{
+    color: transparent;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 27px;
+}
+.imgoverlay
+{
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: black;
+    background-image: url("../images/home_screen_help.png");
+    background-origin: padding-box;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    height: 90%;
+    left:0px;
+    opacity: 0.9;
+    position: absolute;
+    top: 30px;
+    width: 100%;
+    z-index: 10000;
+}
+

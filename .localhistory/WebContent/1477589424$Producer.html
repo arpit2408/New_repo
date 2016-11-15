@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+      
+    <title>Geolocation</title>
+    
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 70%;
+      }
+    </style>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+       
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/Register.css">
+        <link rel="stylesheet" type="text/css" href="css/mapStyling.css">
+        <script type="text/javascript" src="../javascript/bootstrap.js"></script>
+        <script type="text/javascript" src="/WebContent/Javascript/countries.js"></script>
+        <script type="text/javascript" src="/WebContent/Javascript/map.js"></script>
+		<!-- Website Font style -->
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+		<!-- Google Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="css/landingPage.css">
+  </head>
+    <script>
+        $.get("header.html", function (data) {
+            $("#header").replaceWith(data);
+        });
+       
+</script>
+  <body>
+      <style>
+            #wrapper { position: relative; }
+            #searchContainer { position: absolute; top: 100px; left: 10px; z-index: 99; }
+            #searchRow { position: absolute; top: 100px; left: 10px; z-index: 99; }
+            #searchColumn { position: absolute; top: 100px; left: 10px; z-index: 99; }
+            #custom-search-input { position: absolute; top: 100px; left: 10px; z-index: 99; }
+          #pac-input {position: absolute; top: 70px; left: 10px; z-index: 99;}
+      </style>
+
+
+      <!-- /.header  -->
+      <div id="header" >
+            </div>
+      <div id="wrapper" style="height:477px;width:1903px;top:20px">
+          
+        <div id="map_canvas" style="height:477px;width:1903px;"></div>
+        <div id= "searchContainer"class="container">
+	        <div id="searchRow" class="row">
+                         <div id="custom-search-input">
+                            <div id="searchColumn" class="input-group col-md-12">
+                                <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+                               
+                            </div>
+                        </div>
+	         </div>
+        </div>
+          </div>
+      <div id="footer">
+        </div>
+   <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7FTNE22Wl6S6DTQF83sTZTqbFFPzEkmU&libraries=drawing,places,geometry&callback=initMap">
+    </script>
+      <script>
+          $.get("footer.html", function (data) {
+              $("#footer").replaceWith(data);
+          });
+</script>
+  </body>
+</html>

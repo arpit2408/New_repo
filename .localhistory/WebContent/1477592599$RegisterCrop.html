@@ -1,0 +1,160 @@
+﻿<html>
+    <head>
+        <title>Contact Form Tutorial by Bootstrapious.com</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+        <link href='custom.css' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+          <table id = 'cropinfo' class = 'addlocation'>
+                
+                    <%--<tr>
+                    
+                    </tr>--%>
+                    <tr>
+                    <td class='addlocation' colspan = '2' style = 'background-color: #E0DED2;'>Crop Information:<%--<a id='areaedit' onclick='Javascript:EditLocation()' class='rctlr'>Edit</a>--%></td>
+                    </tr>
+                    <tr>
+                    <td class='addlocation'>Plant Type*:</td>
+                    <td>
+                    <select id="planttype" name="planttype" onchange='Javascript:CreateCropOptions(this.options[this.selectedIndex].value);'>
+                        
+                    </select>
+                    </td>
+                    </tr>
+                    <tr>
+                    <td class='addlocation'>Crop*:</td>
+                    <td>
+                    <select id="croptype" name="croptype" style="visibility: hidden; display: none;"></select>
+                    <%--<select id="vegetables" name="vegetables" style="visibility: hidden; display: none;"></select>--%>
+                    </td>
+                    
+                    </tr>
+                    <tr>
+                    <td class='addlocation'>Crop Year:</td><td class='addlocation'><input id = 'cropyear' class='addlocation' disabled ="disabled" type = 'text' /></td>
+                    </tr>
+                    
+                    <tr>
+                    <td class='addlocation'>Number of Acres:</td><td class='addlocation'><input id = 'acres' class='addlocation' type = 'text' disabled ="disabled"/></td>
+                    </tr>
+                    <tr>
+                    <td class='addlocation'>County:</td><td class='addlocation'><input id = 'countyselected' class='addlocation' type = 'text' disabled ="disabled"/></td>
+                    </tr>
+                    <tr>
+                    <td colspan='2'>
+                        <input id = 'organic_check'  name='organic_check' type = 'checkbox' 
+                                           style="margin-left: -3px; margin-right: 0; width: 20px;" 
+                                          />&nbsp;&nbsp;
+                                    <label for="organic_check" style='width:180px;'>Check this box if this is a certified organic crop.</label></td>
+                    </tr>
+                    <%--
+                     onchange="Javascript:document.getElementById('certifier').disabled = document.getElementById('organic_check').checked?'':'disabled';"
+                    <tr>
+                    <td class='addlocation'>Certified By*:</td><td><input class='addlocation' id = 'certifier' type = 'text' disabled="disabled" /></td>
+                    </tr>--%>
+                    <tr>
+                    <td class='addlocation'>Comments or Description:</td><td><textarea class='' id = 'comments' name = 'comments'  rows="8" cols="22" style="width:200px;"></textarea></td>
+                    </tr>
+                    <tr>
+                    <td colspan='2' align="right">
+                    <div id='locsvcdiv' style="display: none" align="right">
+                        <br />
+                        <br />
+                        <span>
+                        
+                        <a onclick='Javascript:SubmitNewLocation()' class='clickable'>Submit</a>   
+                        <a id="deletebtn" onclick ='Javascript:DeleteLocation()' class='clickable'>&nbsp&nbsp&nbsp Delete Crop</a> 
+                        <a onclick='Javascript:CancelEditLocation()' class='clickable'>&nbsp&nbsp&nbsp Cancel</a>
+                        </span>
+                        <br />
+                        <br />
+                    </div>
+                    <div id='backbuttondiv' style="display: none" align="right">
+                        <br />
+                        <%--<span>--%>
+                        <%--<a onclick='Javascript:EditLocation()' class='clickable'>Save</a> | --%>
+                        <a onclick='Javascript:GoProducer();' class='clickable'>My Crops Map</a>
+                        <%--</span>--%>
+                        <br />
+                        <br />
+                    </div>
+                    </td>
+                    </tr>
+                </table>
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-8 col-lg-offset-2">
+
+                
+
+                    <form id="contact-form" method="post" action="contact.php" role="form">
+
+                        <div class="messages"></div>
+
+                        <div class="controls">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_name">Plant Type*:</label>
+                                        <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_lastname">Crop *:</label>
+                                        <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="Please enter your lastname *" required="required" data-error="Lastname is required.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_email">Crop Year:</label>
+                                        <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form_phone">Number of Acres:</label>
+                                        <input id="form_phone" type="tel" name="phone" class="form-control" placeholder="Please enter your phone">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="form_message">County *</label>
+                                        <textarea id="form_message" name="message" class="form-control" placeholder="Message for me *" rows="4" required="required" data-error="Please,leave us a message."></textarea>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="submit" class="btn btn-success btn-send" value="Send message">
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                    </form>
+
+                </div><!-- /.8 -->
+
+            </div> <!-- /.row-->
+
+        </div> <!-- /.container-->
+
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="validator.js"></script>
+        <script src="contact.js"></script>
+    </body>
+</html>

@@ -1,0 +1,356 @@
+﻿function CountySelector(div) {
+
+    this.countiesarr = new Array();
+    this.selected = new Array();
+    this.rows = 10;
+    this.cols = 8;
+    this.curpage = 0;
+    this.div = div;
+    this.Initialize(div);
+
+
+}
+
+
+
+CountySelector.prototype.Initialize = function (div) {
+
+    var el = document.getElementById(div);
+    if (!el) {
+        return;
+    }
+    this.AddCounties();
+    var div = document.createElement('div');
+    el.appendChild(div);
+    var pages = this.countiesarr.length / (this.rows * this.cols);
+    div.innerHTML = "Goto Page:  ";
+    for (var x = 0; x < pages; x++) {
+        var a = document.createElement('a');
+        var obj = this.ChangePage.bind(this, x);
+        a.innerHTML = " " + x + " ";;
+        a.onclick = obj;
+        div.appendChild(a);
+    }
+    var table = document.createElement('table');
+    table.setAttribute('id','countysel_table');
+    if (table) {
+        //this.rows = this.countiesarr.length / this.cols;
+        var index = 0;
+        for (var x = 0; x < this.rows; x++) {
+            var row = document.createElement('tr');
+            table.appendChild(row);
+            for (var y = 0; y < this.cols; y++) {
+                var col = document.createElement('td');
+                row.appendChild(col);
+                col.innerHTML = this.countiesarr[index];
+                var obj = this.SelectCounty.bind(this, col);
+                col.onclick = obj;
+                index++;
+            }
+        }
+        
+        el.appendChild(table);
+    }
+
+}
+
+CountySelector.prototype.ChangePage = function (val) {
+    this.curpage = val;
+    this.SelectCounty();
+
+}
+
+CountySelector.prototype.SelectCounty = function(el)
+{
+    if (el) {
+        if (el.style.backgroundColor == "gray") {
+            el.style.backgroundColor = "transparent";
+        }
+        else {
+            el.style.backgroundColor = "gray";
+        }
+    }
+}
+
+CountySelector.prototype.SetSelected = function (countyarr) {
+    for (var z = 0; z < countyarr.length; z++) {
+        var table = document.getElementById('countysel_table');
+        if (table) {
+            for (var x = 0; x < this.rows; x++) {
+                for (var y = 0; y < this.cols; y++) {
+                    var el = table.childNodes[x].childNodes[y];
+                    if (el.innerHTML == countyarr[z]) {
+                        el.style.backgroundColor = "gray";
+                    }
+                    else {
+                        el.style.backgroundColor = "transparent";
+                    }
+
+                }
+            }
+
+        }
+    }
+}
+
+CountySelector.prototype.AddCounties = function()
+{
+    this.countiesarr.push("Anderson");
+    this.countiesarr.push("Andrews");
+    this.countiesarr.push("Angelina");
+    this.countiesarr.push("Aransas");
+    this.countiesarr.push("Archer");
+    this.countiesarr.push("Armstrong");
+    this.countiesarr.push("Atascosa");
+    this.countiesarr.push("Austin");
+    this.countiesarr.push("Bailey");
+    this.countiesarr.push("Bandera");
+    this.countiesarr.push("Bastrop");
+    this.countiesarr.push("Baylor");
+    this.countiesarr.push("Bee");
+    this.countiesarr.push("Bell");
+    this.countiesarr.push("Bexar");
+    this.countiesarr.push("Blanco");
+    this.countiesarr.push("Borden");
+    this.countiesarr.push("Bosque");
+    this.countiesarr.push("Bowie");
+    this.countiesarr.push("Brazoria");
+    this.countiesarr.push("Brazos");
+    this.countiesarr.push("Brewster");
+    this.countiesarr.push("Briscoe");
+    this.countiesarr.push("Brooks");
+    this.countiesarr.push("Brown");
+    this.countiesarr.push("Burleson");
+    this.countiesarr.push("Burnet");
+    this.countiesarr.push("Caldwell");
+    this.countiesarr.push("Calhoun");
+    this.countiesarr.push("Callahan");
+    this.countiesarr.push("Cameron");
+    this.countiesarr.push("Camp");
+    this.countiesarr.push("Carson");
+    this.countiesarr.push("Cass");
+    this.countiesarr.push("Castro");
+    this.countiesarr.push("Chambers");
+    this.countiesarr.push("Cherokee");
+    this.countiesarr.push("Childress");
+    this.countiesarr.push("Clay");
+    this.countiesarr.push("Cochran");
+    this.countiesarr.push("Coke");
+    this.countiesarr.push("Coleman");
+    this.countiesarr.push("Collin");
+    this.countiesarr.push("Collingsworth");
+    this.countiesarr.push("Colorado");
+    this.countiesarr.push("Comal");
+    this.countiesarr.push("Comanche");
+    this.countiesarr.push("Concho");
+    this.countiesarr.push("Cooke");
+    this.countiesarr.push("Coryell");
+    this.countiesarr.push("Cottle");
+    this.countiesarr.push("Crane");
+    this.countiesarr.push("Crockett");
+    this.countiesarr.push("Crosby");
+    this.countiesarr.push("Culberson");
+    this.countiesarr.push("Dallam");
+    this.countiesarr.push("Dallas");
+    this.countiesarr.push("Dawson");
+    this.countiesarr.push("Deaf Smith");
+    this.countiesarr.push("Delta");
+    this.countiesarr.push("Denton");
+    this.countiesarr.push("DeWitt");
+    this.countiesarr.push("Dickens");
+    this.countiesarr.push("Dimmit");
+    this.countiesarr.push("Donley");
+    this.countiesarr.push("Duval");
+    this.countiesarr.push("Eastland");
+    this.countiesarr.push("Ector");
+    this.countiesarr.push("Edwards");
+    this.countiesarr.push("El Paso");
+    this.countiesarr.push("Ellis");
+    this.countiesarr.push("Erath");
+    this.countiesarr.push("Falls");
+    this.countiesarr.push("Fannin");
+    this.countiesarr.push("Fayette");
+    this.countiesarr.push("Fisher");
+    this.countiesarr.push("Floyd");
+    this.countiesarr.push("Foard");
+    this.countiesarr.push("Fort Bend");
+    this.countiesarr.push("Franklin");
+    this.countiesarr.push("Freestone");
+    this.countiesarr.push("Frio");
+    this.countiesarr.push("Gaines");
+    this.countiesarr.push("Galveston");
+    this.countiesarr.push("Garza");
+    this.countiesarr.push("Gillespie");
+    this.countiesarr.push("Glasscock");
+    this.countiesarr.push("Goliad");
+    this.countiesarr.push("Gonzales");
+    this.countiesarr.push("Gray");
+    this.countiesarr.push("Grayson");
+    this.countiesarr.push("Gregg");
+    this.countiesarr.push("Grimes");
+    this.countiesarr.push("Guadalupe");
+    this.countiesarr.push("Hale");
+    this.countiesarr.push("Hall");
+    this.countiesarr.push("Hamilton");
+    this.countiesarr.push("Hansford");
+    this.countiesarr.push("Hardeman");
+    this.countiesarr.push("Hardin");
+    this.countiesarr.push("Harris");
+    this.countiesarr.push("Harrison");
+    this.countiesarr.push("Hartley");
+    this.countiesarr.push("Haskell");
+    this.countiesarr.push("Hays");
+    this.countiesarr.push("Hemphill");
+    this.countiesarr.push("Henderson");
+    this.countiesarr.push("Hidalgo");
+    this.countiesarr.push("Hill");
+    this.countiesarr.push("Hockley");
+    this.countiesarr.push("Hood");
+    this.countiesarr.push("Hopkins");
+    this.countiesarr.push("Houston");
+    this.countiesarr.push("Howard");
+    this.countiesarr.push("Hudspeth");
+    this.countiesarr.push("Hunt");
+    this.countiesarr.push("Hutchinson");
+    this.countiesarr.push("Irion");
+    this.countiesarr.push("Jack");
+    this.countiesarr.push("Jackson");
+    this.countiesarr.push("Jasper");
+    this.countiesarr.push("Jeff Davis");
+    this.countiesarr.push("Jefferson");
+    this.countiesarr.push("Jim Hogg");
+    this.countiesarr.push("Jim Wells");
+    this.countiesarr.push("Johnson");
+    this.countiesarr.push("Jones");
+    this.countiesarr.push("Karnes");
+    this.countiesarr.push("Kaufman");
+    this.countiesarr.push("Kendall");
+    this.countiesarr.push("Kenedy");
+    this.countiesarr.push("Kent");
+    this.countiesarr.push("Kerr");
+    this.countiesarr.push("Kimble");
+    this.countiesarr.push("King");
+    this.countiesarr.push("Kinney");
+    this.countiesarr.push("Kleberg");
+    this.countiesarr.push("Knox");
+    this.countiesarr.push("La Salle");
+    this.countiesarr.push("Lamar");
+    this.countiesarr.push("Lamb");
+    this.countiesarr.push("Lampasas");
+    this.countiesarr.push("Lavaca");
+    this.countiesarr.push("Lee");
+    this.countiesarr.push("Leon");
+    this.countiesarr.push("Liberty");
+    this.countiesarr.push("Limestone");
+    this.countiesarr.push("Lipscomb");
+    this.countiesarr.push("Live Oak");
+    this.countiesarr.push("Llano");
+    this.countiesarr.push("Loving");
+    this.countiesarr.push("Lubbock");
+    this.countiesarr.push("Lynn");
+    this.countiesarr.push("Madison");
+    this.countiesarr.push("Marion");
+    this.countiesarr.push("Martin");
+    this.countiesarr.push("Mason");
+    this.countiesarr.push("Matagorda");
+    this.countiesarr.push("Maverick");
+    this.countiesarr.push("McCulloch");
+    this.countiesarr.push("McLennan");
+    this.countiesarr.push("McMullen");
+    this.countiesarr.push("Medina");
+    this.countiesarr.push("Menard");
+    this.countiesarr.push("Midland");
+    this.countiesarr.push("Milam");
+    this.countiesarr.push("Mills");
+    this.countiesarr.push("Mitchell");
+    this.countiesarr.push("Montague");
+    this.countiesarr.push("Montgomery");
+    this.countiesarr.push("Moore");
+    this.countiesarr.push("Morris");
+    this.countiesarr.push("Motley");
+    this.countiesarr.push("Nacogdoches");
+    this.countiesarr.push("Navarro");
+    this.countiesarr.push("Newton");
+    this.countiesarr.push("Nolan");
+    this.countiesarr.push("Nueces");
+    this.countiesarr.push("Ochiltree");
+    this.countiesarr.push("Oldham");
+    this.countiesarr.push("Orange");
+    this.countiesarr.push("Palo Pinto");
+    this.countiesarr.push("Panola");
+    this.countiesarr.push("Parker");
+    this.countiesarr.push("Parmer");
+    this.countiesarr.push("Pecos");
+    this.countiesarr.push("Polk");
+    this.countiesarr.push("Potter");
+    this.countiesarr.push("Presidio");
+    this.countiesarr.push("Rains");
+    this.countiesarr.push("Randall");
+    this.countiesarr.push("Reagan");
+    this.countiesarr.push("Real");
+    this.countiesarr.push("Red River");
+    this.countiesarr.push("Reeves");
+    this.countiesarr.push("Refugio");
+    this.countiesarr.push("Roberts");
+    this.countiesarr.push("Robertson");
+    this.countiesarr.push("Rockwall");
+    this.countiesarr.push("Runnels");
+    this.countiesarr.push("Rusk");
+    this.countiesarr.push("Sabine");
+    this.countiesarr.push("San Augustine");
+    this.countiesarr.push("San Jacinto");
+    this.countiesarr.push("San Patricio");
+    this.countiesarr.push("San Saba");
+    this.countiesarr.push("Schleicher");
+    this.countiesarr.push("Scurry");
+    this.countiesarr.push("Shackelford");
+    this.countiesarr.push("Shelby");
+    this.countiesarr.push("Sherman");
+    this.countiesarr.push("Smith");
+    this.countiesarr.push("Somervell");
+    this.countiesarr.push("Starr");
+    this.countiesarr.push("Stephens");
+    this.countiesarr.push("Sterling");
+    this.countiesarr.push("Stonewall");
+    this.countiesarr.push("Sutton");
+    this.countiesarr.push("Swisher");
+    this.countiesarr.push("Tarrant");
+    this.countiesarr.push("Taylor");
+    this.countiesarr.push("Terrell");
+    this.countiesarr.push("Terry");
+    this.countiesarr.push("Throckmorton");
+    this.countiesarr.push("Titus");
+    this.countiesarr.push("Tom Green");
+    this.countiesarr.push("Travis");
+    this.countiesarr.push("Trinity");
+    this.countiesarr.push("Tyler");
+    this.countiesarr.push("Upshur");
+    this.countiesarr.push("Upton");
+    this.countiesarr.push("Uvalde");
+    this.countiesarr.push("Val Verde");
+    this.countiesarr.push("Van Zandt");
+    this.countiesarr.push("Victoria");
+    this.countiesarr.push("Walker");
+    this.countiesarr.push("Waller");
+    this.countiesarr.push("Ward");
+    this.countiesarr.push("Washington");
+    this.countiesarr.push("Webb");
+    this.countiesarr.push("Wharton");
+    this.countiesarr.push("Wheeler");
+    this.countiesarr.push("Wichita");
+    this.countiesarr.push("Wilbarger");
+    this.countiesarr.push("Willacy");
+    this.countiesarr.push("Williamson");
+    this.countiesarr.push("Wilson");
+    this.countiesarr.push("Winkler");
+    this.countiesarr.push("Wise");
+    this.countiesarr.push("Wood");
+    this.countiesarr.push("Yoakum");
+    this.countiesarr.push("Young");
+    this.countiesarr.push("Zapata");
+    this.countiesarr.push("Zavala");
+
+
+
+}
+

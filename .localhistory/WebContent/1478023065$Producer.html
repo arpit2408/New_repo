@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+      
+    <title>Geolocation</title>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 70%;
+      }
+    </style>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/Register.css">
+        <link rel="stylesheet" type="text/css" href="css/mapStyling.css">
+        <link href='css/custom.css' rel='stylesheet' type='text/css'>
+        <link href='css/registerCrop.css' rel='stylesheet' type='text/css'>
+        <script type="text/javascript" src="../javascript/bootstrap.js"></script>
+        <script type="text/javascript" src="/WebContent/Javascript/countries.js"></script>
+        <script type="text/javascript" src="/WebContent/Javascript/map.js"></script>
+		<!-- Website Font style -->
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+		<!-- Google Fonts -->
+		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="css/landingPage.css">
+
+
+  </head>
+    <script>
+        $.get("header.html", function (data) {
+            $("#header").replaceWith(data);
+        });
+        $.get("RegisterCrop.html", function (data) {
+            $("#modalDiv").replaceWith(data);
+        });
+</script>
+  <body>
+      <style>
+            #wrapper { position: relative; }
+            #SearchContainer { position: absolute; }
+            #map_canvas { position: relative; }
+      </style>
+
+
+      <!-- /.header  -->
+      <div id="header" >
+            </div>
+        <div class="bs-example" id="wrapperMenu">
+                    <nav id="myNavbar" class="navbar navbar-default" role="navigation">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="container" id="myContainer">
+                            
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                <ul class="nav navbar-nav">
+                                    
+                                    <li class="dropdown">
+                                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Messages <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Inbox</a></li>
+                                            <li><a href="#">Drafts</a></li>
+                                            <li><a href="#">Sent Items</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#">Trash</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="dropdown">
+                                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">Admin <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Set Flag Red</a></li>
+                                            <li><a href="#">Set Flag Red</a></li>
+                                            <li><a href="#">Set Flag Red</a></li>
+                                            <li><a href="#">Set Flag Red</a></li>
+                                            <li><a href="#">Set Flag Red</a></li>
+                                            <li><a href="#">Set Flag Red</a></li>
+                                            <li class="divider"></li>
+                                            <li><a href="#">Settings</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div><!-- /.navbar-collapse -->
+                        </div>
+                    </nav>
+            </div>
+      <div id="wrapper" style="height:677px;width:1923px;top:53px">
+          <div id="modalDiv"></div>
+        <div id="map_canvas" style="height:677px;width:1903px;"></div>
+          <div id="SearchContainer" contextmenu="mc-static2mapcontainer panel ng-scope" style="height:50px;width:500px;position:absolute">
+             <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+             <input id="Text1" class="controls" type="text" placeholder="Search Box">  
+             </div>                 
+          </div>
+      <div id="footer">
+        </div>
+   <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7FTNE22Wl6S6DTQF83sTZTqbFFPzEkmU&libraries=drawing,places,geometry&callback=initMap">
+    </script>
+      <script>
+          $.get("footer.html", function (data) {
+              $("#footer").replaceWith(data);
+          });
+</script>
+
+  </body>
+</html>
