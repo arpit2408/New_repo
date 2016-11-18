@@ -38,13 +38,44 @@ function convertmeterToAcres(meterArea)
     return areatoAcres.toFixed(2);
 }
 
-function lookupforCounty() {
-    var polyobj = document.getElementById("vertices");
-    PageMethods.GetCounty(polyobj.coordinates, LookUpCounty_Success);
+function centeroid() {
+    this.x = "";
+    this.y = "";
 }
-function LookUpCounty_Success(val) {
-    if (val[0] == '1') {
-        var el = document.getElementById('countyselected');
-        el.value = val[1];
+
+function calccentroid(cordinateslist) {
+    var bounds = new google.maps.LatLngBounds();
+    var polygonCoords = [];
+    for (var i = 0;i<cordinateslist.length;i++)
+    {
+        var coordinate=cordinateslist[i].split(",");
+        polygonCoords.push(new google.maps.LatLng(coordinate[0], coordinate[1]));
     }
+
+    for (i = 0; i < polygonCoords.length; i++) {
+        bounds.extend(polygonCoords[i]);
+    }
+
+    // The Center of the Bermuda Triangle - (25.3939245, -72.473816)
+    return bounds.getCenter();
+}
+$(document).ready(function () {
+    $(function () {
+        $('input[type="checkbox"]').on('change', function (e) {
+            if (e.target.checked) {
+                $('#flagtechModal').modal('show');
+            }
+        });
+    });
+    
+});
+function checkforflag() {
+    var atLeastOneIsChecked =  $('input:checkbox:checked').map(function() {
+        return this.value;
+    }).get();
+    $('#flagoptions').empty();
+    $('#flagoptions').append(atLeastOneIsChecked);
+    $('#flagtechModal').modal('hide');
+    alert($('#flagoptions').text());
+    
 }

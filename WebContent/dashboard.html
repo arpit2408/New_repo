@@ -7,12 +7,16 @@
     <meta name="generator" content="Bootply" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="/WebContent/Javascript/loginUser.js"></script>
     <!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
 </head>
+    <script type="text/javascript">
+        window.onload = dashboardOnLoad;
+</script>
 <body>
     <!-- header -->
     <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
@@ -28,12 +32,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-user"></i>Admin <span class="caret"></span></a>
+                        <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span id="UserName">Admin</span> <span class="caret"></span></a>
                         <ul id="g-account-menu" class="dropdown-menu" role="menu">
                             <li><a href="#">My Profile</a></li>
                         </ul>
                     </li>
-                    <li><a href="#"><i class="glyphicon glyphicon-lock"></i>Logout</a></li>
+                    <li><a href="LandingPage.html">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -49,12 +53,12 @@
                 <hr>
 
                 <ul class="nav nav-stacked">
-                    <li class="nav-header"><a href="#" data-toggle="collapse" data-target="#userMenu">Account<i class="glyphicon glyphicon-chevron-down"></i></a>
+                    <li class="nav-header"><a href="#" data-toggle="collapse" data-target="#userMenu">Account</a>
                         <ul class="nav nav-stacked collapse in" id="userMenu">
-                            <li class="active"><a href="#"><i class="glyphicon glyphicon-home"></i>Home</a></li>
+                            <li class="active"><a href="#">Home</a></li>
                             <li><a href="#"><i class="glyphicon glyphicon-envelope"></i>Messages <span class="badge badge-info">4</span></a></li>
                            
-                            <li><a href="#"><i class="glyphicon glyphicon-off"></i>Logout</a></li>
+                            <li><a href="LandingPage.html">Logout</a></li>
                         </ul>
                     </li>
                  </ul>
@@ -64,8 +68,6 @@
 
                 <!-- column 2 -->
                 <ul class="list-inline pull-right">
-                    <li><a href="#"><i class="glyphicon glyphicon-cog"></i></a></li>
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-comment"></i><span class="count">3</span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="#">1. Is there a way..</a></li>
                             <li><a href="#">2. Hello, admin. I would..</a></li>
@@ -192,13 +194,13 @@
                                 <div class="container">
                                    
                                     <div class="radio radio-info">
-                                        <input type="radio" name="survey" id="Radios1" value="Yes">
+                                        <input type="radio" name="survey" id="Radios1" >
                                         <label>
                                             State wide
                                         </label>
                                     </div>
                                     <div class="radio radio-info">
-                                        <input type="radio" name="survey1" id="Radios2" value="No">
+                                        <input type="radio" name="survey" id="Radios2" >
                                         <label>
                                             By Distance
                                         </label>
@@ -208,7 +210,7 @@
 								        </div>
                                     </div>
                                     <div class="radio radio-info">
-                                        <input type="radio" name="survey" id="Radios3" value="Notsure" >
+                                        <input type="radio" name="survey" id="Radios3"  >
                                         <label>
                                             Specific counties
                                         </label>

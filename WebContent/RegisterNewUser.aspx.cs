@@ -1,26 +1,22 @@
-﻿using System;
-
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
-using Newtonsoft.Json;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Data.SqlClient;
-using Newtonsoft.Json;
-using System.Collections;
 using System.Net;
 using System.Net.Mail;
-using System.Security.Cryptography;
-using System.Text;
+using System.Web;
+using System.Web.Script.Services;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
-public partial class WebContent_Registration : System.Web.UI.Page
+
+public partial class WebContent_RegisterNewUser : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
-
     public static bool CheckUserExists(string userid)
     {
         bool retval = true;
@@ -130,8 +126,9 @@ public partial class WebContent_Registration : System.Web.UI.Page
         return confMsg;
     }
 
-    [System.Web.Services.WebMethod(EnableSession = false)]
-    public static string[] RegisterUser(string userdetails)
+    [System.Web.Services.WebMethod()]
+    [System.Web.Script.Services.ScriptMethod()]
+    public static string[] RegisterUserDetails(string userdetails)
     {
         user obj = JsonConvert.DeserializeObject<user>(userdetails);
         string[] retval = new string[2];
@@ -157,11 +154,11 @@ public partial class WebContent_Registration : System.Web.UI.Page
             startcode += num.ToString();
 
         }
-        
-       SqlConnection conn = null;
+
+        SqlConnection conn = null;
         try
         {
-           // string accesscode = GenerateAccessToken(obj.email, "register");
+            // string accesscode = GenerateAccessToken(obj.email, "register");
             string connection = System.Configuration.ConfigurationManager.AppSettings["connection_string"];
             conn = new SqlConnection(connection);
             conn.Open();
@@ -169,7 +166,7 @@ public partial class WebContent_Registration : System.Web.UI.Page
             {
                 //            // --------------------------------------------------------------------------------------------------------
                 //            // -----------------------------Rama Changes begin---------------------------------------------------
-                
+
                 string sql = "INSERT INTO user_validation VALUES ('[EMAIL]', '[PWD]', '[SALT]','[DATE1]', '[DATE2]', '[VALID]','[Accesscode]','[TextPwd]');";
                 sql = sql.Replace("[EMAIL]", obj.email);
                 sql = sql.Replace("[PWD]", obj.password);
@@ -231,7 +228,7 @@ public partial class WebContent_Registration : System.Web.UI.Page
             if (!fail_newuser)
             {
                 email_result = "sent";
-                   // send(obj.email.ToString(), startcode, "Registration");
+                // send(obj.email.ToString(), startcode, "Registration");
                 if (email_result == "sent")
                 {
                     retval[1] += "Password sent to " + obj.email;// +" to email address";

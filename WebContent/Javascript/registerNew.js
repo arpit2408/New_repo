@@ -11,28 +11,27 @@ function Details() {
     this.password = "",
     this.confirm = ""
 }
-function registerNew() {
 
-var det = null;
-det = new Details();
-det.email = document.getElementById('name').value;
-det.firstname = document.getElementById('email').value;
-det.companyname = document.getElementById('companyName').value;
-det.address = document.getElementById('Address').value;
-det.city = document.getElementById('city').value;
-det.state = document.getElementById('state').value;
-det.zip = document.getElementById('zipCode').value;
-det.txtPhone = document.getElementById('txtPhone').value;
-det.password = document.getElementById('password').value;
-det.confirm = document.getElementById('confirm').value;
-var str = JSON.stringify(det);
-PageMethods.RegisterUser(str, registerSuccess, Fail);
+
+function registerSuccess(val) {
+    if (val[0] == 1) {
+        $("#successmessage").show();
+        $("#successmessage").empty();
+        $("#successmessage").append('<strong>Success! </strong>' + val[1]);
+        $("#form1 :input").prop("disabled", true);
+    }
+    if (val[0] == 0) {
+
+        $("#errormessage").show();
+        $("#errormessage").empty();
+        $("#errormessage").append('<strong>Error! Some values are incorrect. </strong>' + val[1]);
+    }
 }
+function Fail(val) {
 
-function registerSuccess(str) {
-    var err = document.getElementById('messages_content');
-    err.innerHTML = str[1] + '<br>';
-    err.setAttribute('style', 'display:block;font-style: italic; color: Red;');
+    $("#errormessage").show();
+    $("#errormessage").empty();
+    $("#errormessage").append('<strong>Error! Some values are incorrect. </strong>' + val[1]);
 }
 
 function validatefields() {
@@ -186,18 +185,17 @@ function Signup() {
         det.confirm = document.getElementById('confirm').value;
         var str = JSON.stringify(det);
         PageMethods.RegisterUser(str, onSucess, onError);
-    
-    function onSucess(result) {
-        $('#messages').removeClass('hide').addClass('alert alert-success alert-dismissible').slideDown().show();
-        $('#messages_content').html('<h5>User Registered Successfully</h5>');
-        $('#modal').modal('show');
-    }
+}
+function onSucess(val) {
+    $('#messages').removeClass('hide').addClass('alert alert-success alert-dismissible').slideDown().show();
+    $('#messages_content').html('<h5>User Registered Successfully</h5>');
+    $('#modal').modal('show');
+}
 
-    function onError(result) {
-        $('#messages').removeClass('hide').addClass('alert alert-error alert-dismissible').slideDown().show();
-        $('#messages_content').html('<h5>' + result + '</h5>');
-        $('#modal').modal('show');
-    }
+function onError(val) {
+    $('#messages').removeClass('hide').addClass('alert alert-error alert-dismissible').slideDown().show();
+    $('#messages_content').html('<h5>' + result + '</h5>');
+    $('#modal').modal('show');
 }
 
 $(document).ready(function () {

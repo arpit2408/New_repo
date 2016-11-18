@@ -51,7 +51,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css" />
-
     <link rel="stylesheet" type="text/css" href="css/mapStyling.css" />
     <link rel="stylesheet" type="text/css" href="/WebContent/css/publicMap.css" />
     <link href='css/custom.css' rel='stylesheet' type='text/css' />
@@ -67,9 +66,10 @@
     <link rel="stylesheet" type="text/css" href="css/landingPage.css" />
 </head>
 <script>
-    $.get("header.html", function (data) {
+    $.get("HeaderNav.aspx", function (data) {
         $("#header").replaceWith(data);
     });
+
 
 </script>
 <script type="text/javascript">
@@ -80,13 +80,13 @@
     //window.onload = init_publicmap;
 </script>
 <body>
+    <div id="header"></div>
     <form id="form1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
         <div>
             <!-- /.header  -->
-            <div id="header"></div>
             <div id="wrapper" style="height: 677px; width: 1923px;">
-                <input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+                <input id="pac-input" class="controls" type="text" placeholder="Search Places" />
                 <div id="map_canvas" style="height: 677px;"></div>
             </div>
             <div id="choiceMenuCrop" class="panel-group">
@@ -102,7 +102,7 @@
                     <div id="collapseOne" class="panel-collapse collapse in" style="padding-top: 20px;">
                         <div id="checkboxcrops" style="position: relative; padding-left: 20px; background-color: #ecf0f1">
                             <div class="[ form-group ]">
-                                <input type="checkbox" name="fancy-checkbox-default" id="fancy-checkbox-default" autocomplete="off" />
+                                <input type="checkbox" name="checkforcrophoneybees" id="fancy-checkbox-default" value="Honeybees" autocomplete="off" checked="checked" />
                                 <div class="[ btn-group ]">
                                     <label for="fancy-checkbox-default" class="[ btn btn-default ]" style="background-color: darkorange">
                                         <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -115,7 +115,7 @@
                             </div>
                             
                             <div class="[ form-group ]">
-                                <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary" autocomplete="off" />
+                                <input type="checkbox" name="checkforcropfruitnuts" id="fancy-checkbox-primary" value="Fruits and Nuts" autocomplete="off" checked="checked"/>
                                 <div class="[ btn-group ]">
                                     <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
                                         <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -128,7 +128,7 @@
                                 </div>
                             </div>
                             <div class="[ form-group ]">
-                                <input type="checkbox" name="fancy-checkbox-success" id="fancy-checkbox-success" autocomplete="off" />
+                                <input type="checkbox" name="checkforcropfieldcrops" id="fancy-checkbox-success" value="Field Crops" autocomplete="off" checked="checked"/>
                                 <div class="[ btn-group ]">
                                     <label for="fancy-checkbox-success" class="[ btn btn-success ]">
                                         <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -141,7 +141,7 @@
                                 </div>
                             </div>
                             <div class="[ form-group ]">
-                                <input type="checkbox" name="fancy-checkbox-info" id="fancy-checkbox-info" autocomplete="off" />
+                                <input type="checkbox" name="checkforcropnursery" id="fancy-checkbox-info" value="Greenhouse and Nursery" autocomplete="off" checked="checked"/>
                                 <div class="[ btn-group ]">
                                     <label for="fancy-checkbox-info" class="[ btn btn-info ]">
                                         <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -153,7 +153,7 @@
                                 </div>
                             </div>
                             <div class="[ form-group ]">
-                                <input type="checkbox" name="fancy-checkbox-warning" id="fancy-checkbox-warning" autocomplete="off" />
+                                <input type="checkbox" name="checkforcropforage" id="fancy-checkbox-warning" value="Forage, Grassland" autocomplete="off" checked="checked"/>
                                 <div class="[ btn-group ]">
                                     <label for="fancy-checkbox-warning" class="[ btn btn-warning ]" style="background-color: lightgray">
                                         <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -165,7 +165,7 @@
                                 </div>
                             </div>
                             <div class="[ form-group ]">
-                                <input type="checkbox" name="fancy-checkbox-danger" id="fancy-checkbox-danger" autocomplete="off" />
+                                <input type="checkbox" name="checkforcropvegetables" id="fancy-checkbox-danger" value="Vegetables" autocomplete="off" checked="checked"/>
                                 <div class="[ btn-group ]">
                                     <label for="fancy-checkbox-danger" class="[ btn btn-danger ]" style="background-color: purple">
                                         <span class="[ glyphicon glyphicon-ok ]"></span>
@@ -182,7 +182,7 @@
             </div>
             <div id="footer">
             </div>
-            <script
+            <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7FTNE22Wl6S6DTQF83sTZTqbFFPzEkmU&libraries=drawing,places,geometry&callback=initialize">
                    google.maps.event.addDomListener(window, 'load', initialize);
             </script>

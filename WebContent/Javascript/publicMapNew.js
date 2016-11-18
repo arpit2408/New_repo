@@ -1,6 +1,6 @@
 ﻿var map = "";
 var featuresloc ="";
-
+var markers = [];
 function createSearchFunctionlity(map) {
     // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');
@@ -62,55 +62,12 @@ function createSearchFunctionlity(map) {
     });
 }
 
-function createPolygons(map) {
-    var arr = new Array();
-    var polygons = [];
-    var bounds = new google.maps.LatLngBounds();
-    var Colors = [
-    "purple",
-    "#8e44ad",
-    "#0000FF",
-    "#FFFFFF",
-    "#000000",
-    "#FFFF00",
-    "#00FFFF",
-    "#FF00FF"
-    ];
-    // downloadUrl("subdivision-coordinates.php", function(data) {
-    var xmlString = '<subdivisions><subdivision name="Auburn Hills"><coord lat="39.00748" lng="-92.323222"/><coord lat="39.000843" lng="-92.323523"/><coord lat="39.000509" lng="-92.311592"/><coord lat="39.007513" lng="-92.311378"/><coord lat="39.00748" lng="-92.323222"/></subdivision><subdivision name="Vanderveen"><coord lat="38.994206" lng="-92.350645"/><coord lat="38.985033" lng="-92.351074"/><coord lat="38.984699" lng="-92.343092"/><coord lat="38.981163" lng="-92.342234"/><coord lat="38.984663" lng="-92.3335"/><coord lat="38.993472" lng="-92.333179"/><coord lat="38.994206" lng="-92.350645"/></subdivision><subdivisions>';
-    var xml = xmlParse(xmlString);
-    var subdivision = xml.getElementsByTagName("subdivision");
-    // alert(subdivision.length);
-    for (var i = 0; i < subdivision.length; i++) {
-        arr = [];
-        var coordinates = xml.documentElement.getElementsByTagName("subdivision")[i].getElementsByTagName("coord");
-        for (var j = 0; j < coordinates.length; j++) {
-            arr.push(new google.maps.LatLng(
-                  parseFloat(coordinates[j].getAttribute("lat")),
-                  parseFloat(coordinates[j].getAttribute("lng"))
-            ));
 
-            bounds.extend(arr[arr.length - 1])
-           
-        }
-        polygons.push(new google.maps.Polygon({
-            paths: arr,
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: Colors[j],
-            fillOpacity: 0.35
-        }));
-        polygons[polygons.length - 1].setMap(map);
-    }
-    // });
-    map.fitBounds(bounds);
-}
 
 
 function initialize() {
     var mapOptions = {
-        zoom: 12,
+        zoom: 10,
         center: new google.maps.LatLng(30.658354982307571, -96.396270512761134),
         disableDefaultUI: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -188,31 +145,32 @@ function initialize() {
         var marker = new google.maps.Marker({
             position: custom.position,
             icon: icons[custom.type].icon,
+            title: custom.type,
             map: map
             
         });
         marker.setMap(map);
+        markers.push(marker);
         //map.setCenter(marker.getPosition());
         var content =
-        "<dl>"+
+        
         "<dl>"+
              "<dt>Crop Name:</dt>"+
              "<dd>"+ custom.cropname +"</dd>"+
         
              "<dt>Crop Type:</dt>"+
              "<dd>"+custom.type+"</dd>"+
-        "</dl>"+
-        "<dl>"+
+            
              "<dt>Crop Year:</dt>"+
              "<dd>"+custom.cropyear+"</dd>"+
         
              "<dt>Crop County:</dt>"+
              "<dd>"+custom.county+"</dd>"+
         "</dl>"
-        "</dl>"
+       
 
         var infowindow = new google.maps.InfoWindow({
-            maxWidth: 300
+            
         })
         //alert("custom.position" + custom.position + "custom.type" + custom.type + "custom.cropname" + custom.cropname);
         google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
@@ -256,7 +214,31 @@ function initialize() {
 
 }
 
-
+function onClickofCheckCrop() {
+    for(var i=0;i<markers.length;i++)
+    {
+        if(markers[i].type==document.getElementById())
+        markers[i].setMap(null);
+    }
+}
+$(document).ready(function () {
+    $(function () {
+        $("input[name*='checkforcrop']").click(function () {
+            if ($(this).is(':checked')) {
+                for (var i = 0; i < markers.length; i++) {
+                    if (markers[i].title == this.value)
+                        markers[i].setMap(map);
+                }
+            }
+            else {
+                for (var i = 0; i < markers.length; i++) {
+                    if (markers[i].title == this.value)
+                        markers[i].setMap(null);
+                }
+            }
+        });
+    });
+});
 
 function xmlParse(str) {
     if (typeof ActiveXObject != 'undefined' && typeof GetObject != 'undefined') {

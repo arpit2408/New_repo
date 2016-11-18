@@ -3,58 +3,20 @@ var drawingManager;
 var shapes = [];
 
 function initMap() {
-    var myLatlng = new google.maps.LatLng(51.51686166794058, 3.5945892333984375);
+    var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
     var mapOptions = {
-        zoom: 4,
+        zoom: 14,
         center: myLatlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         disableDefaultUI: false
     }
     var infoWindow = new google.maps.InfoWindow({ map: map });
-   /*
-    // Try HTML5 geolocation.
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var pos = {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
-            infoWindow.setPosition(pos);
-            infoWindow.setContent('Location found.');
-            map.setCenter(pos);
-        }, function () {
-            handleLocationError(true, infoWindow, map.getCenter());
-        });
-    } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-    }
-    */
-    //Getting map DOM element
+   
     var mapElement = document.getElementById('map_canvas');
 
     map = new google.maps.Map(map_canvas, mapOptions);
     
-    var iconWhite = {
-        url: "/WebContent/Images/WhiteFlag.JPG", // url
-        scaledSize: new google.maps.Size(35, 40), // scaled size
-        origin: new google.maps.Point(0, 0), // origin
-        anchor: new google.maps.Point(0, 0) // anchor
-    };
-    var iconRed = {
-        url: "/WebContent/Images/RedFlag.JPG", // url
-        scaledSize: new google.maps.Size(35, 40), // scaled size
-        origin: new google.maps.Point(0, 0), // origin
-        anchor: new google.maps.Point(0, 0) // anchor
-    };
-    var marker = new google.maps.Marker({
-        position: myLatlng,
-        map: map,
-        draggable: true,
-        animation: google.maps.Animation.DROP,
-        title: 'Hello World!',
-        icon: iconRed
-    });
+    
 
     drawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.POLYGON,
@@ -64,47 +26,13 @@ function initMap() {
             drawingModes: [ 'marker','polygon']
         },
         polygonOptions: {
-            editable: true,
-            draggable: true,
+            editable: false,
+            draggable: false,
             strokecolor: '#E9967A'
         }
     });
-    list = document.getElementsByTagName('SELECT')[0];
     drawingManager.setMap(map);
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(list);
-
-    google.maps.event.addDomListener(list, 'change', function () {
-        drawingManager.setOptions({ markerOptions: { icon: this.value } })
-    });
-    google.maps.event.trigger(list, 'change', {})
-
-    
-
-    var customControlDiv = document.createElement('div');
-    var customControl = new CustomControl(customControlDiv, map, 'red');
-    var customControlDiv1 = document.createElement('div');
-    var customControl1 = new CustomControl(customControlDiv1, map, 'green');
-    var customControlDiv2 = document.createElement('div');
-    var customControl2 = new CustomControl(customControlDiv2, map, 'teal');
-    var customControlDiv3 = document.createElement('div');
-    var customControl3 = new CustomControl(customControlDiv3, map, 'black');
-    var customControlDiv4 = document.createElement('div');
-    var customControl4 = new CustomControl(customControlDiv4, map, 'yellow');
-    
-    var customControlWrapperMenu = document.getElementById('wrapperMenu');
-    var customSpaceDiv = document.getElementById('spaceDiv');
-    var bs= document.getElementById('bs-example-collapse-1');
-    var mapbox = document.getElementById('map-tools-box');
-    customControlDiv.index = 1;
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv);
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv1);
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv2);
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv3);
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv4);
-    //map.controls[google.maps.ControlPosition.LEFT].push(customSpaceDiv);
-    map.controls[google.maps.ControlPosition.LEFT].push(customControlWrapperMenu);
-    //map.controls[google.maps.ControlPosition.LEFT].push(mapbox);
-    
+   
     // Add a listener for creating new shape event.
     google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
         var newShape = event.overlay;
@@ -133,12 +61,15 @@ function initMap() {
         overlayDragListener(event.overlay);
         $('#vertices').val(event.overlay.getPath().getArray());
         $('#myModal').modal('show');
+        $("#myModal").draggable({ handle: ".modal-header" });
         $('#areaPolygon').val((0.000247105 * google.maps.geometry.spherical.computeArea(event.overlay.getPath())).toFixed(2));
         $('#cropYear').val(new Date().getFullYear());
         var coordinates="";
         for (var i = 0; i < event.overlay.getPath().getLength() ; i++) {
             coordinates += event.overlay.getPath().getAt(i).toUrlValue(6) + ";";
         }
+        $('#polygonpath').val(coordinates);
+        //$('#centroid').val(event.overlay.getPath().getBounds().getCenter());
         $('#countyselected').val(getCountyInfo(coordinates));
     });
     // Create the search box and link it to the UI element.
@@ -197,9 +128,10 @@ function initMap() {
         map.fitBounds(bounds);
     });
 }
-
+function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+}
 function getCountyInfo(value) {
-    
     PageMethods.GetCounty(value, LookUpCounty_Success);
         
     function LookUpCounty_Success(val) {
@@ -331,6 +263,156 @@ function CustomControl(controlDiv, map, flag) {
         
        
     });
+}
+function Location() {
+    this.usremail = "";
+    this.id = "";
+    this.planttype = "";
+    this.croptype = "";
+    this.cropyear = "";
+    this.comment = "";
+    this.county = "";
+    this.coordinates = "";
+    this.loccentroid = "";
+    this.acres = "";
+    this.organiccrops = 0;
+    this.certifier = "";
+}
+function SubmitNewLocation() {
+    var iconBase = '/WebContent/Images/Flags/';
+    var iconBlackFlag = {
+        url: iconBase + "BlackFlag.JPG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var iconGreenFlag = {
+        url: iconBase + "GreenFlag.JPG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var iconRedFlag = {
+        url: iconBase + "RedFlag.JPG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var iconTealFlag = {
+        url: iconBase + "TealFlag.JPG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var iconWhiteFlag = {
+        url: iconBase + "WhiteFlag.JPG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var iconYellowFlag = {
+        url: iconBase + "YellowFlag.JPG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var icons = {
+        "BlackFlag": {
+            icon: iconBlackFlag
+        },
+        "GreenFlag": {
+            icon: iconGreenFlag
+        },
+        "RedFlag": {
+            icon: iconRedFlag
+        },
+        "TealFlag": {
+            icon: iconTealFlag
+        },
+        "WhiteFlag": {
+            icon: iconWhiteFlag
+        },
+        "YellowFlag": {
+            icon: iconYellowFlag
+        }
+    };
+
+    var croploc = new Location();
+    croploc.id = 1;
+    croploc.usremail = "mtchakerian@tamu.edu";
+    croploc.planttype = document.getElementById('plant').value;
+    croploc.croptype = document.getElementById('crop').value;
+    croploc.cropyear = document.getElementById('cropYear').value;
+    if (document.getElementById('form_message') != null)
+        croploc.comment = document.getElementById('form_message').value;
+    croploc.comment = croploc.comment.replace(/'/g, "''");
+    croploc.county = document.getElementById('countyselected').value;
+    var coordinatesforpolygon = document.getElementById('polygonpath').value;
+    var cordinateslist = coordinatesforpolygon.split(";");
+    croploc.coordinates = coordinatesforpolygon;
+    croploc.loccentroid = "";
+    croploc.acres = document.getElementById('areaPolygon').value;
+    var isitorganic = document.getElementById('someSwitchOptionSuccess').checked;
+    if (isitorganic == true) {
+        croploc.organiccrops = 1;
+    }
+    else {
+        croploc.organiccrops = 0;
+    }
+
+    croploc.certifier = "";
+
+
+
+    var str = JSON.stringify(croploc);
+    PageMethods.AddNewLocation(str, croploc.usremail, AddNewLocation_Success, Fail);
+    function AddNewLocation_Success(val) {
+        if (val[0] == 1) {
+            $("#successmessage").show();
+            $("#successmessage").empty();
+            $("#successmessage").append('<strong>Success! </strong>' + val[1]);
+            $("#form1 :input").prop("disabled", true);
+        }
+        if (val[0] == 0) {
+
+            $("#errormessage").show();
+            $("#errormessage").empty();
+            $("#errormessage").append('<strong>Error! Some values are incorrect. </strong>' + val[1]);
+        }
+    }
+    function Fail(val) {
+    }
+    
+    var flagvalues = $('#flagoptions').text();
+    var flagop = flagvalues.split("Flag");
+    var firstval = flagop[0].substring(2, flagop[0].length);
+    var valuefirst = new CustomFlagMarker();
+    valuefirst.type = firstval + 'Flag';
+    alert(valuefirst.type);
+    valuefirst.position = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
+    addMarker(valuefirst);
+    
+    for (var i = 1; i < flagop.length; i++) {
+        var value = new CustomFlagMarker();
+        value.type = flagop[i] + 'Flag';
+        value.position = new google.maps.LatLng(30.658354982307571+(i)*0.1, -96.396270512761134);
+        addMarker(value);
+        alert(value.type);
+    }
+    
+    function CustomFlagMarker() {
+        var position = new google.maps.LatLng(0, 0);
+        var type = "";
+    }
+    function addMarker(custom) {
+        var marker = new google.maps.Marker({
+            position: custom.position,
+            icon: icons[custom.type].icon,
+            title: custom.type,
+            map: map
+        });
+        alert(custom.type)
+    }
 }
 
 

@@ -1,38 +1,35 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Registration.aspx.cs" Inherits="WebContent_Registration" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="RegisterNewUser.aspx.cs" Inherits="WebContent_RegisterNewUser" %>
 
 <!DOCTYPE html>
-<html lang="en">
 
-    <head runat="server">
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="css/Register.css">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head runat="server">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css"/>
+        <link rel="stylesheet" type="text/css" href="css/Register.css"/>
         <script type="text/javascript" src="../javascript/bootstrap.js"></script>
        
         <script type="text/javascript" src="/WebContent/Javascript/registerNew.js"></script>
         <script type="text/javascript" src="/WebContent/Javascript/countries.js"></script>
-		<!-- Website Font style -->
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-		<!-- Google Fonts -->
-		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="css/landingPage.css">
-	<title>Admin</title>
-        <script>
-            $.get("HeaderNav.aspx", function (data) {
-                $("#header").replaceWith(data);
-            });
+    <title></title>
+    <script>
+        $.get("HeaderNav.aspx", function (data) {
+            $("#header").replaceWith(data);
+        });
 
         </script>
-	</head>
-	<body>
-        <!-- /.header  -->
+</head>
+<body>
+    <!-- /.header  -->
    <div id="header" >
             </div>
-
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"  EnablePageMethods="true" ></asp:ScriptManager>
+    <div>
     <!-- /.header end -->
 		<div class="container">
 			<div class="row main">
@@ -50,8 +47,7 @@
                     <div class="alert alert-danger" id="errormessage" style="display:none"> </div>
                     <div class="alert alert-success" id="successmessage" style="display:none"></div>
                
-					<form  id="registerForm" runat="server">
-                        <asp:ScriptManager ID="ScriptManager1" runat="server" ScriptMode="Release" EnablePageMethods="true" ></asp:ScriptManager>
+					  
                             
                         <div class="form-group">
 							<label for="name" class="cols-sm-2 control-label">Your Name</label>
@@ -152,11 +148,12 @@
 							<button type="submit" class="btn btn-primary btn-lg btn-block login-button" onclick="Signup()">Register</button>
 						</div>
 						
-					</form>
 				</div>
 			</div>
 		</div>
-       <!-- Footer -->
+    </div>
+    </form>
+    <!-- Footer -->
          <div id="footer">
         </div>
 	</body>
@@ -165,4 +162,5 @@
             $("#footer").replaceWith(data);
         });
     </script>
+</body>
 </html>
