@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Producer.aspx.cs" Inherits="WebContent_Producer" %>
+﻿<%@ Page Language="C#"   CodeFile="Producer.aspx.cs" Inherits="WebContent_Producer" %>
 
 <!DOCTYPE html>
 <html>
@@ -48,7 +48,8 @@
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   
+    <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
+    
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/Register.css">
@@ -58,6 +59,8 @@
 
     <script type="text/javascript" src="/WebContent/Javascript/map.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/cropAdd.js"></script>
+    <script type="text/javascript" src="/WebContent/Javascript/common.js"></script>
+    
     <!-- Website Font style -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <!-- Google Fonts -->
@@ -66,7 +69,10 @@
     <link rel="stylesheet" type="text/css" href="css/landingPage.css">
 </head>
 <script>
-  
+    $.get("HeaderNav.html", function (data) {
+        $("#header").replaceWith(data);
+    });
+
     $.get("RegisterCrop.aspx", function (data) {
         $("#modalDiv").replaceWith(data);
     });
@@ -109,9 +115,8 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7FTNE22Wl6S6DTQF83sTZTqbFFPzEkmU&libraries=drawing,places,geometry&callback=initMap">
    google.maps.event.addDomListener(window, 'load', initMap);
     </script>
-        <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        
+      
     <script>
         $.get("footer.html", function (data) {
             $("#footer").replaceWith(data);

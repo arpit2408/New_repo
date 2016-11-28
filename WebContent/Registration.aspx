@@ -22,7 +22,7 @@
         <link rel="stylesheet" type="text/css" href="css/landingPage.css">
 	<title>Admin</title>
         <script>
-            $.get("HeaderNav.aspx", function (data) {
+            $.get("HeaderNav.html", function (data) {
                 $("#header").replaceWith(data);
             });
 

@@ -1,28 +1,30 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data.SqlClient;
-using System.Collections;
-using Newtonsoft.Json;
 
-public partial class WebContent_ApplicatorNew : System.Web.UI.Page
+public partial class WebContent_Dashboard : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
     [System.Web.Services.WebMethod(EnableSession = false)]
-    public static string[] GetApplicatorAreas(string email)
+    public static ArrayList ListProducerPolygons(string useremail)
     {
         SqlConnection conn = null;
         DateTime dt = DateTime.Now;
-        string[] retval = new string[2];
-        retval[0] = "0";
-        retval[1] = "";
-        ArrayList locationArr = new ArrayList();
+        ArrayList locationArr;
+        locationArr = (ArrayList)HttpContext.Current.Session["allcrops"];
+        if (locationArr != null)
+        {
+            //return locationArr;
+        }
+        locationArr = new ArrayList();
         try
         {
             string connection = System.Configuration.ConfigurationManager.AppSettings["connection_string"];
@@ -32,75 +34,75 @@ public partial class WebContent_ApplicatorNew : System.Web.UI.Page
             {
                 SqlCommand cmd = null;
                 SqlDataReader reader;
-                string sql = "select TOP 1 * from applicator_areas where email = '[EMAIL]' and year = '[YEAR]' order by modifieddate asc";
-                sql = sql.Replace("[EMAIL]", email);
-                sql = sql.Replace("[YEAR]", DateTime.Today.Year.ToString());
-
+                string sql = "select * from producer_locations where email = '[EMAIL]' and cropyear = '[YEAR]' and deleted = 0;";
+                sql = sql.Replace("[EMAIL]", useremail);
+                sql = sql.Replace("[YEAR]", dt.Year.ToString());
                 cmd = new SqlCommand(sql, conn);
                 reader = cmd.ExecuteReader();
-                AppArea apparea = null;
-                while (reader.Read() && reader.HasRows)
+                croplocation croploc = null;
+                while (reader.Read())
                 {
                     try
                     {
-                        
-                        apparea = new AppArea();
+                        croploc = new croplocation();
+
+                        if (!reader.IsDBNull(14))
+                        {
+                            croploc.id = reader.GetDecimal(14).ToString();
+                        }
                         if (!reader.IsDBNull(0))
                         {
-                            apparea.usremail = reader.GetString(0).ToString();
+                            //croploc.usremail = reader.GetString(0);
                         }
                         if (!reader.IsDBNull(1))
                         {
-                            apparea.appareaname = reader.GetString(1).ToString();
+                            croploc.planttype = reader.GetString(1);
                         }
                         if (!reader.IsDBNull(2))
                         {
-                            apparea.county = reader.GetString(2).ToString();
+                            croploc.croptype = reader.GetString(2);
                         }
                         if (!reader.IsDBNull(3))
                         {
-                            apparea.coordinates = reader.GetString(3).ToString();
+                            croploc.cropyear = reader.GetString(3);
                         }
                         if (!reader.IsDBNull(4))
                         {
-                            apparea.areacentroid = reader.GetString(4).ToString();
+                            croploc.comment = reader.GetString(4);
                         }
                         if (!reader.IsDBNull(5))
                         {
-                            apparea.buffercoords = reader.GetString(5).ToString();
+                            croploc.county = reader.GetString(5);
                         }
                         if (!reader.IsDBNull(6))
                         {
-                            apparea.acres = reader.GetString(6).ToString();
+                            croploc.coordinates = reader.GetString(6);
                         }
                         if (!reader.IsDBNull(7))
                         {
-                            apparea.license = reader.GetString(7).ToString();
+                            croploc.loccentroid = reader.GetString(7);
                         }
                         if (!reader.IsDBNull(8))
                         {
-                            apparea.pesticidename = reader.GetString(8).ToString();
+                            croploc.acres = reader.GetString(8);
                         }
-                        
-                        if (!reader.IsDBNull(12))
+                        if (!reader.IsDBNull(9))
                         {
-                            apparea.comment = reader.GetString(12).ToString();
+                            croploc.organiccrops = (reader.GetBoolean(9) ? 1 : 0).ToString();
                         }
-                        
-                       
-                        locationArr.Add(apparea);
+                        if (!reader.IsDBNull(10))
+                        {
+                            croploc.certifier = reader.GetString(10);
+                        }
+                        locationArr.Add(croploc);
 
                     }
                     catch (Exception errReader)
                     {
 
-                        retval[0] = "0";
-                        retval[1] = "Database Access Problem";
-                        retval[1] += errReader.Message;
                     }
                 }
-                retval[0] = "1";
-                retval[1] = JsonConvert.SerializeObject(locationArr);
+
                 cmd.Dispose();
                 reader.Dispose();
             }
@@ -113,6 +115,8 @@ public partial class WebContent_ApplicatorNew : System.Web.UI.Page
         {
             conn.Close();
         }
-        return retval;
+        HttpContext.Current.Session["allcrops"] = locationArr;
+        return locationArr;
+
     }
 }

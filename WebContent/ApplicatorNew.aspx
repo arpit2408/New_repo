@@ -48,8 +48,7 @@
             }
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="css/mapStyling.css" />
     <link rel="stylesheet" type="text/css" href="/WebContent/css/publicMap.css" />
@@ -59,6 +58,8 @@
     
     <script type="text/javascript" src="/WebContent/Javascript/applicatorNew.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/publicMapNew.js"></script>
+    <script type="text/javascript" src="/WebContent/Javascript/common.js"></script>
+    <script type="text/javascript" src="/javascript/lat.lon.calculations.js"></script>
     <!-- Website Font style -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" />
     <!-- Google Fonts -->
@@ -67,23 +68,26 @@
     <link rel="stylesheet" type="text/css" href="css/landingPage.css" />
 </head>
 <script>
-    $.get("header.html", function (data) {
+    $.get("HeaderNav.html", function (data) {
         $("#header").replaceWith(data);
     });
-
+    $.get("ApplicatorPesticideRegister.aspx", function (data) {
+        $("#modalDiv").replaceWith(data);
+    });
 </script>
 <script type="text/javascript">
     var user = null;
     var serverval = null;
     var usrapparea = null;
     var usrcroploc = null;
-    //window.onload = init_publicmap;
+    //window.onload = setOnloadEvent(event);
 </script>
 <body>
     <div id="header"></div>
     <form id="form1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
         <div>
+            <div id="modalDiv"></div>
             <!-- /.header  -->
             <div id="wrapper" style="height: 677px; width: 1923px;">
                 <input id="pac-input" class="controls" type="text" placeholder="Search Places" />

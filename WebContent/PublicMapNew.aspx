@@ -48,7 +48,6 @@
             }
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="css/mapStyling.css" />
@@ -66,7 +65,7 @@
     <link rel="stylesheet" type="text/css" href="css/landingPage.css" />
 </head>
 <script>
-    $.get("HeaderNav.aspx", function (data) {
+    $.get("HeaderNav.html", function (data) {
         $("#header").replaceWith(data);
     });
 

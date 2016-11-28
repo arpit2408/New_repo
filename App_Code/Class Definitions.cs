@@ -45,18 +45,18 @@ public class user
 
 public class AppArea
 {
-    public string id = "";
-    public string usremail = "";
-    public string appareaname = "";
-    public string county = "";
-    public string coordinates = "";
-    public string areacentroid = "";
-    public string buffercoords = "";
-    public string acres = "";
-    public string license = "";
-    public string pesticidename = "";
-    public string moddate = "";
-    public string comment = "";
+    public string id { get; set; }
+    public string usremail { get; set; }
+    public string appareaname { get; set; }
+    public string county { get; set; }
+    public string coordinates { get; set; }
+    public string areacentroid { get; set; }
+    public string buffercoords { get; set; }
+    public string acres { get; set; }
+    public string license { get; set; }
+    public string pesticidename { get; set; }
+    public string moddate { get; set; }
+    public string comment { get; set; }
     
     public AppArea()
     {

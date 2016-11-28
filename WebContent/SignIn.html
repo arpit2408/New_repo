@@ -1,276 +1,98 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <!--#include file="header.html" -->
+<!--#include file="header.html" -->
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
-        
-        <script type="text/javascript" src="../javascript/bootstrap.js"></script>
-        <script type="text/javascript" src="/WebContent/Javascript/countries.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/landingPage.css">
-		<!-- Website CSS style 
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
+
+    <script type="text/javascript" src="../javascript/bootstrap.js"></script>
+    <script type="text/javascript" src="/WebContent/Javascript/countries.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/landingPage.css">
+    <!-- Website CSS style 
 		<link rel="stylesheet" type="text/css" href="assets/css/main.css">
         -->
-        
-            
-            
-		<!-- Website Font style -->
-	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
-		
-		<!-- Google Fonts -->
-		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+
+
+
+    <!-- Website Font style -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
     <title></title>
-   
-    
+
+
 </head>
 <body>
-    <!-- /.header  -->
-   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" >
-        <div class="container-fluid">
-            
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header" >
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
 
-                    <a class="navbar-brand" href="#"><img alt="TAMUlogo" src="/images/TAM-Logo-white.png" class="img-responsive" /></a>
-                    <a class="navbar-brand" href="#"><img alt="KELlogo" src="/images/KELlogo_sm.jpg" class="img-responsive" /></a>
-                    
-               
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">About</a>
-                    </li>
-                    <li>
-                        <a href="#">Services</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="active ">
-                        <a href="/WebContent/LandingPage.html">HOME</a>
-                    </li>
-                    <li>
-                        <a href="/WebContent/Producer.html">PRODUCERS</a>
-                    </li>
-                    <li>
-                        <a href="#">APPLICATORS</a>
-                    </li>
-                    <li>
-                        <a href="#">FAQ</a>
-                    </li>
-                    <li>
-                        <a href="#">PUBLIC MAP</a>
-                    </li>
-                     <li>
-                        <a href="/WebContent/Registration.html">SIGN UP</a>
-                    </li>
-                     <li class="dropdown">
-                     <a href="http://www.jquery2dotnet.com" class="dropdown-toggle" data-toggle="dropdown">SIGN IN <b class="caret"></b></a>
-                     <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
-                        <li>
-                           <div class="row">
-                              <div class="col-md-12">
-                                 <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
-                                    <div class="form-group">
-                                       <label class="sr-only" for="exampleInputEmail2">Email address</label>
-                                       <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address" required>
-                                    </div>
-                                    <div class="form-group">
-                                       <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                       <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password" required>
-                                    </div>
-                                    <div class="checkbox">
-                                       <label>
-                                       <input type="checkbox"> Remember me
-                                       </label>
-                                    </div>
-                                    <div class="form-group">
-                                       <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                                    </div>
-                                 </form>
-                              </div>
-                           </div>
-                        </li>
-                        
-                     </ul>
-                  </li>
-                </ul>
-             </div>
-            <!-- /.navbar-collapse -->
-            
-        </div>
-        <!-- /.container -->
-    </nav>
+    <div class="container">
+        <div id="loginbox" style="margin-top: 250px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">Sign In</div>
+                    <div style="float: right; font-size: 80%; position: relative; top: -10px"><a href="#">Forgot password?</a></div>
+                </div>
 
-    <!-- /.header end -->
-    <div class="container">    
-        <div id="loginbox" style="margin-top:250px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
-            <div class="panel panel-default" >
-                    <div class="panel-heading">
-                        <div class="panel-title">Sign In</div>
-                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>
-                    </div>     
+                <div style="padding-top: 30px" class="panel-body">
 
-                    <div style="padding-top:30px" class="panel-body" >
+                    <div style="display: none" id="login-alert" class="alert alert-danger col-sm-12"></div>
 
-                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
-                            
-                        <form id="loginform" class="form-horizontal" role="form">
-                                    
-                            <div style="margin-bottom: 25px" class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="username or email"/>                                        
-                                    </div>
-                                
-                            <div style="margin-bottom: 25px" class="input-group">
-                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="password"/>
-                                    </div>
-                                    
+                    <form id="loginform" class="form-horizontal" role="form">
 
-                                
-                            <div class="input-group">
-                                      <div class="checkbox">
-                                        <label>
-                                          <input id="login-remember" type="checkbox" name="remember" value="1"/> Remember me
-                                        </label>
-                                      </div>
-                                    </div>
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="username or email" />
+                        </div>
+
+                        <div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input id="login-password" type="password" class="form-control" name="password" placeholder="password" />
+                        </div>
 
 
-                                <div style="margin-top:10px" class="form-group">
-                                    <!-- Button -->
 
-                                    <div class="col-sm-12 controls">
-                                      <a id="btn-login" href="#" class="btn btn-success">Login  </a>
-                                      <a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a>
+                        <div class="input-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input id="login-remember" type="checkbox" name="remember" value="1" />
+                                    Remember me
+                                </label>
+                            </div>
+                        </div>
 
-                                    </div>
-                                </div>
+
+                        <div style="margin-top: 10px" class="form-group">
+                            <!-- Button -->
+
+                            <div class="col-sm-12 controls">
+                                <a id="btn-login" href="#" class="btn btn-success">Login  </a>
+                                <a id="btn-fblogin" href="#" class="btn btn-primary">Login with Facebook</a>
+
+                            </div>
+                        </div>
 
 
-                                <div class="form-group">
-                                    <div class="col-md-12 control">
-                                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
-                                            Don't have an account! 
-                                        <a href="/WebContent/Registration.html" >
-                                            Sign Up Here
+                        <div class="form-group">
+                            <div class="col-md-12 control">
+                                <div style="border-top: 1px solid#888; padding-top: 15px; font-size: 85%">
+                                    Don't have an account! 
+                                        <a href="/WebContent/Registration.html">Sign Up Here
                                         </a>
-                                        </div>
-                                    </div>
-                                </div>    
-                            </form>     
+                                </div>
+                            </div>
+                        </div>
+                    </form>
 
 
 
-                        </div>                     
-                    </div>  
+                </div>
+            </div>
         </div>
-        <div id="signupbox" style="display:none; margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <div class="panel-title">Sign Up</div>
-                            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a></div>
-                        </div>  
-                        <div class="panel-body" >
-                            <form id="signupform" class="form-horizontal" role="form">
-                                
-                                <div id="signupalert" style="display:none" class="alert alert-danger">
-                                    <p>Error:</p>
-                                    <span></span>
-                                </div>
-                                    
-                                
-                                  
-                                <div class="form-group">
-                                    <label for="email" class="col-md-3 control-label">Email</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
-                                    </div>
-                                </div>
-                                    
-                                <div class="form-group">
-                                    <label for="firstname" class="col-md-3 control-label">First Name</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" name="firstname" placeholder="First Name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastname" class="col-md-3 control-label">Last Name</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" name="lastname" placeholder="Last Name">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password" class="col-md-3 control-label">Password</label>
-                                    <div class="col-md-9">
-                                        <input type="password" class="form-control" name="passwd" placeholder="Password">
-                                    </div>
-                                </div>
-                                    
-                                <div class="form-group">
-                                    <label for="icode" class="col-md-3 control-label">Invitation Code</label>
-                                    <div class="col-md-9">
-                                        <input type="text" class="form-control" name="icode" placeholder="">
-                                    </div>
-                                </div>
 
-                                <div class="form-group">
-                                    <!-- Button -->                                        
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <button id="btn-signup" type="button" class="btn btn-info" onclick="document.location.href = '/WebContent/Registration.html'"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
-                                        <span style="margin-left:8px;">or</span>  
-                                    </div>
-                                </div>
-                                
-                                <div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
-                                    
-                                    <div class="col-md-offset-3 col-md-9">
-                                        <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>   Sign Up with Facebook</button>
-                                    </div>                                           
-                                        
-                                </div>
-                                
-                                
-                                
-                            </form>
-                         </div>
-                    </div>
-                
-         </div> 
     </div>
-     <!-- Footer -->
-        <footer id="footer" class="panel-footer panel-custom margin30"><div class="container"><div class="row"><div class="col-md-5 col-sm-6 margin30"><div class="footer-col "><h3 style="color:#999">About Texas Corp Registry</h3>
-            <p style="color:#999">The Texas Crop Registry recognizes the Knowledge Engineering Laboratory of the Department of Entomology at Texas A&M University, along with Texas A&M AgriLife Research for developing this website. &nbsp;
-             The Agriculture and Environmental Safety group of Texas A&M AgriLife Extension Service is acknowleged for supporting the website.&nbsp;
-                <a href="http://entomology.tamu.edu/people/coulson-robert/" >Prof. Coulson&nbsp;
-                </a>oversees and&nbsp;<a href="http://entomology.tamu.edu/people/tchakerian-dr-maria-d/">Dr. Maria Tchakerian&nbsp;</a>
-                manages this project.&nbsp;<a href="https://www.linkedin.com/in/arpit-saxena-7162b857">Arpit Saxena&nbsp;</a>is the software developer of this project.&nbsp;</p>
-            <ul class="list-inline social-1"><li><a href="#"><i class="fa fa-facebook"></i></a></li><li><a href="#">
-                <i class="fa fa-twitter"></i></a></li><li><a href="#"><i class="fa fa-google-plus"></i></a></li><li><a href="#">
-                    <i class="fa fa-pinterest"></i></a></li><li><a href="#"><i class="fa fa-dribbble"></i></a></li></ul></div>
-            </div><!-- footer col--><div class="col-md-3 col-sm-6 margin30"><div class="footer-col"><h3 style="color:#999">Contact</h3>
-                <ul class="list-unstyled contact"><li><p style="color:#999"><strong><i class="fa fa-map-marker"></i> Address:</strong> KEL Texas A&amp;M University,</p>
-            </li><li><p style="color:#999"><strong><i class="fa fa-envelope"></i> Mail Us:</strong><a href="#">r-coulson@tamu.edu</a></p></li><li><p style="color:#999"><strong><i class="fa fa-phone"></i> 
-                Phone:</strong> +1 (979) 845-9725</p></li><li><p style="color:#999"><strong><i class="fa fa-print"></i> Fax</strong> +1 (979) 862-4820</p></li></ul></div></div>
-            <!-- footer col--><div class="col-md-4 col-sm-6 margin30"><div class="footer-col"><h3>Newsletter</h3><p style="color:#999">Enter your email to subscribe progress of FASIDS( not implemented)</p>
-                <form role="form" class="subscribe-form"><div class="input-group"><input type="text" placeholder="Enter email to subscribe" class="form-control">
-                    <span class="input-group-btn"><button type="submit" class="btn btn-theme-dark ">Ok</button></span></div></form></div></div><!-- footer col--></div><div class="row">
-               <div class="col-md-12 text-center"><div class="footer-btm"><span>©2016-2017. KEL@Texas A&amp;M</span></div></div></div></div>
 
-        </footer>
 </body>
 </html>

@@ -5,15 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Texas Crop Website</title>
-
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css' />
-    <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-
-    <link href='css/custom.css' rel='stylesheet' type='text/css' />
-    <link href='css/registerCrop.css' rel='stylesheet' type='text/css' />
     <script type="text/javascript" src="/WebContent/Javascript/cropAdd.js"></script>
-    <script type="text/javascript" src="../javascript/bootstrap.js"></script>
-
 </head>
 
 <body>
@@ -87,12 +80,12 @@
                                             <div class="[ form-group ]" >
                                                 <input type="checkbox" name="flagoptions" id="fancy-checkbox-warning"  autocomplete="off" />
                                                 <div class="[ btn-group ]" style="padding-left:15px">
-                                                    <label for="fancy-checkbox-warning" class="[ btn btn-warning ]" style="background-color: #1abc9c">
+                                                    <label for="fancy-checkbox-warning" class="[ btn btn-warning ]" style="background-color: #4e0b0b">
                                                         <span class="[ glyphicon glyphicon-ok ]"></span>
                                                         <span></span>
                                                     </label>
-                                                    <label for="fancy-checkbox-warning" class="[ btn btn-default active ]" data-toggle="tooltip" data-placement="right" style="width:195px">
-                                                        Use Flag Technology
+                                                    <label  for="fancy-checkbox-warning" class="[ btn btn-default active ]" data-toggle="tooltip" data-placement="right" style="width:195px">
+                                                        Use Flag The Technology
                                                     </label>
                                                 </div>
                                             </div>
@@ -127,13 +120,9 @@
                                             </div>
                                         </div>
                                         <div class="col-md-12">
-                                            <input type="submit" onclick="SubmitNewLocation()" class="btn btn-primary btn-send" value="Save" />
+                                            <input type="submit" onclick="return SubmitNewLocation(event)" class="btn btn-primary btn-send" value="Save" />
                                         </div>
                                     </div>
-
-
-
-
                                 </div>
                             </div>
 

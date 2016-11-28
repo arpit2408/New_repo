@@ -30,7 +30,7 @@ function init() {
 //    initmb();
     jQuery.ajax({
         // type: 'POST',
-    url: 'Login.svc/CheckLogin',
+    url: '/Login.svc/CheckLogin',
         success: CheckLogin_Success,
         fail: Fail,
         async: false,

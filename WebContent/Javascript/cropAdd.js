@@ -64,10 +64,11 @@ $(document).ready(function () {
         $('input[type="checkbox"]').on('change', function (e) {
             if (e.target.checked) {
                 $('#flagtechModal').modal('show');
+                $("#flagtechModal").draggable({ handle: ".modal-header" });
             }
         });
     });
-    
+   
 });
 function checkforflag() {
     var atLeastOneIsChecked =  $('input:checkbox:checked').map(function() {
@@ -76,6 +77,6 @@ function checkforflag() {
     $('#flagoptions').empty();
     $('#flagoptions').append(atLeastOneIsChecked);
     $('#flagtechModal').modal('hide');
-    alert($('#flagoptions').text());
-    
+    $("#myModal").draggable({ handle: ".modal-header" });
+    $("#myModal").css('z-index', 10410);
 }

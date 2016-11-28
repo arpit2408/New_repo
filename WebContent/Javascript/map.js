@@ -1,7 +1,7 @@
 ﻿var map;
 var drawingManager;
 var shapes = [];
-
+var centroid;
 function initMap() {
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
     var mapOptions = {
@@ -69,8 +69,13 @@ function initMap() {
             coordinates += event.overlay.getPath().getAt(i).toUrlValue(6) + ";";
         }
         $('#polygonpath').val(coordinates);
-        //$('#centroid').val(event.overlay.getPath().getBounds().getCenter());
+        var bounds = new google.maps.LatLngBounds();
+        var polygonCoords = event.overlay.getPath().getArray();
+        for (var i = 0; i < polygonCoords.length; i++) {
+            bounds.extend(polygonCoords[i]);
+        }
         $('#countyselected').val(getCountyInfo(coordinates));
+        centroid = bounds.getCenter();
     });
     // Create the search box and link it to the UI element.
     var input = document.getElementById('pac-input');
@@ -131,17 +136,7 @@ function initMap() {
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
 }
-function getCountyInfo(value) {
-    PageMethods.GetCounty(value, LookUpCounty_Success);
-        
-    function LookUpCounty_Success(val) {
-        if (val[0] == '1') {
-            var el = document.getElementById('countyselected');
-            el.value = val[1];
-        }
 
-    }
-}
 function overlayDragListener(overlay) {
     google.maps.event.addListener(overlay.getPath(), 'set_at', function (event) {
         $('#vertices').val(overlay.getPath().getArray());
@@ -151,119 +146,7 @@ function overlayDragListener(overlay) {
     });
 }
 
-function controlMarkerDiv() {
-    var controlUI2 = document.getElementById('areaMarker');
-    google.maps.event.addDomListener(controlUI2, 'click', function () {
-        var iconRed = {
-            url: "/WebContent/Images/RedFlag.JPG", // url
-            scaledSize: new google.maps.Size(35, 40), // scaled size
-            origin: new google.maps.Point(0, 0), // origin
-            anchor: new google.maps.Point(0, 0) // anchor
-        };
-        drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-        drawingManager.setOptions({
-            drawingControl: true,
-            icon: iconRed
-        });
 
-    });
-
-}
-function controlAreaRemover() {
-
-   
-}
-function controlFlagDiv() {
-    var controlUI = document.getElementById('trying');
-    // Setup the click event listeners
-    google.maps.event.addDomListener(controlUI, 'click', function () {
-        var iconRed = {
-            url: "/WebContent/Images/RedFlag.JPG", // url
-            scaledSize: new google.maps.Size(35, 40), // scaled size
-            origin: new google.maps.Point(0, 0), // origin
-            anchor: new google.maps.Point(0, 0) // anchor
-        };
-        drawingManager.setDrawingMode(google.maps.drawing.OverlayType.marker);
-        
-
-    });
-}
-function CustomdivMenuControl(controlDiv, map, flag) {
-
-    var controlUI = document.createElement('div');
-    controlUI.style.backgroundColor = '#fff';
-    controlUI.style.border = '2px solid #fff';
-    controlUI.style.borderRadius = '3px';
-    controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-    controlUI.style.cursor = 'pointer';
-    controlUI.style.marginBottom = '22px';
-    controlUI.style.textAlign = 'center';
-    controlUI.title = 'Click to recenter the map';
-    controlDiv.appendChild(controlUI);
-    var controlText = document.createElement('div');
-    controlText.style.color = 'rgb(25,25,25)';
-    controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-    controlText.style.fontSize = '16px';
-    controlText.style.lineHeight = '38px';
-    controlText.style.paddingLeft = '5px';
-    controlText.style.paddingRight = '5px';
-    controlText.innerHTML = 'Center Map';
-    controlUI.appendChild(controlText);
-    controlUI.addEventListener('click', function () {
-        $('#myModal').modal('show');
-        $('#areaPolygon').val((0.000247105 * google.maps.geometry.spherical.computeArea(event.overlay.getPath())).toFixed(2));
-        $('#cropYear').val(new Date().getFullYear());
-
-    });
-}
-function CustomControl(controlDiv, map, flag) {
-
-    // Set CSS for the control border
-    var controlUI = document.createElement('div');
-    controlUI.style.backgroundColor = '#ffffff';
-    controlUI.style.borderStyle = 'solid';
-    controlUI.style.borderWidth = '1px';
-    controlUI.style.borderColor = '#ccc';
-    controlUI.style.height = '25px';
-    controlUI.style.width = '25px';
-    controlUI.style.marginTop = '5px';
-    controlUI.style.marginLeft = '-6px';
-    controlUI.style.paddingTop = '1px';
-    controlUI.style.cursor = 'flag';
-    controlUI.style.textAlign = 'center';
-    if (flag == 'red')
-        controlUI.style.backgroundImage = "url('/WebContent/Images/RedFlag.JPG')";
-    if (flag == 'green')
-        controlUI.style.backgroundImage = "url('/WebContent/Images/GreenFlag.JPG')";
-    if (flag == 'teal')
-        controlUI.style.backgroundImage = "url('/WebContent/Images/TealFlag.JPG')";
-    if (flag == 'black')
-        controlUI.style.backgroundImage = "url('/WebContent/Images/BlackFlag.JPG')";
-    if (flag == 'yellow')
-        controlUI.style.backgroundImage = "url('/WebContent/Images/YellowFlag.JPG')";
-    controlUI.style.backgroundSize = '20px';
-    controlUI.title = 'Click to set the map to Home';
-    controlDiv.appendChild(controlUI);
-
-
-
-    // Setup the click event listeners
-    google.maps.event.addDomListener(controlUI, 'click', function () {
-        var iconRed = {
-            url: "/WebContent/Images/RedFlag.JPG", // url
-            scaledSize: new google.maps.Size(35, 40), // scaled size
-            origin: new google.maps.Point(0, 0), // origin
-            anchor: new google.maps.Point(0, 0) // anchor
-        };
-        drawingManager.setDrawingMode(google.maps.drawing.OverlayType.MARKER);
-        drawingManager.setOptions({
-            markerOptions:
-                                           { icon: iconRed }
-        });
-        
-       
-    });
-}
 function Location() {
     this.usremail = "";
     this.id = "";
@@ -278,7 +161,7 @@ function Location() {
     this.organiccrops = 0;
     this.certifier = "";
 }
-function SubmitNewLocation() {
+function SubmitNewLocation(event) {
     var iconBase = '/WebContent/Images/Flags/';
     var iconBlackFlag = {
         url: iconBase + "BlackFlag.JPG", // url
@@ -338,7 +221,7 @@ function SubmitNewLocation() {
     };
 
     var croploc = new Location();
-    croploc.id = 1;
+    croploc.id = "1";
     croploc.usremail = "mtchakerian@tamu.edu";
     croploc.planttype = document.getElementById('plant').value;
     croploc.croptype = document.getElementById('crop').value;
@@ -349,27 +232,34 @@ function SubmitNewLocation() {
     croploc.county = document.getElementById('countyselected').value;
     var coordinatesforpolygon = document.getElementById('polygonpath').value;
     var cordinateslist = coordinatesforpolygon.split(";");
-    croploc.coordinates = coordinatesforpolygon;
-    croploc.loccentroid = "";
+    var coordinateVal=""
+    for (var k = 0; k < cordinateslist.length; k++)
+        coordinateVal += cordinateslist[k]+"\n";
+    croploc.coordinates = coordinateVal;
+    var lat = centroid.lat();
+    var lng = centroid.lng();
+    croploc.loccentroid = lat + "," + lng;
     croploc.acres = document.getElementById('areaPolygon').value;
     var isitorganic = document.getElementById('someSwitchOptionSuccess').checked;
     if (isitorganic == true) {
-        croploc.organiccrops = 1;
+        croploc.organiccrops = "1";
     }
     else {
-        croploc.organiccrops = 0;
+        croploc.organiccrops = "0";
     }
-
     croploc.certifier = "";
-
-
-
     var str = JSON.stringify(croploc);
-    PageMethods.AddNewLocation(str, croploc.usremail, AddNewLocation_Success, Fail);
+    PageMethods.AddNewCropLocation(str, AddNewLocation_Success, Fail);
+    setTimeout(fade_out, 2000);
+    function fade_out() {
+        $("#errormessage").fadeOut().empty();
+        $("#successmessage").fadeOut().empty();
+    }
     function AddNewLocation_Success(val) {
         if (val[0] == 1) {
             $("#successmessage").show();
             $("#successmessage").empty();
+            $("#errormessage").empty();
             $("#successmessage").append('<strong>Success! </strong>' + val[1]);
             $("#form1 :input").prop("disabled", true);
         }
@@ -388,8 +278,7 @@ function SubmitNewLocation() {
     var firstval = flagop[0].substring(2, flagop[0].length);
     var valuefirst = new CustomFlagMarker();
     valuefirst.type = firstval + 'Flag';
-    alert(valuefirst.type);
-    valuefirst.position = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
+    valuefirst.position = centroid;
     addMarker(valuefirst);
     
     for (var i = 1; i < flagop.length; i++) {
@@ -397,7 +286,6 @@ function SubmitNewLocation() {
         value.type = flagop[i] + 'Flag';
         value.position = new google.maps.LatLng(30.658354982307571+(i)*0.1, -96.396270512761134);
         addMarker(value);
-        alert(value.type);
     }
     
     function CustomFlagMarker() {
@@ -411,7 +299,6 @@ function SubmitNewLocation() {
             title: custom.type,
             map: map
         });
-        alert(custom.type)
     }
 }
 

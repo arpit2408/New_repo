@@ -119,29 +119,10 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
         }
         return retval;
     }
-    public static string validatefields(Object obj,List<String> listforuncheckvalues )
-    {
-        var fieldValues = obj.GetType()
-                     .GetFields()
-                     .Select(field => field.GetValue(obj))
-                     .ToList();
-        var fieldNames = typeof(croplocation).GetFields()
-                            .Select(field => field.Name)
-                            .ToList();
-        TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-        for(int i=0;i<fieldValues.Count;i++)
-        {
-            bool flagforcheck = String.IsNullOrWhiteSpace((string)fieldValues.ElementAtOrDefault(i));
-            if (flagforcheck && !listforuncheckvalues.Contains(fieldNames.ElementAtOrDefault(i).ToString()))
-            {
-                var field = textInfo.ToTitleCase(fieldNames.ElementAtOrDefault(i).ToString());
-                return field + " has incorrect value";
-            }
-        }
-        return null;
-    }
+    
+    
     [System.Web.Services.WebMethod(EnableSession = false)]
-    public static string[] AddNewLocation(string userlocation, string email)
+    public static string[] AddNewCropLocation(string userlocation)
     {
         string[] retval = new string[2];
         retval[0] = "0";
@@ -153,9 +134,8 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
         croplocation obj = JsonConvert.DeserializeObject<croplocation>(userlocation);
         List<String> listforuncheckvalues = new List<string>();
         listforuncheckvalues.Add("comment");
-        listforuncheckvalues.Add("loccentroid");
         listforuncheckvalues.Add("certifier");
-        String validateValue = validatefields(obj, listforuncheckvalues);
+        String validateValue = ValidatorCustom.validatefields(obj, listforuncheckvalues);
         if (!String.IsNullOrWhiteSpace(validateValue))
         {
             retval[1] = validateValue;
