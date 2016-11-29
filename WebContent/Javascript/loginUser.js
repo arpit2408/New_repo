@@ -57,37 +57,9 @@ function dashboardOnLoad() {
         error: Fail_location
     });
     function Producer_location_Success(resultobj) {
-        var str = "";
         var val = resultobj.d;
-        var div = document.getElementById('producerPolygons');
-        var table = document.createElement('table');
-        var tr_heading = document.createElement('tr');
-        var text_index = document.createTextNode('Index');
-        var text_planttp = document.createTextNode('Plant Type');
-        var text_cropty = document.createTextNode('Crop Type');
-        var text_cropyr = document.createTextNode('Crop Year');
-        var text_county = document.createTextNode('County');
-        var text_cmnts = document.createTextNode('Comments');
-        var td_index = document.createElement('td');
-        var td_plty = document.createElement('td');
-        var td_cropty = document.createElement('td');
-        var td_cmnt = document.createElement('td');
-        var td_cropyr = document.createElement('td');
-        var td_county = document.createElement('td');
-        td_index.innerHTML = '<b>' + "Index" + '</b>';
-        td_plty.innerHTML = '<b>' + "Plant Type"+ '</b>';
-        td_cropty.innerHTML = '<b>' + "Crop Type" + '</b>';
-        td_cmnt.innerHTML = '<b>' + "Comments" + '</b>';
-        td_county.innerHTML = '<b>' + "County" + '</b>';
-        td_cropyr.innerHTML = '<b>' + "Year" + '</b>';
+        var table = document.getElementById('tabBody');
         
-        tr_heading.appendChild(td_index);
-        tr_heading.appendChild(td_plty);
-        //tr_heading.appendChild(td_cropty);
-        tr_heading.appendChild(td_county);
-        //tr_heading.appendChild(td_cmnt);
-        tr_heading.appendChild(td_cropyr);
-        table.appendChild(tr_heading);
         for (var i = 0; i < val.length; i++) {
             var tr = document.createElement('tr');
             var td_index_v = document.createElement('td');
@@ -96,6 +68,7 @@ function dashboardOnLoad() {
             var td_cmnt_v = document.createElement('td');
             var td_cropyr_v = document.createElement('td');
             var td_county_v = document.createElement('td');
+            var td_action_v = document.createElement('td');
             var text_ind = document.createTextNode(i+1);
             var text_pt = document.createTextNode(val[i].planttype);
             var text_ct = document.createTextNode(val[i].croptype);
@@ -108,19 +81,68 @@ function dashboardOnLoad() {
             td_county_v.appendChild(text_county);
             td_cmnt_v.appendChild(text_cmnt);
             td_cropyr_v.appendChild(text_cy);
+            td_action_v.innerHTML = td_action_v.innerHTML + '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" onclick=\'deleteRow(" + rowID + ")\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'deleteRow(" + rowID + ")\'>delete</i>';
 
             tr.appendChild(td_index_v);
             tr.appendChild(td_plty_v);
-            //tr.appendChild(td_cropty_v);
             tr.appendChild(td_county_v);
-            //tr.appendChild(td_cmnt_v);
             tr.appendChild(td_cropyr_v);
-            tr.innerHTML = tr.innerHTML + '<a href="/node/fasids/landscape/homeownermng/57a0c88465ddd39c1795ec7e"><span class="fa fa-map-o fa-lg"></span>&nbsp; Edit</a><a href="/node/fasids/landscape/homeownermng/57a0c88465ddd39c1795ec7e" data-http-method="delete" class="http-action-link"> <span class="fa fa-remove fa-lg"></span>&nbsp; Delete</a>'
+            tr.appendChild(td_action_v);
             table.appendChild(tr);
         }
-        div.appendChild(table);
+        loadNewApplicatorAreas();
     }
     function Fail_location(resultobj) {
         var val = resultobj.d;
     }
+    
 }
+function loadNewApplicatorAreas() {
+    var useremail = "mtchakerian@tamu.edu";
+    $.ajax({
+        type: 'POST',
+        url: 'ApplicatorNew.aspx/GetApplicatorAreas',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({ email: useremail }),
+        dataType: 'json',
+        success: function (data) {
+            Applicator_loc(data)
+        },
+        error: function (textStatus, errorThrown) {
+            Applicator_loc("Error getting the data")
+        }
+    });
+}
+function Applicator_loc(resultobj) {
+    var applicatorloc = resultobj.d;
+    var val = JSON.parse(applicatorloc[1]);
+    var tableApp = document.getElementById('tabAppBody');
+    for (var i = 0; i < val.length; i++) {
+        var tr = document.createElement('tr');
+        var td_index_app = document.createElement('td');
+        var td_plty_app = document.createElement('td');
+        var td_cropty_app = document.createElement('td');
+        var td_cmnt_app = document.createElement('td');
+        var td_county_app = document.createElement('td');
+        var td_action_app = document.createElement('td');
+        var text_ind = document.createTextNode(i + 1);
+        var text_pt = document.createTextNode(val[i].appareaname);
+        var text_ct = document.createTextNode(val[i].pesticidename);
+        var text_county = document.createTextNode(val[i].county);
+        var text_cmnt = document.createTextNode(val[i].acres);
+        td_index_app.appendChild(text_ind);
+        td_plty_app.appendChild(text_pt);
+        td_cropty_app.appendChild(text_ct);
+        td_county_app.appendChild(text_county);
+        td_cmnt_app.appendChild(text_cmnt);
+        td_action_app.innerHTML = td_action_app.innerHTML + '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" onclick=\'deleteRow(" + rowID + ")\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'deleteRow(" + rowID + ")\'>delete</i>';
+        tr.appendChild(td_index_app);
+        tr.appendChild(td_plty_app);
+        tr.appendChild(td_cropty_app);
+        //tr.appendChild(td_cmnt_app);
+        tr.appendChild(td_county_app);
+        tr.appendChild(td_action_app);
+        tableApp.appendChild(tr);
+    }
+}
+

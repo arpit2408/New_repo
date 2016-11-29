@@ -1121,7 +1121,7 @@ img {
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img {
   display: block;
-  max-width: 100%;
+  max-width: 93%;
   height: auto;
 }
 .img-rounded {
@@ -4277,6 +4277,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   padding: 15px 15px;
   font-size: 18px;
   line-height: 20px;
+  background-color:#4e0b0b;
 }
 .navbar-brand:hover,
 .navbar-brand:focus {
@@ -4284,6 +4285,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-brand > img {
   display: block;
+  background-color:#4e0b0b;
 }
 @media (min-width: 768px) {
   .navbar > .container .navbar-brand,
@@ -4487,6 +4489,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .navbar-right {
     float: right !important;
     margin-right: -15px;
+    background-color:#4e0b0b;
   }
   .navbar-right ~ .navbar-right {
     margin-right: 0;
@@ -4636,6 +4639,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .navbar-collapse,
 .navbar-inverse .navbar-form {
   border-color: #101010;
+  background-color:#4e0b0b;
 }
 .navbar-inverse .navbar-nav > .open > a,
 .navbar-inverse .navbar-nav > .open > a:hover,

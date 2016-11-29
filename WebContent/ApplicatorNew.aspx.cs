@@ -32,7 +32,7 @@ public partial class WebContent_ApplicatorNew : System.Web.UI.Page
             {
                 SqlCommand cmd = null;
                 SqlDataReader reader;
-                string sql = "select TOP 1 * from applicator_areas where email = '[EMAIL]' and year = '[YEAR]' order by modifieddate asc";
+                string sql = "select  * from applicator_areas where email = '[EMAIL]' and year = '[YEAR]' order by modifieddate asc";
                 sql = sql.Replace("[EMAIL]", email);
                 sql = sql.Replace("[YEAR]", DateTime.Today.Year.ToString());
 

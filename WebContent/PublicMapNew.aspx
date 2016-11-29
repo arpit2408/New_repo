@@ -57,6 +57,7 @@
     <script type="text/javascript" src="../javascript/bootstrap.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/map.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/publicMapNew.js"></script>
+    <script type="text/javascript" src="/WebContent/Javascript/common.js"></script>
     <!-- Website Font style -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css" />
     <!-- Google Fonts -->
@@ -91,7 +92,7 @@
             <div id="choiceMenuCrop" class="panel-group">
                 <div class="panel panel-default" id="panel1" style="background-color: #ecf0f1">
                     <div class="panel-heading" style="background-color: #ecf0f1">
-                        <h4 class="panel-title">
+                        <h4 class="panel-title" style="background-color:transparent">
                             <a data-toggle="collapse" data-target="#collapseOne"
                                 href="#collapseOne">Choose Crops To Display#
                             </a>
