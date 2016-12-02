@@ -80,18 +80,20 @@
     var serverval = null;
     var usrapparea = null;
     var usrcroploc = null;
-    //window.onload = setOnloadEvent(event);
+    //window.onload = createApplicatorAreas(event);
 </script>
 <body>
     <div id="header"></div>
+    <div id="firstload" hidden="hidden" >0</div>
     <form id="form1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
         <div>
             <div id="modalDiv"></div>
             <!-- /.header  -->
             <div id="wrapper" style="height: 677px; width: 1923px;">
-                <input id="pac-input" class="controls" type="text" placeholder="Search Places" />
+               
                 <div id="map_canvas" style="height: 677px;"></div>
+                <input id="pac-input" class="controls" type="text" placeholder="Search Box">
             </div>
             
             <div id="footer">

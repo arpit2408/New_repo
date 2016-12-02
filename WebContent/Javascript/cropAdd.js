@@ -63,12 +63,21 @@ $(document).ready(function () {
     $(function () {
         $('input[type="checkbox"]').on('change', function (e) {
             if (e.target.checked) {
-                $('#flagtechModal').modal('show');
-                $("#flagtechModal").draggable({ handle: ".modal-header" });
+                    $('#flagtechModal').modal('show');
+                    $("#flagtechModal").draggable({ handle: ".modal-header" });
             }
         });
     });
-   
+    $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function () {
+            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
+    });
+    $(document).on('hidden.bs.modal', '.modal', function () {
+        $('.modal:visible').length && $(document.body).addClass('modal-open');
+    });
 });
 function checkforflag() {
     var atLeastOneIsChecked =  $('input:checkbox:checked').map(function() {
@@ -77,6 +86,4 @@ function checkforflag() {
     $('#flagoptions').empty();
     $('#flagoptions').append(atLeastOneIsChecked);
     $('#flagtechModal').modal('hide');
-    $("#myModal").draggable({ handle: ".modal-header" });
-    $("#myModal").css('z-index', 10410);
 }

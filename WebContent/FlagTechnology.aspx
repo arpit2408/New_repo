@@ -15,7 +15,7 @@
 <body>
     
         <div>
-            <div class="modal fade" id="flagtechModal" role="dialog">
+            <div class="modal fade" id="flagtechModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
@@ -30,7 +30,7 @@
                                     <div class="panel-heading" style="background-color: #ecf0f1">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-target="#collapseOne"
-                                                href="#collapseOne">Choose Your Flag For the Crops#
+                                                href="#collapseOne">Choose Flag for Crop#
                                             </a>
                                         </h4>
 
@@ -69,7 +69,7 @@ wheat and canola
 technologies, STS® soybeans1
  and INZEN grain
 sorghum">
-                                                        Set Flag Bright Yellow
+                                                        Set Flag Yellow
                
                                                     </label>
                                                 </div>
@@ -77,7 +77,7 @@ sorghum">
                                             <div class="[ form-group ]">
                                                 <input type="checkbox" name="flag" id="fancy-checkbox-success" value="WhiteFlag" autocomplete="off" />
                                                 <div class="[ btn-group ]">
-                                                    <label for="fancy-checkbox-success" class="[ btn btn-success ]" style="background-color: #bdc3c7">
+                                                    <label for="fancy-checkbox-success" class="[ btn btn-success ]" style="background-color: #fff">
                                                         <span class="[ glyphicon glyphicon-ok ]"></span>
                                                         <span></span>
                                                     </label>
@@ -93,7 +93,7 @@ Ready, Glytol)">
                                             <div class="[ form-group ]">
                                                 <input type="checkbox" name="flag" id="fancy-checkbox-info" value="TealFlag" autocomplete="off" />
                                                 <div class="[ btn-group ]">
-                                                    <label for="fancy-checkbox-info" class="[ btn btn-info ]">
+                                                    <label for="fancy-checkbox-info" class="[ btn btn-info ]" style="background-color: #008080">
                                                         <span class="[ glyphicon glyphicon-ok ]"></span>
                                                         <span></span>
                                                     </label>
@@ -114,13 +114,13 @@ to denote tolerance to glufosinate
                                             <div class="[ form-group ]">
                                                 <input type="checkbox" name="flag" id="fancy-checkbox-warning" value="GreenFlag" autocomplete="off" />
                                                 <div class="[ btn-group ]">
-                                                    <label for="fancy-checkbox-warning" class="[ btn btn-warning ]" style="background-color: #1abc9c">
+                                                    <label for="fancy-checkbox-warning" class="[ btn btn-warning ]" style="background-color: #008000">
                                                         <span class="[ glyphicon glyphicon-ok ]"></span>
                                                         <span></span>
                                                     </label>
                                                     <label for="fancy-checkbox-warning" class="[ btn btn-default active ]" data-toggle="tooltip" data-placement="right" title="This technology is tolerant
 to glufosinate. ">
-                                                        Set Flag Bright Green
+                                                        Set Flag Green
                                                     </label>
                                                 </div>
                                             </div>

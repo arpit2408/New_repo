@@ -20,7 +20,9 @@ function initMap(event) {
     createSearchFunctionlity(map);
     createApplicatorAreas(event);
     createPublicCrops(map);
+   
 }
+
 function createApplicatorAreas(event) {
     drawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.POLYGON,
@@ -72,9 +74,10 @@ function createApplicatorAreas(event) {
         $('#areaPolygon').val((0.000247105 * google.maps.geometry.spherical.computeArea(event.overlay.getPath())).toFixed(2));
         $('#cropYear').val(new Date().getFullYear());
       
-        for (var i = 0; i < event.overlay.getPath().getLength() ; i++) {
-            coordinates += event.overlay.getPath().getAt(i).toUrlValue(6) + ";";
+        for (var i = 0; i < event.overlay.getPath().getLength()-1; i++) {
+            coordinates += event.overlay.getPath().getAt(i).toUrlValue(6) + "\n";
         }
+        coordinates += event.overlay.getPath().getAt(event.overlay.getPath().getLength() - 1).toUrlValue(6);
         $('#polygonpath').val(coordinates);
         var bounds = new google.maps.LatLngBounds();
         var polygonCoords = event.overlay.getPath().getArray();
@@ -166,6 +169,11 @@ function createApplicatorAreas(event) {
         }
         if (applicatorloc.length > 1) {
             map.fitBounds(bounds);
+            map.data.addListener('click', function (e) {
+                var bounds = new google.maps.LatLngBounds();
+                processPoints(e.feature.getGeometry(), bounds.extend, bounds);
+                map.fitBounds(bounds);
+            });
             /*var listener = google.maps.event.addListener(map, "idle", function () {
                 if (map.getZoom() < 16) map.setZoom(10);
                 google.maps.event.removeListener(listener);

@@ -12,6 +12,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/loginUser.js"></script>
+    <script type="text/javascript" src="/WebContent/Javascript/map.js"></script>
     <!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
@@ -20,7 +21,8 @@
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css' />
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css' />
     <link rel="stylesheet" type="text/css" href="css/landingPage.css" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css" />
 rel="stylesheet">
 </head>

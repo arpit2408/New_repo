@@ -81,7 +81,11 @@ function dashboardOnLoad() {
             td_county_v.appendChild(text_county);
             td_cmnt_v.appendChild(text_cmnt);
             td_cropyr_v.appendChild(text_cy);
-            td_action_v.innerHTML = td_action_v.innerHTML + '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" onclick=\'deleteRow(" + rowID + ")\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'deleteRow(" + rowID + ")\'>delete</i>';
+            var cordiarr = val[i].coordinates.split("\n");
+            var cordichnge = "";
+            for (var d=0; d<cordiarr.length; d++)
+                cordichnge = cordichnge+cordiarr[d] + ";"
+            td_action_v.innerHTML = td_action_v.innerHTML + '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" onclick=\'editPolygon("' + cordichnge + '")\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'""\'>delete</i>';
 
             tr.appendChild(td_index_v);
             tr.appendChild(td_plty_v);
@@ -135,7 +139,7 @@ function Applicator_loc(resultobj) {
         td_cropty_app.appendChild(text_ct);
         td_county_app.appendChild(text_county);
         td_cmnt_app.appendChild(text_cmnt);
-        td_action_app.innerHTML = td_action_app.innerHTML + '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" onclick=\'deleteRow(" + rowID + ")\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'deleteRow(" + rowID + ")\'>delete</i>';
+        td_action_app.innerHTML = td_action_app.innerHTML + '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" onclick=\'""\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'""\'>delete</i>';
         tr.appendChild(td_index_app);
         tr.appendChild(td_plty_app);
         tr.appendChild(td_cropty_app);
@@ -145,4 +149,5 @@ function Applicator_loc(resultobj) {
         tableApp.appendChild(tr);
     }
 }
+
 

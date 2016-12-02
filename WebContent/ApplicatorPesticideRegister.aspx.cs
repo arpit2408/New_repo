@@ -74,14 +74,14 @@ public partial class WebContent_ApplicatorPesticideRegister : System.Web.UI.Page
                 reader = cmd.ExecuteReader();
                 if (reader.HasRows == true)
                 {
-                    reader.Read();
+                    /*reader.Read();
                     string extrainfo = "";
                     if (reader.IsDBNull(0) == false)
                     {
                         extrainfo = auser.email + "," + (reader.GetDecimal(0).ToString());
                     }
                     EventLog e = new EventLog();
-                    e.InsertAddAppArea(extrainfo);
+                    e.InsertAddAppArea(extrainfo);*/
                     retval[0] = "1";
                     retval[1] = "Add Area successful";
                 }

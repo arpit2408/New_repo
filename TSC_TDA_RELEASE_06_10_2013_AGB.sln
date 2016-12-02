@@ -1,6 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2FAA788E-1FC1-495B-A6AD-A16953A9A95C}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TSC_TDA_RELEASE_Jan_29_2014_AGB", "http://localhost:4061", "{48936051-B039-4A63-97D0-7A20B6B3B2AD}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
@@ -20,13 +27,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TSC_TDA_RELEASE_Jan_29_2014
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		SlnRelativePath = "..\TSC_TDA_RELEASE_Jan_29_2014_AGB\"
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2FAA788E-1FC1-495B-A6AD-A16953A9A95C}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
 Global
