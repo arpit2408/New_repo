@@ -101,6 +101,7 @@ public class croplocation
     public string acres = "";
     public string organiccrops = "";
     public string certifier = "";
+    public string flagtype = "";
     //public string firstName = "";
     //public Boolean isRegistered = false;
 

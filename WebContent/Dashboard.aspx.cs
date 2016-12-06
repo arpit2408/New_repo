@@ -94,6 +94,11 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                         {
                             croploc.certifier = reader.GetString(10);
                         }
+                        if (!reader.IsDBNull(15))
+                        {
+                            croploc.flagtype = reader.GetString(15);
+                        }
+                        
                         locationArr.Add(croploc);
 
                     }

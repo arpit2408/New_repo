@@ -205,6 +205,7 @@ function Location() {
     this.acres = "";
     this.organiccrops = 0;
     this.certifier = "";
+    this.flagType = "";
 }
 function SubmitNewLocation(event) {
     var iconBase = '/WebContent/Images/Flags/';
@@ -273,9 +274,36 @@ function SubmitNewLocation(event) {
     var flagvalues = $('#flagoptions').text();
     var flagop = flagvalues.split("Flag");
     var firstval = flagop[0].substring(2, flagop[0].length);
+    var valueForFlags = "";
     var valuefirst = new CustomFlagMarker();
     valuefirst.type = firstval + 'Flag';
     valuefirst.position = centroid;
+    addMarker(valuefirst);
+    valueForFlags += valuefirst.type;
+    for (var i = 1; i < flagop.length; i++) {
+        if (flagop[i] != null && flagop[i] != "") {
+            var value = new CustomFlagMarker();
+            value.type = flagop[i] + 'Flag';
+            valueForFlags += ","+value.type;
+            value.position = new google.maps.LatLng(centroid.lat() + (i) * 0.002, centroid.lng() + (i) * 0.002);
+            addMarker(value);
+        }
+    }
+
+    function CustomFlagMarker() {
+        var position = new google.maps.LatLng(0, 0);
+        var type = "";
+    }
+    function addMarker(custom) {
+        var marker = new google.maps.Marker({
+            position: custom.position,
+            icon: icons[custom.type].icon,
+            title: custom.type,
+            map: map
+        });
+    }
+
+
     var croploc = new Location();
     croploc.id = "1";
     croploc.usremail = "mtchakerian@tamu.edu";
@@ -293,6 +321,7 @@ function SubmitNewLocation(event) {
     croploc.loccentroid = lat + "," + lng;
     croploc.acres = document.getElementById('areaPolygon').value;
     var isitorganic = document.getElementById('someSwitchOptionSuccess').checked;
+    croploc.flagType = valueForFlags;
     if (isitorganic == true) {
         croploc.organiccrops = "1";
     }
@@ -324,29 +353,6 @@ function SubmitNewLocation(event) {
         }
     }
     function Fail(val) {
-    }
-    
-    
-    addMarker(valuefirst);
-    
-    for (var i = 1; i < flagop.length; i++) {
-        var value = new CustomFlagMarker();
-        value.type = flagop[i] + 'Flag';
-        value.position = new google.maps.LatLng(30.658354982307571+(i)*0.1, -96.396270512761134);
-        addMarker(value);
-    }
-    
-    function CustomFlagMarker() {
-        var position = new google.maps.LatLng(0, 0);
-        var type = "";
-    }
-    function addMarker(custom) {
-        var marker = new google.maps.Marker({
-            position: custom.position,
-            icon: icons[custom.type].icon,
-            title: custom.type,
-            map: map
-        });
     }
 }
 
