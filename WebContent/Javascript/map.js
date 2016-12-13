@@ -8,10 +8,10 @@ var href = "";
 var drawnPolygon;
 function initMap() {
     href = window.top.location.href;
-    var cordipoints = href.split("?");
-    if (cordipoints[1] != null) {
-        var editPolycoordinates = cordipoints[1].split("=");
-    }
+    urlVars = getUrlVars(href);
+    var editPolycoordinates = urlVars["coordinates"];
+    var editPolyCentroid = urlVars["centroid"];
+    var flagtype = urlVars["flagType"];
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
     var mapOptions = {
         zoom: 14,
@@ -26,7 +26,7 @@ function initMap() {
     map = new google.maps.Map(map_canvas, mapOptions);
     
     if (editPolycoordinates != "" && editPolycoordinates != null) {
-        var coodichange = editPolycoordinates[1];
+        var coodichange = editPolycoordinates;
         var coordinates = coodichange.split(";");
         var arr = new Array();
         var polygons = [];
@@ -56,6 +56,22 @@ function initMap() {
             if (map.getZoom() < 15) map.setZoom(15);
             google.maps.event.removeListener(listener);
         });
+        if (flagtype != "undefined") {
+            var flags = flagtype.split(",");
+            var posForFlag=editPolyCentroid.split(",");
+            var centerForflag = new google.maps.LatLng(
+                      parseFloat(posForFlag[0]),
+                      parseFloat(posForFlag[1])
+                );
+            for (var i = 0; i < flags.length; i++) {
+                if (flags[i] != null && flags[i] != "") {
+                    var value = new CustomFlagMarker();
+                    value.type = flags[i];
+                    value.position = new google.maps.LatLng(centerForflag.lat() + (i) * 0.002, centerForflag.lng() + (i) * 0.002);
+                    addMarkerOnPolygon(value);
+                }
+            }
+        }
     }
     
 
@@ -207,7 +223,105 @@ function Location() {
     this.certifier = "";
     this.flagType = "";
 }
+function CustomFlagMarker() {
+    var position = new google.maps.LatLng(0, 0);
+    var type = "";
+}
 function SubmitNewLocation(event) {
+    
+    var flagvalues = $('#flagoptions').text();
+    var flagop = flagvalues.split("Flag");
+    var firstval = flagop[0].substring(2, flagop[0].length);
+    var valueForFlags = "";
+    var valuefirst = new CustomFlagMarker();
+    valuefirst.type = firstval + 'Flag';
+    valuefirst.position = centroid;
+    addMarkerOnPolygon(valuefirst);
+    valueForFlags += valuefirst.type;
+    for (var i = 1; i < flagop.length; i++) {
+        if (flagop[i] != null && flagop[i] != "") {
+            var value = new CustomFlagMarker();
+            value.type = flagop[i] + 'Flag';
+            valueForFlags += "," + value.type;
+            value.position = new google.maps.LatLng(centroid.lat() + (i) * 0.002, centroid.lng() + (i) * 0.002);
+            addMarkerOnPolygon(value);
+        }
+    }
+
+    
+
+
+    var croploc = new Location();
+    croploc.id = "1";
+    croploc.usremail = "mtchakerian@tamu.edu";
+    croploc.planttype = document.getElementById('plant').value;
+    croploc.croptype = document.getElementById('crop').value;
+    croploc.cropyear = document.getElementById('cropYear').value;
+    if (document.getElementById('form_message') != null)
+        croploc.comment = document.getElementById('form_message').value;
+    croploc.comment = croploc.comment.replace(/'/g, "''");
+    croploc.county = document.getElementById('countyselected').value;
+    var coordinatesforpolygon = document.getElementById('polygonpath').value;
+    croploc.coordinates = coordinatesforpolygon;
+    var lat = centroid.lat();
+    var lng = centroid.lng();
+    croploc.loccentroid = lat + "," + lng;
+    croploc.acres = document.getElementById('areaPolygon').value;
+    var isitorganic = document.getElementById('someSwitchOptionSuccess').checked;
+    croploc.flagType = valueForFlags;
+    if (isitorganic == true) {
+        croploc.organiccrops = "1";
+    }
+    else {
+        croploc.organiccrops = "0";
+    }
+    croploc.certifier = "";
+    var str = JSON.stringify(croploc);
+    PageMethods.AddNewCropLocation(str, AddNewLocation_Success, Fail);
+    setTimeout(fade_out, 2000);
+    function fade_out() {
+        $("#errormessage").fadeOut().empty();
+        $("#successmessage").fadeOut().empty();
+    }
+    function AddNewLocation_Success(val) {
+        if (val[0] == 1) {
+            $("#successmessage").show();
+            $("#successmessage").empty();
+            $("#errormessage").empty();
+            $("#successmessage").append('<strong>Success! </strong>' + val[1]);
+            $("#form1 :input").prop("disabled", true);
+            drawnPolygon.setOptions({ strokeWeight: 2.0, fillColor: icons[valuefirst.type].color });
+        }
+        if (val[0] == 0) {
+
+            $("#errormessage").show();
+            $("#errormessage").empty();
+            $("#errormessage").append('<strong>Error! Some values are incorrect. </strong>' + val[1]);
+        }
+    }
+    function Fail(val) {
+    }
+}
+
+function editPolygon(coordinates,centroid,flagType) {
+    window.location.href = 'Producer.aspx?coordinates=' + coordinates + "&centroid=" + centroid + "&flagType=" + flagType;
+    editPolycoordinates = coordinates;
+}
+function closeevent() {
+            $('#registerCropForm').trigger("reset");
+            $('#flagtechModal').trigger("reset");
+}
+function getUrlVars(hrefString) {
+    var vars = [], hash;
+    var hashes = hrefString.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+function addMarkerOnPolygon(positionOfMarker) {
     var iconBase = '/WebContent/Images/Flags/';
     var iconBlackFlag = {
         url: iconBase + "BlackFlag.PNG", // url
@@ -271,29 +385,9 @@ function SubmitNewLocation(event) {
             color: "#FFFF00"
         }
     };
-    var flagvalues = $('#flagoptions').text();
-    var flagop = flagvalues.split("Flag");
-    var firstval = flagop[0].substring(2, flagop[0].length);
-    var valueForFlags = "";
-    var valuefirst = new CustomFlagMarker();
-    valuefirst.type = firstval + 'Flag';
-    valuefirst.position = centroid;
-    addMarker(valuefirst);
-    valueForFlags += valuefirst.type;
-    for (var i = 1; i < flagop.length; i++) {
-        if (flagop[i] != null && flagop[i] != "") {
-            var value = new CustomFlagMarker();
-            value.type = flagop[i] + 'Flag';
-            valueForFlags += ","+value.type;
-            value.position = new google.maps.LatLng(centroid.lat() + (i) * 0.002, centroid.lng() + (i) * 0.002);
-            addMarker(value);
-        }
-    }
-
-    function CustomFlagMarker() {
-        var position = new google.maps.LatLng(0, 0);
-        var type = "";
-    }
+    
+    addMarker(positionOfMarker);
+    
     function addMarker(custom) {
         var marker = new google.maps.Marker({
             position: custom.position,
@@ -302,67 +396,4 @@ function SubmitNewLocation(event) {
             map: map
         });
     }
-
-
-    var croploc = new Location();
-    croploc.id = "1";
-    croploc.usremail = "mtchakerian@tamu.edu";
-    croploc.planttype = document.getElementById('plant').value;
-    croploc.croptype = document.getElementById('crop').value;
-    croploc.cropyear = document.getElementById('cropYear').value;
-    if (document.getElementById('form_message') != null)
-        croploc.comment = document.getElementById('form_message').value;
-    croploc.comment = croploc.comment.replace(/'/g, "''");
-    croploc.county = document.getElementById('countyselected').value;
-    var coordinatesforpolygon = document.getElementById('polygonpath').value;
-    croploc.coordinates = coordinatesforpolygon;
-    var lat = centroid.lat();
-    var lng = centroid.lng();
-    croploc.loccentroid = lat + "," + lng;
-    croploc.acres = document.getElementById('areaPolygon').value;
-    var isitorganic = document.getElementById('someSwitchOptionSuccess').checked;
-    croploc.flagType = valueForFlags;
-    if (isitorganic == true) {
-        croploc.organiccrops = "1";
-    }
-    else {
-        croploc.organiccrops = "0";
-    }
-    croploc.certifier = "";
-    var str = JSON.stringify(croploc);
-    PageMethods.AddNewCropLocation(str, AddNewLocation_Success, Fail);
-    setTimeout(fade_out, 2000);
-    function fade_out() {
-        $("#errormessage").fadeOut().empty();
-        $("#successmessage").fadeOut().empty();
-    }
-    function AddNewLocation_Success(val) {
-        if (val[0] == 1) {
-            $("#successmessage").show();
-            $("#successmessage").empty();
-            $("#errormessage").empty();
-            $("#successmessage").append('<strong>Success! </strong>' + val[1]);
-            $("#form1 :input").prop("disabled", true);
-            drawnPolygon.setOptions({ strokeWeight: 2.0, fillColor: icons[valuefirst.type].color });
-        }
-        if (val[0] == 0) {
-
-            $("#errormessage").show();
-            $("#errormessage").empty();
-            $("#errormessage").append('<strong>Error! Some values are incorrect. </strong>' + val[1]);
-        }
-    }
-    function Fail(val) {
-    }
 }
-
-function editPolygon(coordinates) {
-    window.location.href = 'Producer.aspx?coordinates=' + coordinates;
-    editPolycoordinates = coordinates;
-}
-function closeevent() {
-            $('#registerCropForm').trigger("reset");
-            $('#flagtechModal').trigger("reset");
-}
-
-

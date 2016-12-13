@@ -34,7 +34,7 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
             {
                 SqlCommand cmd = null;
                 SqlDataReader reader;
-                string sql = "select * from producer_locations where email = '[EMAIL]' and cropyear = '[YEAR]' and deleted = 0;";
+                string sql = "select * from producer_locations where email = '[EMAIL]' and cropyear = '[YEAR]' and deleted = 0 order by modifieddate desc;";
                 sql = sql.Replace("[EMAIL]", useremail);
                 sql = sql.Replace("[YEAR]", dt.Year.ToString());
                 cmd = new SqlCommand(sql, conn);
