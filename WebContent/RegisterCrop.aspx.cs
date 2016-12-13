@@ -135,6 +135,7 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
         List<String> listforuncheckvalues = new List<string>();
         listforuncheckvalues.Add("comment");
         listforuncheckvalues.Add("certifier");
+        listforuncheckvalues.Add("flagtype");
         String validateValue = ValidatorCustom.validatefields(obj, listforuncheckvalues);
         if (!String.IsNullOrWhiteSpace(validateValue))
         {
@@ -150,8 +151,8 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
             {
                 SqlCommand cmd = null;
                 SqlDataReader reader;
-                string sql = "INSERT INTO producer_locations (email, planttype, croptype, cropyear, comment, county, coordinates, loccentroid, acres, organiccrops, certifier, modifieddate, year, deleted,flagtype) ";
-                sql += " VALUES ('[EMAIL]', '[PTYPE]', '[CTYPE]', '[CYEAR]', '[COMMENT]', '[COUNTY]', '[COORDINATES]', '[LOCCENTR]', '[ACRES]', '[ORGCROP]', '[CERTIF]', '[DATE1]', '[YEAR]', 0,'[FLAGTYPE]');";
+                string sql = "INSERT INTO producer_locations (email, planttype, croptype, cropyear, comment, county, coordinates, loccentroid, acres, organiccrops, certifier, modifieddate, year, deleted,flagtype,shareCropInfo) ";
+                sql += " VALUES ('[EMAIL]', '[PTYPE]', '[CTYPE]', '[CYEAR]', '[COMMENT]', '[COUNTY]', '[COORDINATES]', '[LOCCENTR]', '[ACRES]', '[ORGCROP]', '[CERTIF]', '[DATE1]', '[YEAR]', 0,'[FLAGTYPE]','[SHARECROPINFO]');";
                 sql += "SELECT SCOPE_IDENTITY()";
                 sql = sql.Replace("[EMAIL]", obj.usremail);
                 sql = sql.Replace("[PTYPE]", obj.planttype);
@@ -167,6 +168,7 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
                 sql = sql.Replace("[DATE1]", date.ToString());
                 sql = sql.Replace("[YEAR]", date.Year.ToString());
                 sql = sql.Replace("[FLAGTYPE]", obj.flagtype.ToString());
+                sql = sql.Replace("[SHARECROPINFO]", obj.shareCropInfo.ToString());
                 cmd = new SqlCommand(sql, conn);
                 reader = cmd.ExecuteReader();
                 if (reader.HasRows == true)
@@ -202,9 +204,6 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
         {
             conn.Close();
         }
-
-
-
         return retval;
     }
 }

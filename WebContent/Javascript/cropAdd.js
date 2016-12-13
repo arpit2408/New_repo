@@ -1,4 +1,4 @@
-﻿
+﻿var divClone = "";
 var plant_arr = new Array("Field Crops", "Honeybees", "Vegetables", "Fruits and Nuts", "Greenhouse and Nursery", "Forage, Grassland");
 
 var s_a1 = new Array();
@@ -62,7 +62,9 @@ function calccentroid(cordinateslist) {
 $(document).ready(function () {
     $(function () {
         $('input[type="checkbox"]').on('change', function (e) {
+            divClone = $("#trythis").clone();
             if (e.target.checked) {
+                    //divClone = $("#flagtechModal").clone();
                     $('#flagtechModal').modal('show');
                     $("#flagtechModal").draggable({ handle: ".modal-header" });
             }
@@ -79,11 +81,20 @@ $(document).ready(function () {
         $('.modal:visible').length && $(document.body).addClass('modal-open');
     });
 });
-function checkforflag() {
+function checkforflag(ele) {
     var atLeastOneIsChecked =  $('input:checkbox:checked').map(function() {
         return this.value;
     }).get();
+    //$("input:checkbox").prop('checked', $(this).prop("checked"));
     $('#flagoptions').empty();
     $('#flagoptions').append(atLeastOneIsChecked);
+    var checkboxes = document.getElementsByTagName('input');
+    for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = false;
+    }
+    var checkbox = document.getElementsByName('flagoptions');
+    for (var i = 0; i < checkbox.length; i++) {
+        checkbox[i].checked = true;
+    }
     $('#flagtechModal').modal('hide');
 }

@@ -16,6 +16,7 @@
             <div id="polygonpath" style="display: none"></div>
             <div id="centroidpoints" style="display: none"></div>
             <div id="flagoptions" style="display: none"></div>
+            <div id="flagDivCopy" style="display: none"></div>
             <!-- Modal -->
             <div class="modal fade" id="myModal" role="dialog" data-backdrop="static" tabindex="-1" data-keyboard="false">
                 <div class="modal-dialog">

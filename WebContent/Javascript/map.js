@@ -222,35 +222,62 @@ function Location() {
     this.organiccrops = 0;
     this.certifier = "";
     this.flagType = "";
+    this.shareCropInfo = "";
 }
 function CustomFlagMarker() {
     var position = new google.maps.LatLng(0, 0);
     var type = "";
 }
+function ConfirmDialog(message) {
+    $('<div></div>').appendTo('body')
+                    .html('<div><h6>' + message + '?</h6></div>')
+                    .dialog({
+                        modal: true, title: 'Delete message', zIndex: 10000, autoOpen: true,
+                        width: 'auto', resizable: false,
+                        buttons: {
+                            Yes: function () {
+                                alert("Yay");
+                                $(this).dialog("close");
+                            },
+                            No: function () {
+                                $(this).dialog("close");
+                            }
+                        },
+                        close: function (event, ui) {
+                            $(this).remove();
+                        }
+                    });
+}
+
 function SubmitNewLocation(event) {
     
+    var sharecropInfo = false;
+    //ConfirmDialog("Do you want the information of this crop to be visible to other producers..!!");
+    if (confirm("Do you want the information of this crop to be visible to other producers..!!")) {
+        sharecropInfo = true;
+    } else {
+        sharecropInfo = false;
+    }
     var flagvalues = $('#flagoptions').text();
     var flagop = flagvalues.split("Flag");
     var firstval = flagop[0].substring(2, flagop[0].length);
-    var valueForFlags = "";
-    var valuefirst = new CustomFlagMarker();
-    valuefirst.type = firstval + 'Flag';
-    valuefirst.position = centroid;
-    addMarkerOnPolygon(valuefirst);
-    valueForFlags += valuefirst.type;
-    for (var i = 1; i < flagop.length; i++) {
-        if (flagop[i] != null && flagop[i] != "") {
-            var value = new CustomFlagMarker();
-            value.type = flagop[i] + 'Flag';
-            valueForFlags += "," + value.type;
-            value.position = new google.maps.LatLng(centroid.lat() + (i) * 0.002, centroid.lng() + (i) * 0.002);
-            addMarkerOnPolygon(value);
+    if (firstval != "") {
+        var valueForFlags = "";
+        var valuefirst = new CustomFlagMarker();
+        valuefirst.type = firstval + 'Flag';
+        valuefirst.position = centroid;
+        addMarkerOnPolygon(valuefirst);
+        valueForFlags += valuefirst.type;
+        for (var i = 1; i < flagop.length; i++) {
+            if (flagop[i] != null && flagop[i] != "") {
+                var value = new CustomFlagMarker();
+                value.type = flagop[i] + 'Flag';
+                valueForFlags += "," + value.type;
+                value.position = new google.maps.LatLng(centroid.lat() + (i) * 0.002, centroid.lng() + (i) * 0.002);
+                addMarkerOnPolygon(value);
+            }
         }
     }
-
-    
-
-
     var croploc = new Location();
     croploc.id = "1";
     croploc.usremail = "mtchakerian@tamu.edu";
@@ -276,6 +303,7 @@ function SubmitNewLocation(event) {
         croploc.organiccrops = "0";
     }
     croploc.certifier = "";
+    croploc.shareCropInfo = sharecropInfo;
     var str = JSON.stringify(croploc);
     PageMethods.AddNewCropLocation(str, AddNewLocation_Success, Fail);
     setTimeout(fade_out, 2000);
@@ -308,7 +336,7 @@ function editPolygon(coordinates,centroid,flagType) {
     editPolycoordinates = coordinates;
 }
 function closeevent() {
-            $('#registerCropForm').trigger("reset");
+            //$('#registerCropForm').trigger("reset");
             $('#flagtechModal').trigger("reset");
 }
 function getUrlVars(hrefString) {

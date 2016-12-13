@@ -14,7 +14,7 @@
 </head>
 <body>
     
-        <div>
+        <div id="trythis">
             <div class="modal fade" id="flagtechModal" tabindex="-1" role="dialog">
                 <div class="modal-dialog">
 
@@ -144,7 +144,7 @@ tolerance">
                                         </div>
                                         <div class="row" style="padding-top: 20px">
                                             <div class="col-md-4 center-block">
-                                                <button id="singlebutton" name="singlebutton" onclick="checkforflag()" class="btn btn-primary center-block">
+                                                <button id="singlebutton" name="singlebutton" onclick="checkforflag(this)" class="btn btn-primary center-block">
                                                    Submit
                                                 </button>
                                             </div>

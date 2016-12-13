@@ -102,6 +102,7 @@ public class croplocation
     public string organiccrops = "";
     public string certifier = "";
     public string flagtype = "";
+    public string shareCropInfo = "";
     //public string firstName = "";
     //public Boolean isRegistered = false;
 
