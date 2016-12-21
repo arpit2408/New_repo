@@ -60,7 +60,7 @@
     <script type="text/javascript" src="/WebContent/Javascript/map.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/cropAdd.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/common.js"></script>
-    
+    <script type="text/javascript" src="/WebContent/Javascript/markerclusterer.js"></script>
     <!-- Website Font style -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <!-- Google Fonts -->
@@ -106,6 +106,15 @@
         <div id="modalDiv"></div>
         <div id="modalForFlag"></div>
         <div id="map_canvas" style="height: 677px; width: 1923px;"></div>
+
+        <select style="height:20px;font-style:italic;">
+          <option value="http://maps.gstatic.com/mapfiles/markers2/markerA.png">A</option>
+          <option value="http://maps.gstatic.com/mapfiles/markers2/markerB.png">B</option>
+          <option value="http://maps.gstatic.com/mapfiles/markers2/markerC.png">C</option>
+          <option value="http://maps.gstatic.com/mapfiles/markers2/markerD.png">D</option>
+          <option value="http://maps.gstatic.com/mapfiles/markers2/markerE.png">E</option>
+        </select>
+
         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
         <input id="Text1" class="controls" type="text" placeholder="Search Box">
     </div>

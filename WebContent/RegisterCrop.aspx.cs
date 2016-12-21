@@ -151,53 +151,75 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
             {
                 SqlCommand cmd = null;
                 SqlDataReader reader;
-                string sql = "INSERT INTO producer_locations (email, planttype, croptype, cropyear, comment, county, coordinates, loccentroid, acres, organiccrops, certifier, modifieddate, year, deleted,flagtype,shareCropInfo) ";
-                sql += " VALUES ('[EMAIL]', '[PTYPE]', '[CTYPE]', '[CYEAR]', '[COMMENT]', '[COUNTY]', '[COORDINATES]', '[LOCCENTR]', '[ACRES]', '[ORGCROP]', '[CERTIF]', '[DATE1]', '[YEAR]', 0,'[FLAGTYPE]','[SHARECROPINFO]');";
-                sql += "SELECT SCOPE_IDENTITY()";
-                sql = sql.Replace("[EMAIL]", obj.usremail);
-                sql = sql.Replace("[PTYPE]", obj.planttype);
-                sql = sql.Replace("[CTYPE]", obj.croptype);
-                sql = sql.Replace("[CYEAR]", date.Year.ToString());
-                sql = sql.Replace("[COMMENT]", obj.comment);
-                sql = sql.Replace("[COUNTY]", obj.county);
-                sql = sql.Replace("[COORDINATES]", obj.coordinates);
-                sql = sql.Replace("[LOCCENTR]", obj.loccentroid);
-                sql = sql.Replace("[ACRES]", obj.acres);
-                sql = sql.Replace("[ORGCROP]", obj.organiccrops.ToString());
-                sql = sql.Replace("[CERTIF]", obj.certifier);
-                sql = sql.Replace("[DATE1]", date.ToString());
-                sql = sql.Replace("[YEAR]", date.Year.ToString());
-                sql = sql.Replace("[FLAGTYPE]", obj.flagtype.ToString());
-                sql = sql.Replace("[SHARECROPINFO]", obj.shareCropInfo.ToString());
+                string sql=null;
+                string msg=null;
+                if (obj.id == "-1")
+                {
+                    sql = "INSERT INTO producer_locations (email, planttype, croptype, cropyear, comment, county, coordinates, loccentroid, acres, organiccrops, certifier, modifieddate, year, deleted,flagtype,shareCropInfo,markerPos) ";
+                    sql += " VALUES ('[EMAIL]', '[PTYPE]', '[CTYPE]', '[CYEAR]', '[COMMENT]', '[COUNTY]', '[COORDINATES]', '[LOCCENTR]', '[ACRES]', '[ORGCROP]', '[CERTIF]', '[DATE1]', '[YEAR]', 0,'[FLAGTYPE]','[SHARECROPINFO]','[MARKERPOS]');";
+                    sql += "SELECT SCOPE_IDENTITY()";
+                    sql = sql.Replace("[EMAIL]", obj.usremail);
+                    sql = sql.Replace("[PTYPE]", obj.planttype);
+                    sql = sql.Replace("[CTYPE]", obj.croptype);
+                    sql = sql.Replace("[CYEAR]", date.Year.ToString());
+                    sql = sql.Replace("[COMMENT]", obj.comment);
+                    sql = sql.Replace("[COUNTY]", obj.county);
+                    sql = sql.Replace("[COORDINATES]", obj.coordinates);
+                    sql = sql.Replace("[LOCCENTR]", obj.loccentroid);
+                    sql = sql.Replace("[ACRES]", obj.acres);
+                    sql = sql.Replace("[ORGCROP]", obj.organiccrops.ToString());
+                    sql = sql.Replace("[CERTIF]", obj.certifier);
+                    sql = sql.Replace("[DATE1]", date.ToString());
+                    sql = sql.Replace("[YEAR]", date.Year.ToString());
+                    sql = sql.Replace("[FLAGTYPE]", obj.flagtype.ToString());
+                    sql = sql.Replace("[SHARECROPINFO]", obj.shareCropInfo.ToString());
+                    sql = sql.Replace("[MARKERPOS]", obj.markerPos.ToString());
+                    msg="Location & Crop Added Successfully.";
+                }
+                else
+                {
+                    sql = "Update producer_locations set email =  '[EMAIL]', planttype = '[PTYPE]', croptype = '[CTYPE]', cropyear ='[CYEAR]' , comment = '[COMMENT]' , county = '[COUNTY]', coordinates = '[COORDINATES]',  ";
+                    sql += "  loccentroid = '[LOCCENTR]', acres = '[ACRES]', organiccrops = '[ORGCROP]', certifier = '[CERTIF]', modifieddate = '[DATE1]', year = '[YEAR]' , deleted = '0', flagtype = '[FLAGTYPE]', shareCropInfo = '[SHARECROPINFO]',markerPos = '[MARKERPOS]'  Where producerID = '[producerID]';";
+                    sql = sql.Replace("[EMAIL]", obj.usremail);
+                    sql = sql.Replace("[PTYPE]", obj.planttype);
+                    sql = sql.Replace("[CTYPE]", obj.croptype);
+                    sql = sql.Replace("[CYEAR]", date.Year.ToString());
+                    sql = sql.Replace("[COMMENT]", obj.comment);
+                    sql = sql.Replace("[COUNTY]", obj.county);
+                    sql = sql.Replace("[COORDINATES]", obj.coordinates);
+                    sql = sql.Replace("[LOCCENTR]", obj.loccentroid);
+                    sql = sql.Replace("[ACRES]", obj.acres);
+                    sql = sql.Replace("[ORGCROP]", obj.organiccrops.ToString());
+                    sql = sql.Replace("[CERTIF]", obj.certifier);
+                    sql = sql.Replace("[DATE1]", date.ToString());
+                    sql = sql.Replace("[YEAR]", date.Year.ToString());
+                    sql = sql.Replace("[FLAGTYPE]", obj.flagtype.ToString());
+                    sql = sql.Replace("[SHARECROPINFO]", obj.shareCropInfo.ToString());
+                    sql = sql.Replace("[producerID]", obj.id.ToString());
+                    sql = sql.Replace("[MARKERPOS]", obj.markerPos.ToString());
+                    msg= "Location & Crop Updated Successfully.";
+                }
                 cmd = new SqlCommand(sql, conn);
                 reader = cmd.ExecuteReader();
-                if (reader.HasRows == true)
+                if (reader.RecordsAffected > 0)
                 {
                     reader.Read();
                     retval[0] = "1";
-                    retval[1] = "Location & Crop Added Successfully.";
-                    string extrainfo = "";
-                    if (reader.IsDBNull(0) == false)
-                    {
-                        extrainfo = (reader.GetDecimal(0).ToString());
-                    }
-                    EventLog e = new EventLog();
-                    e.InsertAddCrop(extrainfo);
+                    retval[1] = msg;
                 }
                 else
                 {
                     retval[0] = "0";
-                    retval[1] = "Location & Crop Addition failed. User does not exist.";
+                    retval[1] = "Operation failed.Please try again..!!";
                 }
                 cmd.Dispose();
                 reader.Dispose();
-                
             }
         }
         catch (SqlException e)
         {
             retval[0] = "0";
-            retval[1] = "Add Location failed. Data base error";
+            retval[1] = "Update Location failed. Data base error";
             retval[1] += e.Message;
         }
         finally

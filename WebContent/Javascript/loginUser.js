@@ -85,7 +85,7 @@ function dashboardOnLoad() {
             var cordichnge = "";
             for (var d=0; d<cordiarr.length; d++)
                 cordichnge = cordichnge+cordiarr[d] + ";"
-            td_action_v.innerHTML = td_action_v.innerHTML + '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" onclick=\'editPolygon("' + cordichnge + '","' + val[i].loccentroid + '","' + val[i].flagtype + '")\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'""\'>delete</i>';
+            td_action_v.innerHTML = td_action_v.innerHTML + '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" onclick=\'editPolygon("' + cordichnge + '","' + val[i].loccentroid + '","' + val[i].flagtype + '","' + val[i].id + '")\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'""\'>delete</i>';
 
             tr.appendChild(td_index_v);
             tr.appendChild(td_plty_v);

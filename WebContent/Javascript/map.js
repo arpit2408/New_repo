@@ -6,12 +6,21 @@ var editPoly = false;
 var editPolycoordinates = "";
 var href = "";
 var drawnPolygon;
+var vertices;
+var polygons = [];
+var allflagmarkers =[];
+var markerofFlag = new Set();
+var mySetofmarkers = new Set();
+var arrmarkerofFlag = [];
+var arrmySetofmarkers = [];
+var recordId;
 function initMap() {
     href = window.top.location.href;
     urlVars = getUrlVars(href);
     var editPolycoordinates = urlVars["coordinates"];
     var editPolyCentroid = urlVars["centroid"];
     var flagtype = urlVars["flagType"];
+    recordId= urlVars["recordId"];
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
     var mapOptions = {
         zoom: 14,
@@ -26,10 +35,15 @@ function initMap() {
     map = new google.maps.Map(map_canvas, mapOptions);
     
     if (editPolycoordinates != "" && editPolycoordinates != null) {
+        var customControlDiv = document.createElement('div');
+        var customControl = new CustomControl(customControlDiv, map);
+
+        customControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv);
         var coodichange = editPolycoordinates;
         var coordinates = coodichange.split(";");
         var arr = new Array();
-        var polygons = [];
+        
         var bounds = new google.maps.LatLngBounds();
         for (var j = 0; j < coordinates.length ; j++) {
             if (coordinates[j] != "") {
@@ -44,6 +58,7 @@ function initMap() {
         polygons.push(new google.maps.Polygon({
             paths: arr,
             editable: true,
+            draggable: true,
             strokeColor: '#FF0000',
             strokeOpacity: 0.8,
             strokeWeight: 2,
@@ -51,6 +66,7 @@ function initMap() {
             fillOpacity: 0.35
         }));
         polygons[polygons.length - 1].setMap(map);
+        drawnPolygon = polygons[0];
         map.setCenter(bounds.getCenter());
         var listener = google.maps.event.addListener(map, "idle", function () {
             if (map.getZoom() < 15) map.setZoom(15);
@@ -68,26 +84,91 @@ function initMap() {
                     var value = new CustomFlagMarker();
                     value.type = flags[i];
                     value.position = new google.maps.LatLng(centerForflag.lat() + (i) * 0.002, centerForflag.lng() + (i) * 0.002);
-                    addMarkerOnPolygon(value);
+                    var marker = addMarkerOnPolygon(value);
+                    var ifExists = markerofFlag.has(marker);
+                    if (!ifExists) {
+                        markerofFlag.add(marker);
+                        arrmarkerofFlag.push(marker);
+                    }
                 }
             }
         }
-    }
-    
+        vertices = polygons[0].getPath().getArray();
+        google.maps.event.addListener(polygons[0].getPath(), 'set_at', function (event) {
+            vertices = polygons[0].getPath().getArray();
+            placeFlagatCorrectLocation(polygons[0]);
+        });
+        google.maps.event.addListener(polygons[0].getPath(), 'insert_at', function (event) {
+            vertices = polygons[0].getPath().getArray();
+            placeFlagatCorrectLocation(polygons[0]);
+        });
+        google.maps.event.addListener(polygons[0], 'dragend', function (event) {
+            vertices = polygons[0].getPath().getArray();
+            placeFlagatCorrectLocation(polygons[0]);
 
-        drawingManager = new google.maps.drawing.DrawingManager({
-            drawingMode: google.maps.drawing.OverlayType.POLYGON,
+        });
+        function placeFlagatCorrectLocation(polygon) {
+            calcCentroid(polygon);
+            for (var i = 0; i < arrmarkerofFlag.length; i++) {
+                arrmarkerofFlag[i].setPosition(new google.maps.LatLng(centroid.lat() + (i) * 0.002, centroid.lng() + (i) * 0.002));
+            }
+            drawnPolygon = polygon;
+        }
+        var drawingManager = new google.maps.drawing.DrawingManager({
+            drawingMode: null,
             drawingControl: true,
             drawingControlOptions: {
                 position: google.maps.ControlPosition.TOP_CENTER,
-                drawingModes: ['marker', 'polygon']
+                drawingModes: ['marker']
             },
-            polygonOptions: {
-                editable: false,
-                draggable: false,
-                strokecolor: '#E9967A'
+            markerOptions: {
+                //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                //draggable: true,
+                animation: google.maps.Animation.DROP
+              }
+        });
+        drawingManager.setMap(map);
+        google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
+            if (drawingManager.getDrawingMode() != null && drawingManager.getDrawingMode() == 'marker') {
+                //event.overlay.setMap(null);
+                var posOfMarker = event.overlay.position;
+                markerId = posOfMarker.lat() + '_' + posOfMarker.lng();
+                var marker = event.overlay;
+                var ifExists = mySetofmarkers.has(posOfMarker);
+                if (!ifExists) {
+                    mySetofmarkers.add(posOfMarker);
+                    arrmySetofmarkers[markerId] = marker; // cache marker in markers object
+                    bindMarkerEvents(marker);
+                    //arrmySetofmarkers.push(posOfMarker);
+                }
             }
         });
+        
+        
+
+        
+        }
+    
+    else {
+        loadProducerAreas();
+            drawingManager = new google.maps.drawing.DrawingManager({
+                drawingMode: google.maps.drawing.OverlayType.POLYGON,
+                drawingControl: true,
+                drawingControlOptions: {
+                    position: google.maps.ControlPosition.TOP_CENTER,
+                    drawingModes: ['marker', 'polygon']
+                },
+                polygonOptions: {
+                    editable: false,
+                    draggable: false,
+                    strokecolor: '#E9967A'
+                },
+                markerOptions: {
+                    //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                    draggable: true,
+                    animation: google.maps.Animation.DROP
+                }
+            });
         drawingManager.setMap(map);
 
         // Add a listener for creating new shape event.
@@ -112,30 +193,28 @@ function initMap() {
         });
 
 
-
+        google.maps.event.addListener(drawingManager, 'drawingmode_changed', function (event) {
+            if (drawingManager.getDrawingMode() == null ) {
+                
+            }
+        });
+        
         // Add a listener for the "drag" event.
         google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
-            overlayDragListener(event.overlay);
-            drawnPolygon = event.overlay;
-            $('#vertices').val(event.overlay.getPath().getArray());
-            $('#myModal').modal('show');
-            $("#myModal").draggable({ handle: ".modal-body" });
-            $('#areaPolygon').val((0.000247105 * google.maps.geometry.spherical.computeArea(event.overlay.getPath())).toFixed(2));
-            $('#cropYear').val(new Date().getFullYear());
-            var coordinates = "";
-            for (var i = 0; i < event.overlay.getPath().getLength() - 1 ; i++) {
-                coordinates += event.overlay.getPath().getAt(i).toUrlValue(6) + "\n";
+            if (event.type != 'marker') {
+                overlayDragListener(event.overlay);
+                drawnPolygon = event.overlay;
+                $('#vertices').val(event.overlay.getPath().getArray());
+                fillModalValues(event.overlay,false);
             }
-            coordinates += event.overlay.getPath().getAt(event.overlay.getPath().getLength() - 1).toUrlValue(6);
-            $('#polygonpath').val(coordinates);
-            var bounds = new google.maps.LatLngBounds();
-            var polygonCoords = event.overlay.getPath().getArray();
-            for (var i = 0; i < polygonCoords.length; i++) {
-                bounds.extend(polygonCoords[i]);
+            else {
+                var posOfMarker = event.overlay.position;
+                var ifExists = mySetofmarkers.has(posOfMarker);
+                if (!ifExists) {
+                    mySetofmarkers.add(posOfMarker);
+                    arrmySetofmarkers.push(posOfMarker);
+                }
             }
-            $('#countyselected').val(getCountyInfo(coordinates));
-            centroid = bounds.getCenter();
-            
         });
         // Create the search box and link it to the UI element.
         var input = document.getElementById('pac-input');
@@ -192,6 +271,7 @@ function initMap() {
             });
             map.fitBounds(bounds);
         });
+    }
     
 }
 function replaceAll(str, find, replace) {
@@ -223,6 +303,7 @@ function Location() {
     this.certifier = "";
     this.flagType = "";
     this.shareCropInfo = "";
+    this.markerPos = "";
 }
 function CustomFlagMarker() {
     var position = new google.maps.LatLng(0, 0);
@@ -261,9 +342,13 @@ function SubmitNewLocation(event) {
     var flagvalues = $('#flagoptions').text();
     var flagop = flagvalues.split("Flag");
     var firstval = flagop[0].substring(2, flagop[0].length);
+    var valuefirst = new CustomFlagMarker();
+    var valueForFlags = "";
     if (firstval != "") {
-        var valueForFlags = "";
-        var valuefirst = new CustomFlagMarker();
+        for (var j = 0; j < arrmarkerofFlag.length; j++) {
+            arrmarkerofFlag[j].setMap(null);
+        }
+        
         valuefirst.type = firstval + 'Flag';
         valuefirst.position = centroid;
         addMarkerOnPolygon(valuefirst);
@@ -278,8 +363,17 @@ function SubmitNewLocation(event) {
             }
         }
     }
+    if (arrmarkerofFlag != null && arrmarkerofFlag.length != 0 && document.getElementById('flagoptions').checked) {
+        for (var j = 0; j < arrmarkerofFlag.length-1; j++) {
+            valueForFlags+= arrmarkerofFlag[j].title+",";
+        }
+        valueForFlags += arrmarkerofFlag[arrmarkerofFlag.length - 1].title;
+    }
     var croploc = new Location();
-    croploc.id = "1";
+    if (recordId != null)
+        croploc.id = recordId;
+    else
+        croploc.id = "-1";
     croploc.usremail = "mtchakerian@tamu.edu";
     croploc.planttype = document.getElementById('plant').value;
     croploc.croptype = document.getElementById('crop').value;
@@ -302,6 +396,11 @@ function SubmitNewLocation(event) {
     else {
         croploc.organiccrops = "0";
     }
+    var posofAllMarkers = "";
+    for (var i=0; i < arrmySetofmarkers.length;i++) {
+        posofAllMarkers += arrmySetofmarkers[i].lat() + "," + arrmySetofmarkers[i].lng() + "\n";
+    }
+    croploc.markerPos = posofAllMarkers;
     croploc.certifier = "";
     croploc.shareCropInfo = sharecropInfo;
     var str = JSON.stringify(croploc);
@@ -318,7 +417,8 @@ function SubmitNewLocation(event) {
             $("#errormessage").empty();
             $("#successmessage").append('<strong>Success! </strong>' + val[1]);
             $("#form1 :input").prop("disabled", true);
-            drawnPolygon.setOptions({ strokeWeight: 2.0, fillColor: icons[valuefirst.type].color });
+            setcolorforPolygon(drawnPolygon, valuefirst);
+            $('#registerCropForm').trigger("reset");
         }
         if (val[0] == 0) {
 
@@ -331,13 +431,13 @@ function SubmitNewLocation(event) {
     }
 }
 
-function editPolygon(coordinates,centroid,flagType) {
-    window.location.href = 'Producer.aspx?coordinates=' + coordinates + "&centroid=" + centroid + "&flagType=" + flagType;
+function editPolygon(coordinates,centroid,flagType,recordId) {
+    window.location.href = 'Producer.aspx?coordinates=' + coordinates + "&centroid=" + centroid + "&flagType=" + flagType + "&recordId=" + recordId;
     editPolycoordinates = coordinates;
 }
 function closeevent() {
-            //$('#registerCropForm').trigger("reset");
-            $('#flagtechModal').trigger("reset");
+            $('#registerCropForm').trigger("reset");
+            //$('#flagtechModal').trigger("reset");
 }
 function getUrlVars(hrefString) {
     var vars = [], hash;
@@ -414,14 +514,236 @@ function addMarkerOnPolygon(positionOfMarker) {
         }
     };
     
-    addMarker(positionOfMarker);
-    
+    var addedMarker=addMarker(positionOfMarker);
+    bindMarkerEvents(addedMarker);
     function addMarker(custom) {
+        var markerId = getMarkerUniqueId(custom.position.lat(), custom.position.lng());
         var marker = new google.maps.Marker({
             position: custom.position,
             icon: icons[custom.type].icon,
             title: custom.type,
+            id: markerId,
             map: map
         });
+        return marker;
     }
+    return addedMarker;
+}
+
+function setcolorforPolygon(drawnPolygon, valuefirst) {
+    var iconBase = '/WebContent/Images/Flags/';
+    var iconBlackFlag = {
+        url: iconBase + "BlackFlag.PNG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var iconGreenFlag = {
+        url: iconBase + "GreenFlag.PNG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var iconRedFlag = {
+        url: iconBase + "RedFlag.PNG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var iconTealFlag = {
+        url: iconBase + "TealFlag.PNG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var iconWhiteFlag = {
+        url: iconBase + "WhiteFlag.PNG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var iconYellowFlag = {
+        url: iconBase + "YellowFlag.PNG", // url
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0) // anchor
+    };
+    var icons = {
+        "BlackFlag": {
+            icon: iconBlackFlag,
+            color: "#000000"
+        },
+        "GreenFlag": {
+            icon: iconGreenFlag,
+            color: "#008000"
+        },
+        "RedFlag": {
+            icon: iconRedFlag,
+            color: "#FF0000"
+        },
+        "TealFlag": {
+            icon: iconTealFlag,
+            color: "#008080"
+        },
+        "WhiteFlag": {
+            icon: iconWhiteFlag,
+            color: "#FFFFFF"
+        },
+        "YellowFlag": {
+            icon: iconYellowFlag,
+            color: "#FFFF00"
+        }
+    };
+    drawnPolygon.setOptions({ strokeWeight: 2.0, fillColor: icons[valuefirst.type].color, draggable: true });
+}
+function loadProducerAreas() {
+    var useremail = "mtchakerian@tamu.edu";
+    $.ajax({
+        type: 'POST',
+        url: 'Dashboard.aspx/ListProducerPolygons',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({ useremail: useremail }),
+        dataType: 'json',
+        success: Producer_location_Success,
+        error: Fail_location
+    });
+    function Producer_location_Success(resultobj) {
+        var val = resultobj.d;
+        for (var i = 0; i < val.length; i++) {
+            if (val[i].flagtype != "") {
+                var flagcreator = new CustomFlagMarker();
+                flagcreator.type = val[i].flagtype.split(",")[0];
+                editPolyCentroid = val[i].loccentroid;
+                var posForFlag = editPolyCentroid.split(",");
+                var centerForflag = new google.maps.LatLng(
+                          parseFloat(posForFlag[0]),
+                          parseFloat(posForFlag[1])
+                    );
+                flagcreator.position = new google.maps.LatLng(centerForflag.lat(), centerForflag.lng());
+                var markerforFlag = addMarkerOnPolygon(flagcreator);
+                allflagmarkers.push(markerforFlag);
+                var mapforInfoWindow = new Map();
+                mapforInfoWindow.set("Crop Name:", val[i].planttype);
+                mapforInfoWindow.set("Crop Type:", val[i].croptype);
+                mapforInfoWindow.set("Organic Certified:", val[i].certifier);
+                mapforInfoWindow.set("Crop Year:", val[i].cropyear);
+                createInfoWindow(mapforInfoWindow, markerforFlag);
+                
+            }
+            
+        }
+        var markerCluster = new MarkerClusterer(map, allflagmarkers, { imagePath: 'Images/Cluster/m' });
+    }
+        function Fail_location(resultobj) {
+            var val = resultobj.d;
+        }
+}
+
+function createInfoWindow(dataAsMap, marker) {
+    var content = "<dl>";
+    dataAsMap.forEach(function (value, key) {
+        content +=
+             "<dt>"+ key +"</dt>" +
+             "<dd>"+ value + "</dd>";
+    });
+    content += "</dl>";
+    var infowindow = new google.maps.InfoWindow({
+
+    })
+    
+    //alert("custom.position" + custom.position + "custom.type" + custom.type + "custom.cropname" + custom.cropname);
+    google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
+        return function () {
+            infowindow.setContent(content);
+            infowindow.open(map, marker);
+        };
+    })(marker, content, infowindow));
+}
+function CustomControl(controlDiv, map) {
+
+    // Set CSS for the control border
+    var controlUI = document.createElement('div');
+    controlUI.style.backgroundColor = '#fff';
+    controlUI.style.borderStyle = 'solid';
+    controlUI.style.borderWidth = '1px';
+    controlUI.style.borderColor = '#ccc';
+    controlUI.style.height = '29px';
+    controlUI.style.width = '30px';
+    controlUI.style.marginTop = '5px';
+    controlUI.style.marginLeft = '-6px';
+    controlUI.style.paddingTop = '2px';
+    controlUI.style.cursor = 'pointer';
+    controlUI.style.textAlign = 'center';
+    controlUI.style.fontWeight = '700px'
+    //controlUI.style.boxShadow = '0px 1px 4px #888888';
+    controlUI.style.boxSizing = 'border-box';
+    controlUI.style.backgroundClip = 'padding-box';
+    controlUI.style.borderBottomRightRadius = '2px';
+    controlUI.style.borderTopRightRadius = '2px';
+    controlUI.title = 'Click to set the map to Home';
+    controlDiv.appendChild(controlUI);
+
+    // Set CSS for the control interior
+    var controlText = document.createElement('div');
+    controlText.style.fontFamily = 'Monotype Corsiva';
+    controlText.style.fontSize = '12px';
+    controlText.style.border = '2px'
+    controlText.style.fontWeight = 'bold';
+    controlText.style.paddingLeft = '4px';
+    controlText.style.paddingRight = '4px';
+    controlText.style.marginTop = '4px';
+    controlText.innerHTML = 'Save';
+    controlUI.appendChild(controlText);
+
+    // Setup the click event listeners
+    google.maps.event.addDomListener(controlUI, 'click', function () {
+        fillModalValues(polygons[0],true);
+    });
+
+}
+function fillModalValues(polygon,checkforflag) {
+    $('#myModal').modal('show');
+    $("#myModal").draggable({ handle: ".modal-body" });
+    $('#areaPolygon').val((0.000247105 * google.maps.geometry.spherical.computeArea(polygon.getPath())).toFixed(2));
+    $('#cropYear').val(new Date().getFullYear());
+    var coordinates = "";
+    for (var i = 0; i < polygon.getPath().getLength() - 1 ; i++) {
+        coordinates += polygon.getPath().getAt(i).toUrlValue(6) + "\n";
+    }
+    coordinates += polygon.getPath().getAt(polygon.getPath().getLength() - 1).toUrlValue(6);
+    $('#polygonpath').val(coordinates);
+    $('#countyselected').val(getCountyInfo(coordinates));
+    calcCentroid(polygon);
+    if (checkforflag && arrmarkerofFlag!=null && arrmarkerofFlag.length!=0) {
+        var checkbox = document.getElementsByName('flagoptions');
+        for (var i = 0; i < checkbox.length; i++) {
+            checkbox[i].checked = true;
+        }
+    }
+}
+function calcCentroid(polygon) {
+    var bounds = new google.maps.LatLngBounds();
+    var polygonCoords = polygon.getPath().getArray();
+    for (var i = 0; i < polygonCoords.length; i++) {
+        bounds.extend(polygonCoords[i]);
+    }
+    centroid = bounds.getCenter();
+}
+/**
+         * Removes given marker from map.
+         * @param {!google.maps.Marker} marker A google.maps.Marker instance that will be removed.
+         * @param {!string} markerId Id of marker.
+         */
+var removeMarker = function (marker, markerId) {
+    marker.setMap(null); // set markers setMap to null to remove it from map
+    delete arrmySetofmarkers[markerId]; // delete marker instance from markers object
+};
+var getMarkerUniqueId = function (lat, lng) {
+    return lat + '_' + lng;
+}
+function bindMarkerEvents(marker) {
+    google.maps.event.addListener(marker, "rightclick", function (point) {
+        var markerId = getMarkerUniqueId(point.latLng.lat(), point.latLng.lng()); // get marker id by using clicked point's coordinate
+        removeMarker(marker, markerId); // remove it
+    });
 }
