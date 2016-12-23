@@ -22,6 +22,7 @@ function print_plant(plant_id) {
 }
 
 function print_crop(crop_id, plant_index) {
+    //alert(crop_id + "_" + plant_index);
     var option_str = document.getElementById(crop_id);
     option_str.length = 0;
     option_str.options[0] = new Option('Select Crop', '');
@@ -30,6 +31,7 @@ function print_crop(crop_id, plant_index) {
     for (var i = 0; i < crop_arr.length; i++) {
         option_str.options[option_str.length] = new Option(crop_arr[i], crop_arr[i]);
     }
+    return crop_arr;
 }
 
 function convertmeterToAcres(meterArea)
@@ -64,9 +66,12 @@ $(document).ready(function () {
         $('input[type="checkbox"]').on('change', function (e) {
             divClone = $("#trythis").clone();
             if (e.target.checked) {
-                    //divClone = $("#flagtechModal").clone();
+                //divClone = $("#flagtechModal").clone();
+                if (e.currentTarget.id != "someSwitchOptionSuccess") 
+                {
                     $('#flagtechModal').modal('show');
                     $("#flagtechModal").draggable({ handle: ".modal-header" });
+                }
             }
         });
     });
@@ -97,4 +102,20 @@ function checkforflag(ele) {
         checkbox[i].checked = true;
     }
     $('#flagtechModal').modal('hide');
+}
+function buildvaluesforDropDown(planttype, croptype) {
+    $('#plant').val(planttype);
+    var plant_index = 0;
+    for (var i = 0; i < plant_arr.length; i++) {
+        if (planttype === plant_arr[i])
+            plant_index = i + 1;
+    }
+    var croptypeValues = print_crop('crop', plant_index);
+    var selectedIndex=0;
+    for (var i = 0; i < croptypeValues.length; i++) {
+        if (croptypeValues[i] === croptype)
+            selectedIndex = i + 1;
+    }
+    var option_str = document.getElementById('crop');
+    option_str.selectedIndex = selectedIndex;
 }

@@ -12,15 +12,11 @@ var allflagmarkers =[];
 var markerofFlag = new Set();
 var mySetofmarkers = new Set();
 var arrmarkerofFlag = [];
-var arrmySetofmarkers = [];
+var arrmySetofmarkers = new Map();
 var recordId;
+var urlVars;
 function initMap() {
-    href = window.top.location.href;
-    urlVars = getUrlVars(href);
-    var editPolycoordinates = urlVars["coordinates"];
-    var editPolyCentroid = urlVars["centroid"];
-    var flagtype = urlVars["flagType"];
-    recordId= urlVars["recordId"];
+    
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
     var mapOptions = {
         zoom: 14,
@@ -28,16 +24,19 @@ function initMap() {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         disableDefaultUI: false
     }
-    var infoWindow = new google.maps.InfoWindow({ map: map });
-   
     var mapElement = document.getElementById('map_canvas');
-
     map = new google.maps.Map(map_canvas, mapOptions);
+    href = window.top.location.href;
+    urlVars = getUrlVars(href);
+    recordId = urlVars["recordId"];
     
-    if (editPolycoordinates != "" && editPolycoordinates != null) {
+    if (recordId != "" && recordId != null && recordId != -1) {
         var customControlDiv = document.createElement('div');
         var customControl = new CustomControl(customControlDiv, map);
-
+        var editPolycoordinates = urlVars["coordinates"];
+        var editPolyCentroid = urlVars["centroid"];
+        var flagtype = urlVars["flagType"];
+        var markerEntrance = urlVars["markerPos"];
         customControlDiv.index = 1;
         map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv);
         var coodichange = editPolycoordinates;
@@ -83,7 +82,7 @@ function initMap() {
                 if (flags[i] != null && flags[i] != "") {
                     var value = new CustomFlagMarker();
                     value.type = flags[i];
-                    value.position = new google.maps.LatLng(centerForflag.lat() + (i) * 0.002, centerForflag.lng() + (i) * 0.002);
+                    value.position = new google.maps.LatLng(centerForflag.lat() + (i) * 0.0002, centerForflag.lng() + (i) * 0.0002);
                     var marker = addMarkerOnPolygon(value);
                     var ifExists = markerofFlag.has(marker);
                     if (!ifExists) {
@@ -110,10 +109,16 @@ function initMap() {
         function placeFlagatCorrectLocation(polygon) {
             calcCentroid(polygon);
             for (var i = 0; i < arrmarkerofFlag.length; i++) {
-                arrmarkerofFlag[i].setPosition(new google.maps.LatLng(centroid.lat() + (i) * 0.002, centroid.lng() + (i) * 0.002));
+                arrmarkerofFlag[i].setPosition(new google.maps.LatLng(centroid.lat() + (i) * 0.0002, centroid.lng() + (i) * 0.0002));
             }
             drawnPolygon = polygon;
         }
+        var iconEntrance = {
+            url: '/WebContent/Images/IconsBase/entrance.png', // url
+            scaledSize: new google.maps.Size(25, 25), // scaled size
+            origin: new google.maps.Point(0, 0), // origin
+            anchor: new google.maps.Point(0, 0) // anchor
+        };
         var drawingManager = new google.maps.drawing.DrawingManager({
             drawingMode: null,
             drawingControl: true,
@@ -122,7 +127,7 @@ function initMap() {
                 drawingModes: ['marker']
             },
             markerOptions: {
-                //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                //icon: iconEntrance,
                 //draggable: true,
                 animation: google.maps.Animation.DROP
               }
@@ -137,13 +142,36 @@ function initMap() {
                 var ifExists = mySetofmarkers.has(posOfMarker);
                 if (!ifExists) {
                     mySetofmarkers.add(posOfMarker);
-                    arrmySetofmarkers[markerId] = marker; // cache marker in markers object
+                    arrmySetofmarkers.set(markerId,marker); // cache marker in markers object
+                    bindMarkerEvents(marker);
+                    //arrmarkerEntrance.push(posOfMarker);
+                }
+            }
+        });
+        if (markerEntrance != null && markerEntrance != "") {
+            var markersPositions = markerEntrance.split(";");
+            for (var i = 0; i < markersPositions.length; i++) {
+                var markerlatlng = markersPositions[i].split(",");
+                var value = new CustomFlagMarker();
+                //value.type = flags[i];
+                value.position = new google.maps.LatLng(markerlatlng[0], markerlatlng[1]);
+                var markerId = markerlatlng[0] + "_" + markerlatlng[1];
+                var marker = new google.maps.Marker({
+                    position: value.position,
+                    //icon: icons[custom.type].icon,
+                    //title: custom.type,
+                    id: markerId,
+                    map: map
+                });
+                var ifExists = mySetofmarkers.has(value.position);
+                if (!ifExists) {
+                    mySetofmarkers.add( value.position);
+                    arrmySetofmarkers.set(markerId,marker); // cache marker in markers object
                     bindMarkerEvents(marker);
                     //arrmySetofmarkers.push(posOfMarker);
                 }
             }
-        });
-        
+        }
         
 
         
@@ -212,7 +240,7 @@ function initMap() {
                 var ifExists = mySetofmarkers.has(posOfMarker);
                 if (!ifExists) {
                     mySetofmarkers.add(posOfMarker);
-                    arrmySetofmarkers.push(posOfMarker);
+                    //arrmySetofmarkers.push(posOfMarker);
                 }
             }
         });
@@ -309,7 +337,7 @@ function CustomFlagMarker() {
     var position = new google.maps.LatLng(0, 0);
     var type = "";
 }
-function ConfirmDialog(message) {
+/*function ConfirmDialog(message) {
     $('<div></div>').appendTo('body')
                     .html('<div><h6>' + message + '?</h6></div>')
                     .dialog({
@@ -328,7 +356,7 @@ function ConfirmDialog(message) {
                             $(this).remove();
                         }
                     });
-}
+}*/
 
 function SubmitNewLocation(event) {
     
@@ -363,8 +391,9 @@ function SubmitNewLocation(event) {
             }
         }
     }
-    if (arrmarkerofFlag != null && arrmarkerofFlag.length != 0 && document.getElementById('flagoptions').checked) {
-        for (var j = 0; j < arrmarkerofFlag.length-1; j++) {
+    if (arrmarkerofFlag != null && arrmarkerofFlag.length != 0 && document.getElementsByName('flagoptions')[0].checked) {
+        valuefirst.type = arrmarkerofFlag[0].title;
+        for (var j = 0; j < arrmarkerofFlag.length - 1; j++) {
             valueForFlags+= arrmarkerofFlag[j].title+",";
         }
         valueForFlags += arrmarkerofFlag[arrmarkerofFlag.length - 1].title;
@@ -397,9 +426,9 @@ function SubmitNewLocation(event) {
         croploc.organiccrops = "0";
     }
     var posofAllMarkers = "";
-    for (var i=0; i < arrmySetofmarkers.length;i++) {
-        posofAllMarkers += arrmySetofmarkers[i].lat() + "," + arrmySetofmarkers[i].lng() + "\n";
-    }
+    arrmySetofmarkers.forEach(function (value, key) {
+        posofAllMarkers += value.position.lat() + "," + value.position.lng() + ";";
+    });
     croploc.markerPos = posofAllMarkers;
     croploc.certifier = "";
     croploc.shareCropInfo = sharecropInfo;
@@ -410,15 +439,23 @@ function SubmitNewLocation(event) {
         $("#errormessage").fadeOut().empty();
         $("#successmessage").fadeOut().empty();
     }
+    function disableCropForm() {
+        $("#registerCropForm :input").prop("disabled", true);
+        $("#registerCropForm :submit").prop("disabled", true);
+        $("#plant").prop("disabled", true);
+        $("#crop").prop("disabled", true);
+        $("#closemyModal").prop("disabled", false);
+        $("#someSwitchOptionSuccess").prop("disabled", true);
+    }
     function AddNewLocation_Success(val) {
         if (val[0] == 1) {
             $("#successmessage").show();
             $("#successmessage").empty();
             $("#errormessage").empty();
             $("#successmessage").append('<strong>Success! </strong>' + val[1]);
-            $("#form1 :input").prop("disabled", true);
+            disableCropForm();
             setcolorforPolygon(drawnPolygon, valuefirst);
-            $('#registerCropForm').trigger("reset");
+            //$('#registerCropForm').trigger("reset");
         }
         if (val[0] == 0) {
 
@@ -431,9 +468,11 @@ function SubmitNewLocation(event) {
     }
 }
 
-function editPolygon(coordinates,centroid,flagType,recordId) {
-    window.location.href = 'Producer.aspx?coordinates=' + coordinates + "&centroid=" + centroid + "&flagType=" + flagType + "&recordId=" + recordId;
-    editPolycoordinates = coordinates;
+function editPolygon(coordinates,centroid,flagType,recordId,planttype,croptype,year,comments,markerPos) {
+    window.location.href = 'Producer.aspx?coordinates=' + coordinates + "&centroid="
+                            + centroid + "&flagType=" + flagType + "&planttype=" + encodeURIComponent(planttype)
+                                + "&croptype=" + encodeURIComponent(croptype) + "&year=" + year + "&comments" + encodeURIComponent(comments)
+                                + "&markerPos="+ markerPos + "&recordId=" + recordId;
 }
 function closeevent() {
             $('#registerCropForm').trigger("reset");
@@ -515,7 +554,7 @@ function addMarkerOnPolygon(positionOfMarker) {
     };
     
     var addedMarker=addMarker(positionOfMarker);
-    bindMarkerEvents(addedMarker);
+    
     function addMarker(custom) {
         var markerId = getMarkerUniqueId(custom.position.lat(), custom.position.lng());
         var marker = new google.maps.Marker({
@@ -611,24 +650,28 @@ function loadProducerAreas() {
         var val = resultobj.d;
         for (var i = 0; i < val.length; i++) {
             if (val[i].flagtype != "") {
-                var flagcreator = new CustomFlagMarker();
-                flagcreator.type = val[i].flagtype.split(",")[0];
+                var flags = val[i].flagtype.split(",");
                 editPolyCentroid = val[i].loccentroid;
-                var posForFlag = editPolyCentroid.split(",");
-                var centerForflag = new google.maps.LatLng(
-                          parseFloat(posForFlag[0]),
-                          parseFloat(posForFlag[1])
-                    );
-                flagcreator.position = new google.maps.LatLng(centerForflag.lat(), centerForflag.lng());
-                var markerforFlag = addMarkerOnPolygon(flagcreator);
-                allflagmarkers.push(markerforFlag);
-                var mapforInfoWindow = new Map();
-                mapforInfoWindow.set("Crop Name:", val[i].planttype);
-                mapforInfoWindow.set("Crop Type:", val[i].croptype);
-                mapforInfoWindow.set("Organic Certified:", val[i].certifier);
-                mapforInfoWindow.set("Crop Year:", val[i].cropyear);
-                createInfoWindow(mapforInfoWindow, markerforFlag);
-                
+                for (var j = 0; j < flags.length; j++) {
+                    var flagcreator = new CustomFlagMarker();
+                    flagcreator.type = flags[j];
+                    var posForFlag = editPolyCentroid.split(",");
+                    var centerForflag = new google.maps.LatLng(
+                              parseFloat(posForFlag[0]),
+                              parseFloat(posForFlag[1])
+                        );
+                    flagcreator.position = new google.maps.LatLng(centerForflag.lat() + (j) * 0.002, centerForflag.lng()+ (j) * 0.002);
+                    var markerforFlag = addMarkerOnPolygon(flagcreator);
+                    allflagmarkers.push(markerforFlag);
+                    if (val[i].shareCropInfo!=null && val[i].shareCropInfo.toUpperCase() === "TRUE") {
+                        var mapforInfoWindow = new Map();
+                        mapforInfoWindow.set("Crop Name:", val[i].planttype);
+                        mapforInfoWindow.set("Crop Type:", val[i].croptype);
+                        mapforInfoWindow.set("Organic Certified:", val[i].certifier);
+                        mapforInfoWindow.set("Crop Year:", val[i].cropyear);
+                        createInfoWindow(mapforInfoWindow, markerforFlag);
+                    }
+                }
             }
             
         }
@@ -701,10 +744,26 @@ function CustomControl(controlDiv, map) {
     });
 
 }
+function enableCropForm() {
+    //$("#registerCropForm :input").prop("disabled", false);
+    $("#registerCropForm :submit").prop("disabled", false);
+    $("#plant").prop("disabled", false);
+    $("#crop").prop("disabled", false);
+    $("#closemyModal").prop("disabled", false);
+    $("#someSwitchOptionSuccess").prop("disabled", false);
+    $("#fancy-checkbox-warning").prop("disabled", false);
+    $("#successmessage").css('display', 'none');
+}
 function fillModalValues(polygon,checkforflag) {
     $('#myModal').modal('show');
+    enableCropForm();
     $("#myModal").draggable({ handle: ".modal-body" });
     $('#areaPolygon').val((0.000247105 * google.maps.geometry.spherical.computeArea(polygon.getPath())).toFixed(2));
+    if (recordId != null) {
+        var plantype = decodeURIComponent(urlVars["planttype"]);
+        var croptype = decodeURIComponent(urlVars["croptype"]);
+        buildvaluesforDropDown(plantype, croptype);
+    }
     $('#cropYear').val(new Date().getFullYear());
     var coordinates = "";
     for (var i = 0; i < polygon.getPath().getLength() - 1 ; i++) {
@@ -736,7 +795,7 @@ function calcCentroid(polygon) {
          */
 var removeMarker = function (marker, markerId) {
     marker.setMap(null); // set markers setMap to null to remove it from map
-    delete arrmySetofmarkers[markerId]; // delete marker instance from markers object
+    arrmySetofmarkers.delete(markerId); // delete marker instance from markers object
 };
 var getMarkerUniqueId = function (lat, lng) {
     return lat + '_' + lng;

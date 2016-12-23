@@ -98,7 +98,14 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                         {
                             croploc.flagtype = reader.GetString(15);
                         }
-                        
+                        if (!reader.IsDBNull(16))
+                        {
+                            croploc.shareCropInfo = reader.GetString(16).Trim();
+                        }
+                        if (!reader.IsDBNull(17))
+                        {
+                            croploc.markerPos = reader.GetString(17).Trim();
+                        }
                         locationArr.Add(croploc);
 
                     }

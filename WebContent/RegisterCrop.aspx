@@ -58,14 +58,14 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="form_phone">Crop Year *:</label>
-                                                <input id="cropYear" name="cropYear" class="form-control" placeholder="Please enter year of crop" required="required" />
+                                                <input id="cropYear" name="cropYear" class="form-control" placeholder="Please enter year of crop" required="required" readonly="readonly"/>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="form_phone">Number of Acres *:</label>
-                                                <input id="areaPolygon" name="areaPolygon" class="form-control" placeholder="Please enter your phone" required="required" />
+                                                <input id="areaPolygon" name="areaPolygon" class="form-control" placeholder="Please enter your phone" required="required" readonly="readonly"/>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>

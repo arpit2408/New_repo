@@ -136,6 +136,7 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
         listforuncheckvalues.Add("comment");
         listforuncheckvalues.Add("certifier");
         listforuncheckvalues.Add("flagtype");
+        listforuncheckvalues.Add("markerPos");
         String validateValue = ValidatorCustom.validatefields(obj, listforuncheckvalues);
         if (!String.IsNullOrWhiteSpace(validateValue))
         {
