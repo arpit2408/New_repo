@@ -13,7 +13,7 @@ var markerofFlag = new Set();
 var mySetofmarkers = new Set();
 var arrmarkerofFlag = [];
 var arrmySetofmarkers = new Map();
-var recordId;
+var recordId = "";
 var urlVars;
 function initMap() {
     
@@ -25,12 +25,16 @@ function initMap() {
         disableDefaultUI: false
     }
     var mapElement = document.getElementById('map_canvas');
+    
     map = new google.maps.Map(map_canvas, mapOptions);
+    /*var styles = [{ "featureType": "landscape", "stylers": [{ "saturation": -100 }, { "lightness": 65 }, { "visibility": "on" }] }, { "featureType": "poi", "stylers": [{ "saturation": -100 }, { "lightness": 51 }, { "visibility": "simplified" }] }, { "featureType": "road.highway", "stylers": [{ "saturation": -100 }, { "visibility": "simplified" }] }, { "featureType": "road.arterial", "stylers": [{ "saturation": -100 }, { "lightness": 30 }, { "visibility": "on" }] }, { "featureType": "road.local", "stylers": [{ "saturation": -100 }, { "lightness": 40 }, { "visibility": "on" }] }, { "featureType": "transit", "stylers": [{ "saturation": -100 }, { "visibility": "simplified" }] }, { "featureType": "administrative.province", "stylers": [{ "visibility": "off" }] }, { "featureType": "water", "elementType": "labels", "stylers": [{ "visibility": "on" }, { "lightness": -25 }, { "saturation": -100 }] }, { "featureType": "water", "elementType": "geometry", "stylers": [{ "hue": "#ffff00" }, { "lightness": -25 }, { "saturation": -97 }] }];
+
+    map.set('styles', styles);*/
     href = window.top.location.href;
     urlVars = getUrlVars(href);
-    recordId = urlVars["recordId"];
+    recordId = decodeURIComponent(urlVars["recordId"]);
     
-    if (recordId != "" && recordId != null && recordId != -1) {
+    if (recordId!="undefined" && recordId != "" && recordId != null && recordId != -1) {
         var customControlDiv = document.createElement('div');
         var customControl = new CustomControl(customControlDiv, map);
         var editPolycoordinates = urlVars["coordinates"];
@@ -82,7 +86,7 @@ function initMap() {
                 if (flags[i] != null && flags[i] != "") {
                     var value = new CustomFlagMarker();
                     value.type = flags[i];
-                    value.position = new google.maps.LatLng(centerForflag.lat() + (i) * 0.0002, centerForflag.lng() + (i) * 0.0002);
+                    value.position = new google.maps.LatLng(centerForflag.lat() + (i) * 0.002, centerForflag.lng() + (i) * 0.002);
                     var marker = addMarkerOnPolygon(value);
                     var ifExists = markerofFlag.has(marker);
                     if (!ifExists) {
@@ -109,7 +113,7 @@ function initMap() {
         function placeFlagatCorrectLocation(polygon) {
             calcCentroid(polygon);
             for (var i = 0; i < arrmarkerofFlag.length; i++) {
-                arrmarkerofFlag[i].setPosition(new google.maps.LatLng(centroid.lat() + (i) * 0.0002, centroid.lng() + (i) * 0.0002));
+                arrmarkerofFlag[i].setPosition(new google.maps.LatLng(centroid.lat() + (i) * 0.002, centroid.lng() + (i) * 0.002));
             }
             drawnPolygon = polygon;
         }
@@ -300,6 +304,8 @@ function initMap() {
             map.fitBounds(bounds);
         });
     }
+
+
     
 }
 function replaceAll(str, find, replace) {
@@ -373,10 +379,13 @@ function SubmitNewLocation(event) {
     var valuefirst = new CustomFlagMarker();
     var valueForFlags = "";
     if (firstval != "") {
-        for (var j = 0; j < arrmarkerofFlag.length; j++) {
-            arrmarkerofFlag[j].setMap(null);
+        //For drawing two polygons at once
+        if (arrmarkerofFlag != null) {
+            for (var j = 0; j < arrmarkerofFlag.length; j++) {
+                arrmarkerofFlag[j].setMap(null);
+            }
         }
-        
+        arrmarkerofFlag = null;
         valuefirst.type = firstval + 'Flag';
         valuefirst.position = centroid;
         addMarkerOnPolygon(valuefirst);
@@ -399,7 +408,7 @@ function SubmitNewLocation(event) {
         valueForFlags += arrmarkerofFlag[arrmarkerofFlag.length - 1].title;
     }
     var croploc = new Location();
-    if (recordId != null)
+    if (recordId != "undefined" && recordId != "" && recordId != null && recordId != -1)
         croploc.id = recordId;
     else
         croploc.id = "-1";
@@ -472,7 +481,7 @@ function editPolygon(coordinates,centroid,flagType,recordId,planttype,croptype,y
     window.location.href = 'Producer.aspx?coordinates=' + coordinates + "&centroid="
                             + centroid + "&flagType=" + flagType + "&planttype=" + encodeURIComponent(planttype)
                                 + "&croptype=" + encodeURIComponent(croptype) + "&year=" + year + "&comments" + encodeURIComponent(comments)
-                                + "&markerPos="+ markerPos + "&recordId=" + recordId;
+                                + "&markerPos=" + markerPos + "&recordId=" + encodeURIComponent(recordId);
 }
 function closeevent() {
             $('#registerCropForm').trigger("reset");
@@ -667,7 +676,7 @@ function loadProducerAreas() {
                         var mapforInfoWindow = new Map();
                         mapforInfoWindow.set("Crop Name:", val[i].planttype);
                         mapforInfoWindow.set("Crop Type:", val[i].croptype);
-                        mapforInfoWindow.set("Organic Certified:", val[i].certifier);
+                        //mapforInfoWindow.set("Organic Certified:", val[i].certifier);
                         mapforInfoWindow.set("Crop Year:", val[i].cropyear);
                         createInfoWindow(mapforInfoWindow, markerforFlag);
                     }
@@ -683,13 +692,36 @@ function loadProducerAreas() {
 }
 
 function createInfoWindow(dataAsMap, marker) {
-    var content = "<dl>";
+    //var content = "<dl>";
+    var content = '<div id="iw-container">' +
+                    '<div class="iw-title">Crop Information</div>' +
+                    '<div class="iw-content">' 
+        //'<img src="http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg" alt="Porcelain Factory of Vista Alegre" height="115" width="83">'
+        ;
     dataAsMap.forEach(function (value, key) {
-        content +=
-             "<dt>"+ key +"</dt>" +
-             "<dd>"+ value + "</dd>";
+
+        content += 
+                    
+                      '<div class="iw-subTitle">'+key+'</div>' +
+                        '<p>'+value+'</p>' 
+                      
+                    
+
+
+
+        /*content +=
+            '<div class="info-window">' +
+                '<div class="info-content">' +
+                "<dt>" + key + "</dt>" +
+                "<dd>" + value + "</dd>";
+                '</div>' +
+                '</div>';*/
+             
     });
-    content += "</dl>";
+    //content += "</dl>";
+    content += '</div>' +
+                    '<div class="iw-bottom-gradient"></div>' +
+                  '</div>';
     var infowindow = new google.maps.InfoWindow({
 
     })
@@ -701,6 +733,55 @@ function createInfoWindow(dataAsMap, marker) {
             infowindow.open(map, marker);
         };
     })(marker, content, infowindow));
+    google.maps.event.addListener(map, 'click', function () {
+        infowindow.close();
+    });
+
+    google.maps.event.addListener(infowindow, 'domready', function() {
+
+    // Reference to the DIV that wraps the bottom of infowindow
+    var iwOuter = $('.gm-style-iw');
+
+    /* Since this div is in a position prior to .gm-div style-iw.
+     * We use jQuery and create a iwBackground variable,
+     * and took advantage of the existing reference .gm-style-iw for the previous div with .prev().
+    */
+    var iwBackground = iwOuter.prev();
+
+    // Removes background shadow DIV
+    iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+
+    // Removes white background DIV
+    iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+
+    // Moves the infowindow 115px to the right.
+    iwOuter.parent().parent().css({left: '115px'});
+
+    // Moves the shadow of the arrow 76px to the left margin.
+    iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+
+    // Moves the arrow 76px to the left margin.
+    iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+
+    // Changes the desired tail shadow color.
+    iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+
+    // Reference to the div that groups the close button elements.
+    var iwCloseBtn = iwOuter.next();
+
+    // Apply the desired effect to the close button
+    iwCloseBtn.css({opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9'});
+
+    // If the content of infowindow not exceed the set maximum height, then the gradient is removed.
+    if($('.iw-content').height() < 140){
+      $('.iw-bottom-gradient').css({display: 'none'});
+    }
+
+    // The API automatically applies 0.7 opacity to the button after the mouseout event. This function reverses this event to the desired value.
+    iwCloseBtn.mouseout(function(){
+      $(this).css({opacity: '1'});
+    });
+  });
 }
 function CustomControl(controlDiv, map) {
 
@@ -740,7 +821,22 @@ function CustomControl(controlDiv, map) {
 
     // Setup the click event listeners
     google.maps.event.addDomListener(controlUI, 'click', function () {
-        fillModalValues(polygons[0],true);
+        var markerInPolygon = true;
+        var BreakException = {};
+        try {
+            arrmySetofmarkers.forEach(function (value, key) {
+                markerInPolygon = google.maps.geometry.poly.containsLocation(value.position, drawnPolygon);
+                if (!markerInPolygon) {
+                    throw BreakException;
+                }
+            });
+        }
+        catch (e) {
+                alert("Please place all markers inside the polygon");
+        }
+        if (markerInPolygon)
+        fillModalValues(polygons[0], true);
+        
     });
 
 }

@@ -66,7 +66,9 @@
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/landingPage.css">
+    <link href='/WebContent/css/custom_maps.css' rel='stylesheet' type='text/css'>
 </head>
 <script>
     $.get("HeaderNav.html", function (data) {

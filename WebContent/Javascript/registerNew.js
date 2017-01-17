@@ -184,7 +184,7 @@ function Signup() {
         det.password = document.getElementById('password').value;
         det.confirm = document.getElementById('confirm').value;
         var str = JSON.stringify(det);
-        PageMethods.RegisterUser(str, onSucess, onError);
+        PageMethods.RegisterUserDetails(str, onSucess, onError);
 }
 function onSucess(val) {
     $('#messages').removeClass('hide').addClass('alert alert-success alert-dismissible').slideDown().show();
