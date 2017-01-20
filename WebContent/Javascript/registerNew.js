@@ -1,4 +1,10 @@
-﻿var flagforvalid = true;
+﻿var flagforvalidforPhone = false;
+var flagforvalidforPass = false;
+var flagforvalidforConfirm = false;
+var flagforvalidforCompany = false;
+var flagforvalidforAddr = false;
+var flagforvalidforName = false;
+var flagforvalidforEmail = false;
 function Details() {
     this.email =  "",
     this.firstname = "",
@@ -33,18 +39,28 @@ function Fail(val) {
     $("#errormessage").empty();
     $("#errormessage").append('<strong>Error! Some values are incorrect. </strong>' + val[1]);
 }
-
+function enabledisableSubmitbutton() {
+    $('#registerUserForm input').on('keyup blur', function () {
+        if (flagforvalidforPhone && flagforvalidforPass && flagforvalidforConfirm && flagforvalidforCompany
+            && flagforvalidforAddr && flagforvalidforName && flagforvalidforEmail) {
+            $('button.btn').prop('disabled', false);
+        } else {
+            $('button.btn').prop('disabled', 'disabled');
+        }
+    });
+}
 function validatefields() {
     $('#txtPhone').blur(function (e) {
         if (document.getElementById('txtPhone').value != "") {
             if (validatePhone('txtPhone')) {
                 $('#txtPhone').closest('.input-group').removeClass('has-error').addClass('has-success');
                 $('#txtPhoneerror').text("");
+                flagforvalidforPhone = true;
             }
             else {
                 $('#txtPhone').closest('.input-group').removeClass('success').addClass('has-error');
                 $('#txtPhoneerror').text("Please enter correct telephone number");
-                
+                flagforvalidforPhone = false;
             }
         }
     });
@@ -53,16 +69,17 @@ function validatefields() {
             if (validatePassword()) {
                 $('#confirm').closest('.input-group').removeClass('has-error').addClass('has-success');
                 $('#confirmerror').text("");
+                flagforvalidforPass = true;
             }
             else if (document.getElementById('password').value.length < 8) {
                 $('#password').closest('.input-group').removeClass('success').addClass('has-error');
                 $('#passworderror').text("");
-                return false;
+                flagforvalidforPass = false;
             }
             else {
                 $('#confirm').closest('.input-group').removeClass('success').addClass('has-error');
                 $('#confirmerror').text("Passwords do not match");
-                return false;
+                flagforvalidforPass = false;
             }
         }
     });
@@ -71,11 +88,14 @@ function validatefields() {
             if (validatePassword()) {
                 $('#confirm').closest('.input-group').removeClass('has-error').addClass('has-success');
                 $('#confirmerror').text("");
+                flagforvalidforConfirm = true;
+                flagforvalidforPass = true;
             }
             else {
                 $('#confirm').closest('.input-group').removeClass('success').addClass('has-error');
                 $('#confirmerror').text("Passwords do not match");
-                return false;
+                flagforvalidforConfirm = false;
+                flagforvalidforPass = false;
             }
         }
     });
@@ -83,33 +103,36 @@ function validatefields() {
         if (document.getElementById('companyName').value.length < 2) {
             $('#companyName').closest('.input-group').removeClass('success').addClass('has-error');
             $('#companyNameerror').text("Please enter a valid company name");
-            return false;
+            flagforvalidforCompany = false;
         }
         else {
             $('#companyName').closest('.input-group').removeClass('has-error').addClass('has-success');
             $('#companyNameerror').text("");
+            flagforvalidforCompany = true;
         }
     });
     $('#Address').blur(function (e) {
         if (document.getElementById('Address').value.length < 2) {
             $('#Address').closest('.input-group').removeClass('success').addClass('has-error');
             $('#Addresserror').text("Please enter a valid Address");
-            return false;
+            flagforvalidforAddr = false;
         }
         else {
             $('#Address').closest('.input-group').removeClass('has-error').addClass('has-success');
             $('#Addresserror').text("");
+            flagforvalidforAddr = true;
         }
     });
     $('#name').blur(function (e) {
         if (document.getElementById('name').value.length < 2) {
             $('#name').closest('.input-group').removeClass('success').addClass('has-error');
             $('#nameerror').text("Please enter a valid name");
-            return false;
+            flagforvalidforName = false;
         }
         else {
             $('#name').closest('.input-group').removeClass('has-error').addClass('has-success');
             $('#nameerror').text("");
+            flagforvalidforName = true;
         }
     });
     $('#zipCode').blur(function (e) {
@@ -127,11 +150,12 @@ function validatefields() {
         if (!isValidEmailAddress(document.getElementById('email').value)) {
             $('#email').closest('.input-group').removeClass('success').addClass('has-error');
             $('#emailerror').text("Please enter a correct email address");
-            return false;
+            flagforvalidforEmail = false;
         }
         else {
             $('#email').closest('.input-group').removeClass('has-error').addClass('has-success');
             $('#emailerror').text("");
+            flagforvalidforEmail = true;
         }
     });
     $('#state').blur(function (e) {
@@ -156,6 +180,7 @@ function validatefields() {
             $('#cityerror').text("");
         }
     });
+    
 }
 function validatePassword() {
     if (document.getElementById('password').value.length < 8 || document.getElementById('password').value != document.getElementById('confirm').value) {
@@ -185,21 +210,39 @@ function Signup() {
         det.confirm = document.getElementById('confirm').value;
         var str = JSON.stringify(det);
         PageMethods.RegisterUserDetails(str, onSucess, onError);
+        setTimeout(fade_out, 200);
+        function fade_out() {
+            $("#errormessage").fadeOut().empty();
+            $("#successmessage").fadeOut().empty();
+        }
 }
 function onSucess(val) {
-    $('#messages').removeClass('hide').addClass('alert alert-success alert-dismissible').slideDown().show();
-    $('#messages_content').html('<h5>User Registered Successfully</h5>');
-    $('#modal').modal('show');
+    if (val[0] == 1) {
+        $("#successmessage").show();
+        $("#successmessage").empty();
+        $("#errormessage").empty();
+        $("#successmessage").append('<strong>Success! </strong>' + val[1]);
+        //disableCropForm();
+        //setcolorforPolygon(drawnPolygon, valuefirst);
+        //$('#registerCropForm').trigger("reset");
+    }
+    if (val[0] == 0) {
+
+        $("#errormessage").show();
+        $("#errormessage").empty();
+        $("#errormessage").append('<strong>Error! Some values are incorrect. </strong>' + val[1]);
+    }
 }
 
 function onError(val) {
-    $('#messages').removeClass('hide').addClass('alert alert-error alert-dismissible').slideDown().show();
-    $('#messages_content').html('<h5>' + result + '</h5>');
-    $('#modal').modal('show');
+    $("#errormessage").show();
+    $("#errormessage").empty();
+    $("#errormessage").append('<strong>Error! Some values are incorrect. </strong>' + val[1]);
 }
 
 $(document).ready(function () {
-        validatefields();
+    validatefields();
+    enabledisableSubmitbutton();
     });
 
         

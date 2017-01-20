@@ -52,11 +52,19 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
 
         return retval;
     }
-
+    private static AlternateView getEmbeddedImage(String filePath)
+    {
+        LinkedResource inline = new LinkedResource(filePath);
+        inline.ContentId = Guid.NewGuid().ToString();
+        string htmlBody = @"<img src='cid:" + inline.ContentId + @"'/>";
+        AlternateView alternateView = AlternateView.CreateAlternateViewFromString(htmlBody, null, System.Net.Mime.MediaTypeNames.Text.Html);
+        alternateView.LinkedResources.Add(inline);
+        return alternateView;
+    }
     [System.Web.Services.WebMethod(EnableSession = true)]
     public static string send(string email, string variable, string type)
     {
-        string confMsg = null;
+        /*string confMsg = null;
         //-- ---------------Rama Changes Begin -------------------------
         string url = "http://kel.tamu.edu/TexasCropRegistry/TexasCropRegistry.aspx?page=Account&type=ACTIVATEACCOUNT";
         //-- ---------------Rama Changes End -------------------------
@@ -122,6 +130,42 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
         finally
         {
             mail.Dispose();
+        }
+        return confMsg;*/
+        string confMsg = null;
+        try
+        {
+            MailMessage mail = new MailMessage();
+            mail.IsBodyHtml = true;
+            mail.AlternateViews.Add(getEmbeddedImage("C:/Users/arpit2408/Documents/TSC_TDA_RELEASE_Jan_29_2014_AGB/WebContent/Images/HomePage/Logo.jpg"));
+            var client = new SmtpClient("smtp.gmail.com", 587)
+            {
+                Credentials = new NetworkCredential("netflix240890@gmail.com", "Arpit@240890"),
+                EnableSsl = true
+            };
+            mail.From = new MailAddress("netflix240890@gmail.com");
+            mail.To.Add(email);
+            mail.Subject = "yourSubject";
+
+            client.Send(mail);
+           
+            /*MailMessage mail = new MailMessage("netflix240890@gmail.com", email);
+            SmtpClient client = new SmtpClient();
+            client.Port = 587;
+            client.Credentials = new System.Net.NetworkCredential("netflix240890@gmail.com", "Arpit@240890");
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Host = "smtp.gmail.com";
+            client.EnableSsl = true;
+            mail.Subject = "this is a test email.";
+            mail.Body = "this is my test email body";
+            
+            client.Send(mail);*/
+            confMsg = "sent";
+        }
+        catch (Exception e)
+        {
+            confMsg = e.Message.ToString();
         }
         return confMsg;
     }
@@ -227,7 +271,7 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
             string email_result = null;
             if (!fail_newuser)
             {
-                email_result = "sent";
+                email_result = send(obj.email.ToString(), startcode, "Registration"); ;
                 // send(obj.email.ToString(), startcode, "Registration");
                 if (email_result == "sent")
                 {

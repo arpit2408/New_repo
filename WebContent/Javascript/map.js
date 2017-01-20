@@ -474,6 +474,9 @@ function SubmitNewLocation(event) {
         }
     }
     function Fail(val) {
+        $("#errormessage").show();
+        $("#errormessage").empty();
+        $("#errormessage").append('<strong>Error! Some values are incorrect. </strong>' + val[1]);
     }
 }
 
