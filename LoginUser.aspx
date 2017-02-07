@@ -1,21 +1,17 @@
-﻿<%@ Page Language="C#" CodeFile="LoginUser.aspx.cs" Inherits="WebContent_LoginUser" %>
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
     <script type="text/javascript" src="/WebContent/Javascript/loginUser.js"></script>
 </head>
-<body>
+<body>                  
     <form id="form1" runat="server">
-        <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
         <div>
             <div class="container">
                 <div class="modal fade left" id="loginforModal" role="dialog">
                     <div class="modal-dialog">
-
-                        <!-- Modal content-->
+                         <!-- Modal content-->
                         <div class="modal-content" style="height: auto; width: auto;">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -56,7 +52,7 @@
                                 </div>
 
                                 <div class="">
-                                    <input type="input" class="btn btn-primary" style="width: 120px" onclick="loginUser()" value="Login" />
+                                    <input type="input" class="btn btn-primary" style="width: 120px" onclick="loginUser()" onkeydown="loginUser()" value="Login" />
                                 </div>
 
 
@@ -71,12 +67,11 @@
                                 </div>
                             </div>
                         </div>
-
+                      
                     </div>
                 </div>
             </div>
         </div>
-
     </form>
 </body>
 </html>

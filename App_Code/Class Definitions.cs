@@ -33,8 +33,8 @@ public class user
     public Boolean activated = false;
     public string preferences = "";
     public string prefoptions = "";
-    
-    
+    public string usertype = "";
+    public string user_id = "";
     public user()
     {
 

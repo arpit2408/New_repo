@@ -74,7 +74,9 @@
     $.get("HeaderNav.html", function (data) {
         $("#header").replaceWith(data);
     });
-
+    $.get("/LoginUser.aspx", function (data) {
+        $("#loginModal").replaceWith(data);
+    });
     $.get("RegisterCrop.aspx", function (data) {
         $("#modalDiv").replaceWith(data);
     });
@@ -108,15 +110,7 @@
         <div id="modalDiv"></div>
         <div id="modalForFlag"></div>
         <div id="map_canvas" style="height: 677px; width: 1923px;"></div>
-
-        <select style="height:20px;font-style:italic;">
-          <option value="http://maps.gstatic.com/mapfiles/markers2/markerA.png">A</option>
-          <option value="http://maps.gstatic.com/mapfiles/markers2/markerB.png">B</option>
-          <option value="http://maps.gstatic.com/mapfiles/markers2/markerC.png">C</option>
-          <option value="http://maps.gstatic.com/mapfiles/markers2/markerD.png">D</option>
-          <option value="http://maps.gstatic.com/mapfiles/markers2/markerE.png">E</option>
-        </select>
-
+        <div id="loginModal"></div>  
         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
         <input id="Text1" class="controls" type="text" placeholder="Search Box">
     </div>
@@ -127,7 +121,6 @@
    google.maps.event.addDomListener(window, 'load', initMap);
     </script>
         <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-      
     <script>
         $.get("footer.html", function (data) {
             $("#footer").replaceWith(data);

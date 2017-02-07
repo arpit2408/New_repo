@@ -5,8 +5,9 @@ var flagforvalidforCompany = false;
 var flagforvalidforAddr = false;
 var flagforvalidforName = false;
 var flagforvalidforEmail = false;
+var flagforidentification = false;
 function Details() {
-    this.email =  "",
+    this.email = "",
     this.firstname = "",
     this.companyname = "",
     this.address = "",
@@ -15,7 +16,9 @@ function Details() {
     this.zip = "",
     this.txtPhone = "",
     this.password = "",
-    this.confirm = ""
+    this.confirm = "",
+    this.usertype = "",
+    this.identification = ""
 }
 
 
@@ -42,7 +45,7 @@ function Fail(val) {
 function enabledisableSubmitbutton() {
     $('#registerUserForm input').on('keyup blur', function () {
         if (flagforvalidforPhone && flagforvalidforPass && flagforvalidforConfirm && flagforvalidforCompany
-            && flagforvalidforAddr && flagforvalidforName && flagforvalidforEmail) {
+            && flagforvalidforAddr && flagforvalidforName && flagforvalidforEmail && flagforidentification) {
             $('button.btn').prop('disabled', false);
         } else {
             $('button.btn').prop('disabled', 'disabled');
@@ -64,38 +67,38 @@ function validatefields() {
             }
         }
     });
-    $('#password').blur(function (e) {
-        if (document.getElementById('password').value != "" && document.getElementById('confirm').value != "") {
-            if (validatePassword()) {
-                $('#confirm').closest('.input-group').removeClass('has-error').addClass('has-success');
-                $('#confirmerror').text("");
-                flagforvalidforPass = true;
-            }
-            else if (document.getElementById('password').value.length < 8) {
-                $('#password').closest('.input-group').removeClass('success').addClass('has-error');
-                $('#passworderror').text("");
-                flagforvalidforPass = false;
-            }
-            else {
-                $('#confirm').closest('.input-group').removeClass('success').addClass('has-error');
-                $('#confirmerror').text("Passwords do not match");
-                flagforvalidforPass = false;
-            }
+    $('#usrpassword').blur(function (e) {
+        if (document.getElementById('usrpassword') != null && document.getElementById('usrpassword').value.length < 8) {
+            $('#usrpassword').closest('.input-group').removeClass('success').addClass('has-error');
+            $('#passworderror').text("Invalid password(Min. 8 digits required)");
+            flagforvalidforPass = false;
+        }
+        else if (!validatePassword()) {
+            $('#confirm').closest('.input-group').removeClass('success').addClass('has-error');
+            $('#confirmerror').text("");
+            flagforvalidforConfirm = false;
+            $('#usrpassword').closest('.input-group').removeClass('has-error').addClass('has-success');
+            $('#passworderror').text("");
+            flagforvalidforPass = true;
+        }
+
+        else {
+            $('#usrpassword').closest('.input-group').removeClass('has-error').addClass('has-success');
+            $('#passworderror').text("");
+            flagforvalidforPass = true;
         }
     });
-    $('#confirm').blur(function (e) {
-        if (document.getElementById('password').value != "") {
+    $('#confirmusrpassword').blur(function (e) {
+        if (document.getElementById('usrpassword').value != "") {
             if (validatePassword()) {
-                $('#confirm').closest('.input-group').removeClass('has-error').addClass('has-success');
+                $('#confirmusrpassword').closest('.input-group').removeClass('has-error').addClass('has-success');
                 $('#confirmerror').text("");
                 flagforvalidforConfirm = true;
-                flagforvalidforPass = true;
             }
             else {
-                $('#confirm').closest('.input-group').removeClass('success').addClass('has-error');
+                $('#confirmusrpassword').closest('.input-group').removeClass('success').addClass('has-error');
                 $('#confirmerror').text("Passwords do not match");
                 flagforvalidforConfirm = false;
-                flagforvalidforPass = false;
             }
         }
     });
@@ -136,7 +139,7 @@ function validatefields() {
         }
     });
     $('#zipCode').blur(function (e) {
-        if (document.getElementById('zipCode').value.length < 5) {
+        if (document.getElementById('zipCode') != null && document.getElementById('zipCode').value.length < 5) {
             $('#zipCode').closest('.input-group').removeClass('success').addClass('has-error');
             $('#zipCodeerror').text("Please enter a valid zipcode");
             return false;
@@ -146,14 +149,14 @@ function validatefields() {
             $('#zipCodeerror').text("");
         }
     });
-    $('#email').blur(function (e) {
-        if (!isValidEmailAddress(document.getElementById('email').value)) {
-            $('#email').closest('.input-group').removeClass('success').addClass('has-error');
+    $('#usremail').blur(function (e) {
+        if (document.getElementById('usremail') != null && !isValidEmailAddress(document.getElementById('usremail').value)) {
+            $('#usremail').closest('.input-group').removeClass('success').addClass('has-error');
             $('#emailerror').text("Please enter a correct email address");
             flagforvalidforEmail = false;
         }
         else {
-            $('#email').closest('.input-group').removeClass('has-error').addClass('has-success');
+            $('#usremail').closest('.input-group').removeClass('has-error').addClass('has-success');
             $('#emailerror').text("");
             flagforvalidforEmail = true;
         }
@@ -180,10 +183,22 @@ function validatefields() {
             $('#cityerror').text("");
         }
     });
-    
+    $('#identification').blur(function (e) {
+        if (document.getElementById('identification').value.length < 6) {
+            $('#identification').closest('.input-group').removeClass('success').addClass('has-error');
+            $('#identificationerror').text("Please enter valid identification number");
+            flagforidentification = false;
+        }
+        else {
+            $('#identification').closest('.input-group').removeClass('has-error').addClass('has-success');
+            $('#identificationerror').text("");
+            flagforidentification = true;
+        }
+    });
+
 }
 function validatePassword() {
-    if (document.getElementById('password').value.length < 8 || document.getElementById('password').value != document.getElementById('confirm').value) {
+    if (document.getElementById('usrpassword').value.length < 8 || document.getElementById('usrpassword').value != document.getElementById('confirmusrpassword').value) {
         return false;
     } else {
         return true;
@@ -195,26 +210,44 @@ function isValidEmailAddress(emailAddress) {
 }
 
 function Signup() {
-    
+    var atLeastOneIsChecked = $('input:checkbox:checked').map(function () {
+        return this.value;
+    }).get();
+    if (atLeastOneIsChecked.length == 0) {
+        confirm("Please select the type of user..!!")
+    }
+    else {
         var det = null;
         det = new Details();
-        det.email = document.getElementById('email').value;
+        det.email = document.getElementById('usremail').value; //'arpit2409@tamu.edu'//
         det.firstname = document.getElementById('name').value;
         det.companyname = document.getElementById('companyName').value;
         det.address = document.getElementById('Address').value;
+        if (document.getElementById('city').value == "") {
+            alert("Please select the city");
+            return;
+        }
         det.city = document.getElementById('city').value;
         det.state = document.getElementById('state').value;
         det.zip = document.getElementById('zipCode').value;
         det.txtPhone = document.getElementById('txtPhone').value;
-        det.password = document.getElementById('password').value;
-        det.confirm = document.getElementById('confirm').value;
+        det.password = document.getElementById('usrpassword').value;
+        det.confirm = document.getElementById('confirmusrpassword').value;
+        det.identification = document.getElementById('identification').value;
+        var usertypeVal = atLeastOneIsChecked[0];
+        for (var usrtype = 1; usrtype < atLeastOneIsChecked.length; usrtype++) {
+            usertypeVal += "," + atLeastOneIsChecked[usrtype];
+        }
+        det.usertype = usertypeVal;
         var str = JSON.stringify(det);
         PageMethods.RegisterUserDetails(str, onSucess, onError);
-        setTimeout(fade_out, 200);
+        setTimeout(fade_out, 5000);
         function fade_out() {
             $("#errormessage").fadeOut().empty();
             $("#successmessage").fadeOut().empty();
         }
+    }
+
 }
 function onSucess(val) {
     if (val[0] == 1) {
@@ -243,7 +276,22 @@ function onError(val) {
 $(document).ready(function () {
     validatefields();
     enabledisableSubmitbutton();
+    $("#userSubmit").click(function () {
+        $('html, body').animate({
+            scrollTop: $("#messages_content").offset().top
+        }, 600);
+        return false;
+    });
+});
+$(function () {
+    $('#search').on('keyup', function () {
+        var pattern = $(this).val();
+        $('.searchable-container .items').hide();
+        $('.searchable-container .items').filter(function () {
+            return $(this).text().match(new RegExp(pattern, 'i'));
+        }).show();
     });
 
-        
+});
+
 

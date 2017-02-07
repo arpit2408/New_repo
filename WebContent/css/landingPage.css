@@ -23,7 +23,7 @@ body, html{
     height: 100%;
  	background-repeat: no-repeat;
  	background-color: #d3d3d3;
- 	font-family: 'Oxygen', sans-serif;
+ 	font-family: 'Raleway', sans-serif;
     
 }
 .margin30 {
@@ -143,4 +143,23 @@ input::-webkit-input-placeholder {
 	border-color: #1d0000;
 	color: #1d0000;
 	box-shadow: none;
+}
+
+
+/*Adding to display button on right of table in dashboard*/
+.rightbuttonlink {
+    padding-top: 11px;
+    padding-left:295px; 
+    float: right;
+}
+
+/*Added to give style to advanced search box in applicator listing*/
+.searchclass {
+    padding-left:28px !important;
+}
+.searchheight {
+    height: 35px !important;
+}
+.paddingtopbutton {
+    padding-top:25px !important;
 }

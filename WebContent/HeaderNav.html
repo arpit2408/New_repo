@@ -2,10 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <script type="text/javascript" src="/WebContent/Javascript/loginUser.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>
-       
+        $.get("/LoginUser.aspx", function (data) {
+            $("#loginModal").replaceWith(data);
+        });
     </script>
 </head>
 <body>
@@ -22,11 +23,11 @@
                 </button>
 
                 <a class="navbar-brand" href="#">
-                    <img alt="TAMUlogo" src="/images/TAM-Logo-white.png" style="max-width:93%;" /></a>
+                    <img alt="TAMUlogo" src="/images/TAM-Logo-white.png" style="max-width: 81%;" /></a>
                 <a class="navbar-brand" href="#">
-                    <img alt="KELlogo" src="/images/KELlogo_sm.jpg" style="max-width:93%;padding-top:10px" /></a>
+                    <img alt="KELlogo" src="/images/KELlogo_sm.jpg" style="max-width: 93%; padding-top: 10px" /></a>
                 <a class="navbar-brand" href="#">
-                    <img alt="" src="/WebContent/Images/HomePage/LogoTXP.jpg" class="img-responsive" style="padding-left:10px;padding-top:10px"/></a>
+                    <img alt="" src="/WebContent/Images/HomePage/LogoTXP.jpg" class="img-responsive" style="padding-left: 10px; padding-top: 10px" /></a>
 
 
             </div>
@@ -45,27 +46,26 @@
 
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class=" ">
+                    <li id="Homeli" class=" ">
                         <a href="/WebContent/LandingPage.html">HOME</a>
                     </li>
                     <li>
                         <a href="/WebContent/Producer.aspx#">PRODUCERS</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="/WebContent/ApplicatorNew.aspx#">APPLICATORS</a>
-                    </li>
+                    </li> -->
                     <li>
                         <a href="#">FAQ</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="/WebContent/PublicMapNew.aspx#">PUBLIC MAP</a>
-                    </li>
-                    <li>
+                    </li> -->
+                    <li id="SignUpli">
                         <a href="/WebContent/RegisterNewUser.aspx#">SIGN UP</a>
                     </li>
-                    <li class="">
-                        <a href="" id="UserName" data-toggle="modal" data-target="#loginforModal" data-direction='right'>SIGN IN <b class="caret"></b></a>
-                          
+                    <li id="UserNameli">
+                            <a id="UserName" data-toggle="modal" data-target="#loginforModal" data-direction='right'>SIGN IN </a>
                     </li>
                 </ul>
             </div>
@@ -74,8 +74,8 @@
         </div>
         <!-- /.container -->
     </nav>
-    <div id="loginModal"></div>  
+    <div id="loginModal"></div>
 </body>
-    
+
 </html>
 

@@ -240,7 +240,7 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
 
                 //modify user details
                 sql = "INSERT INTO user_details VALUES ('[EMAIL]', '[FIRST]', '[LAST]', '[CONAME]', '[ADDRESS]', '[CITY]', '[STATE]', '[ZIP]', '[WEB]', " +
-                      "'[PHONE1]', '[PHONE2]', '[DATE1]', '[DATE2]', '[ACTIVE]', '[PREFERENCES]', '[PREFUSERS]');";
+                      "'[PHONE1]', '[PHONE2]', '[DATE1]', '[DATE2]', '[ACTIVE]', '[PREFERENCES]', '[PREFUSERS]','[USERTYPE]');";
                 sql = sql.Replace("[EMAIL]", obj.email);
                 sql = sql.Replace("[FIRST]", obj.firstname);
                 sql = sql.Replace("[LAST]", obj.lastname);
@@ -257,6 +257,7 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
                 sql = sql.Replace("[ACTIVE]", "0");
                 sql = sql.Replace("[PREFERENCES]", "none");
                 sql = sql.Replace("[PREFUSERS]", "");
+                sql = sql.Replace("[USERTYPE]", obj.usertype);
 
                 cmd.Dispose();
                 reader.Close();

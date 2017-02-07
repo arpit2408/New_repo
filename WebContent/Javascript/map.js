@@ -8,7 +8,7 @@ var href = "";
 var drawnPolygon;
 var vertices;
 var polygons = [];
-var allflagmarkers =[];
+var allflagmarkers = [];
 var markerofFlag = new Set();
 var mySetofmarkers = new Set();
 var arrmarkerofFlag = [];
@@ -16,25 +16,28 @@ var arrmySetofmarkers = new Map();
 var recordId = "";
 var urlVars;
 function initMap() {
-    
+
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
     var mapOptions = {
-        zoom: 14,
+        zoom: 5,
         center: myLatlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         disableDefaultUI: false
     }
     var mapElement = document.getElementById('map_canvas');
-    
+
     map = new google.maps.Map(map_canvas, mapOptions);
+
     /*var styles = [{ "featureType": "landscape", "stylers": [{ "saturation": -100 }, { "lightness": 65 }, { "visibility": "on" }] }, { "featureType": "poi", "stylers": [{ "saturation": -100 }, { "lightness": 51 }, { "visibility": "simplified" }] }, { "featureType": "road.highway", "stylers": [{ "saturation": -100 }, { "visibility": "simplified" }] }, { "featureType": "road.arterial", "stylers": [{ "saturation": -100 }, { "lightness": 30 }, { "visibility": "on" }] }, { "featureType": "road.local", "stylers": [{ "saturation": -100 }, { "lightness": 40 }, { "visibility": "on" }] }, { "featureType": "transit", "stylers": [{ "saturation": -100 }, { "visibility": "simplified" }] }, { "featureType": "administrative.province", "stylers": [{ "visibility": "off" }] }, { "featureType": "water", "elementType": "labels", "stylers": [{ "visibility": "on" }, { "lightness": -25 }, { "saturation": -100 }] }, { "featureType": "water", "elementType": "geometry", "stylers": [{ "hue": "#ffff00" }, { "lightness": -25 }, { "saturation": -97 }] }];
 
     map.set('styles', styles);*/
     href = window.top.location.href;
     urlVars = getUrlVars(href);
     recordId = decodeURIComponent(urlVars["recordId"]);
-    
-    if (recordId!="undefined" && recordId != "" && recordId != null && recordId != -1) {
+    var user = checkloggedInUser();
+    if (user == null)
+        return;
+    if (recordId != "undefined" && recordId != "" && recordId != null && recordId != -1) {
         var customControlDiv = document.createElement('div');
         var customControl = new CustomControl(customControlDiv, map);
         var editPolycoordinates = urlVars["coordinates"];
@@ -46,7 +49,7 @@ function initMap() {
         var coodichange = editPolycoordinates;
         var coordinates = coodichange.split(";");
         var arr = new Array();
-        
+
         var bounds = new google.maps.LatLngBounds();
         for (var j = 0; j < coordinates.length ; j++) {
             if (coordinates[j] != "") {
@@ -77,7 +80,7 @@ function initMap() {
         });
         if (flagtype != "undefined") {
             var flags = flagtype.split(",");
-            var posForFlag=editPolyCentroid.split(",");
+            var posForFlag = editPolyCentroid.split(",");
             var centerForflag = new google.maps.LatLng(
                       parseFloat(posForFlag[0]),
                       parseFloat(posForFlag[1])
@@ -134,7 +137,7 @@ function initMap() {
                 //icon: iconEntrance,
                 //draggable: true,
                 animation: google.maps.Animation.DROP
-              }
+            }
         });
         drawingManager.setMap(map);
         google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
@@ -146,7 +149,7 @@ function initMap() {
                 var ifExists = mySetofmarkers.has(posOfMarker);
                 if (!ifExists) {
                     mySetofmarkers.add(posOfMarker);
-                    arrmySetofmarkers.set(markerId,marker); // cache marker in markers object
+                    arrmySetofmarkers.set(markerId, marker); // cache marker in markers object
                     bindMarkerEvents(marker);
                     //arrmarkerEntrance.push(posOfMarker);
                 }
@@ -169,38 +172,38 @@ function initMap() {
                 });
                 var ifExists = mySetofmarkers.has(value.position);
                 if (!ifExists) {
-                    mySetofmarkers.add( value.position);
-                    arrmySetofmarkers.set(markerId,marker); // cache marker in markers object
+                    mySetofmarkers.add(value.position);
+                    arrmySetofmarkers.set(markerId, marker); // cache marker in markers object
                     bindMarkerEvents(marker);
                     //arrmySetofmarkers.push(posOfMarker);
                 }
             }
         }
-        
 
-        
-        }
-    
+
+
+    }
+
     else {
         loadProducerAreas();
-            drawingManager = new google.maps.drawing.DrawingManager({
-                drawingMode: google.maps.drawing.OverlayType.POLYGON,
-                drawingControl: true,
-                drawingControlOptions: {
-                    position: google.maps.ControlPosition.TOP_CENTER,
-                    drawingModes: ['marker', 'polygon']
-                },
-                polygonOptions: {
-                    editable: false,
-                    draggable: false,
-                    strokecolor: '#E9967A'
-                },
-                markerOptions: {
-                    //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
-                    draggable: true,
-                    animation: google.maps.Animation.DROP
-                }
-            });
+        drawingManager = new google.maps.drawing.DrawingManager({
+            drawingMode: google.maps.drawing.OverlayType.POLYGON,
+            drawingControl: true,
+            drawingControlOptions: {
+                position: google.maps.ControlPosition.TOP_CENTER,
+                drawingModes: ['marker', 'polygon']
+            },
+            polygonOptions: {
+                editable: false,
+                draggable: false,
+                strokecolor: '#E9967A'
+            },
+            markerOptions: {
+                //icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                draggable: true,
+                animation: google.maps.Animation.DROP
+            }
+        });
         drawingManager.setMap(map);
 
         // Add a listener for creating new shape event.
@@ -226,18 +229,18 @@ function initMap() {
 
 
         google.maps.event.addListener(drawingManager, 'drawingmode_changed', function (event) {
-            if (drawingManager.getDrawingMode() == null ) {
-                
+            if (drawingManager.getDrawingMode() == null) {
+
             }
         });
-        
+
         // Add a listener for the "drag" event.
         google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
             if (event.type != 'marker') {
                 overlayDragListener(event.overlay);
                 drawnPolygon = event.overlay;
                 $('#vertices').val(event.overlay.getPath().getArray());
-                fillModalValues(event.overlay,false);
+                fillModalValues(event.overlay, false);
             }
             else {
                 var posOfMarker = event.overlay.position;
@@ -306,7 +309,7 @@ function initMap() {
     }
 
 
-    
+
 }
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
@@ -365,8 +368,9 @@ function CustomFlagMarker() {
 }*/
 
 function SubmitNewLocation(event) {
-    
+
     var sharecropInfo = false;
+    var user = checkloggedInUser();
     //ConfirmDialog("Do you want the information of this crop to be visible to other producers..!!");
     if (confirm("Do you want the information of this crop to be visible to other producers..!!")) {
         sharecropInfo = true;
@@ -395,7 +399,7 @@ function SubmitNewLocation(event) {
                 var value = new CustomFlagMarker();
                 value.type = flagop[i] + 'Flag';
                 valueForFlags += "," + value.type;
-                value.position = new google.maps.LatLng(centroid.lat() + (i) * 0.002, centroid.lng() + (i) * 0.002);
+                value.position = new google.maps.LatLng(centroid.lat() + (i) * 0.00002, centroid.lng() + (i) * 0.00002);
                 addMarkerOnPolygon(value);
             }
         }
@@ -403,7 +407,7 @@ function SubmitNewLocation(event) {
     if (arrmarkerofFlag != null && arrmarkerofFlag.length != 0 && document.getElementsByName('flagoptions')[0].checked) {
         valuefirst.type = arrmarkerofFlag[0].title;
         for (var j = 0; j < arrmarkerofFlag.length - 1; j++) {
-            valueForFlags+= arrmarkerofFlag[j].title+",";
+            valueForFlags += arrmarkerofFlag[j].title + ",";
         }
         valueForFlags += arrmarkerofFlag[arrmarkerofFlag.length - 1].title;
     }
@@ -412,7 +416,7 @@ function SubmitNewLocation(event) {
         croploc.id = recordId;
     else
         croploc.id = "-1";
-    croploc.usremail = "mtchakerian@tamu.edu";
+    croploc.usremail = user.email;
     croploc.planttype = document.getElementById('plant').value;
     croploc.croptype = document.getElementById('crop').value;
     croploc.cropyear = document.getElementById('cropYear').value;
@@ -480,15 +484,15 @@ function SubmitNewLocation(event) {
     }
 }
 
-function editPolygon(coordinates,centroid,flagType,recordId,planttype,croptype,year,comments,markerPos) {
+function editPolygon(coordinates, centroid, flagType, recordId, planttype, croptype, year, comments, markerPos) {
     window.location.href = 'Producer.aspx?coordinates=' + coordinates + "&centroid="
                             + centroid + "&flagType=" + flagType + "&planttype=" + encodeURIComponent(planttype)
                                 + "&croptype=" + encodeURIComponent(croptype) + "&year=" + year + "&comments" + encodeURIComponent(comments)
                                 + "&markerPos=" + markerPos + "&recordId=" + encodeURIComponent(recordId);
 }
 function closeevent() {
-            $('#registerCropForm').trigger("reset");
-            //$('#flagtechModal').trigger("reset");
+    $('#registerCropForm').trigger("reset");
+    //$('#flagtechModal').trigger("reset");
 }
 function getUrlVars(hrefString) {
     var vars = [], hash;
@@ -538,6 +542,12 @@ function addMarkerOnPolygon(positionOfMarker) {
         origin: new google.maps.Point(0, 0), // origin
         anchor: new google.maps.Point(0, 0) // anchor
     };
+    var defaultIcon = {
+        url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+        scaledSize: new google.maps.Size(35, 40), // scaled size
+        origin: new google.maps.Point(0, 0), // origin
+        anchor: new google.maps.Point(0, 0)
+    }
     var icons = {
         "BlackFlag": {
             icon: iconBlackFlag,
@@ -562,16 +572,20 @@ function addMarkerOnPolygon(positionOfMarker) {
         "YellowFlag": {
             icon: iconYellowFlag,
             color: "#FFFF00"
+        },
+        default: {
+            icon: defaultIcon,
+            color: "#ECB0B0"
         }
     };
-    
-    var addedMarker=addMarker(positionOfMarker);
-    
+
+    var addedMarker = addMarker(positionOfMarker);
+
     function addMarker(custom) {
         var markerId = getMarkerUniqueId(custom.position.lat(), custom.position.lng());
         var marker = new google.maps.Marker({
             position: custom.position,
-            icon: icons[custom.type].icon,
+            icon: (custom.type != null && custom.type != "") ? icons[custom.type].icon : defaultIcon,
             title: custom.type,
             id: markerId,
             map: map
@@ -648,67 +662,74 @@ function setcolorforPolygon(drawnPolygon, valuefirst) {
     drawnPolygon.setOptions({ strokeWeight: 2.0, fillColor: icons[valuefirst.type].color, draggable: true });
 }
 function loadProducerAreas() {
-    var useremail = "mtchakerian@tamu.edu";
+    //var useremail = "mtchakerian@tamu.edu";
     $.ajax({
         type: 'POST',
-        url: 'Dashboard.aspx/ListProducerPolygons',
+        url: 'Producer.aspx/ListAllProducerFlags',
         contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify({ useremail: useremail }),
+        //data: JSON.stringify({ useremail: useremail }),
         dataType: 'json',
         success: Producer_location_Success,
         error: Fail_location
     });
     function Producer_location_Success(resultobj) {
-        var val = resultobj.d;
-        for (var i = 0; i < val.length; i++) {
-            if (val[i].flagtype != "") {
-                var flags = val[i].flagtype.split(",");
-                editPolyCentroid = val[i].loccentroid;
-                for (var j = 0; j < flags.length; j++) {
-                    var flagcreator = new CustomFlagMarker();
-                    flagcreator.type = flags[j];
-                    var posForFlag = editPolyCentroid.split(",");
-                    var centerForflag = new google.maps.LatLng(
-                              parseFloat(posForFlag[0]),
-                              parseFloat(posForFlag[1])
-                        );
-                    flagcreator.position = new google.maps.LatLng(centerForflag.lat() + (j) * 0.002, centerForflag.lng()+ (j) * 0.002);
-                    var markerforFlag = addMarkerOnPolygon(flagcreator);
-                    allflagmarkers.push(markerforFlag);
-                    if (val[i].shareCropInfo!=null && val[i].shareCropInfo.toUpperCase() === "TRUE") {
-                        var mapforInfoWindow = new Map();
-                        mapforInfoWindow.set("Crop Name:", val[i].planttype);
-                        mapforInfoWindow.set("Crop Type:", val[i].croptype);
-                        //mapforInfoWindow.set("Organic Certified:", val[i].certifier);
-                        mapforInfoWindow.set("Crop Year:", val[i].cropyear);
-                        createInfoWindow(mapforInfoWindow, markerforFlag);
-                    }
-                }
-            }
-            
-        }
-        var markerCluster = new MarkerClusterer(map, allflagmarkers, { imagePath: 'Images/Cluster/m' });
-    }
-        function Fail_location(resultobj) {
+        var user = checkloggedInUser();
+        if (user!=null) {
             var val = resultobj.d;
+            if (val != null) {
+                for (var i = 0; i < val.length; i++) {
+                    if (val[i].flagtype != "") {
+                        var flags = val[i].flagtype.split(",");
+                        editPolyCentroid = val[i].loccentroid;
+                        for (var j = 0; j < flags.length; j++) {
+                            var flagcreator = new CustomFlagMarker();
+                            flagcreator.type = flags[j];
+                            var posForFlag = editPolyCentroid.split(",");
+                            var centerForflag = new google.maps.LatLng(
+                                      parseFloat(posForFlag[0]),
+                                      parseFloat(posForFlag[1])
+                                );
+                            flagcreator.position = new google.maps.LatLng(centerForflag.lat() + (j) * 0.001, centerForflag.lng() + (j) * 0.001);
+                            var markerforFlag = addMarkerOnPolygon(flagcreator);
+                            allflagmarkers.push(markerforFlag);
+                            if (val[i].shareCropInfo != null && val[i].shareCropInfo.toUpperCase() === "TRUE") {
+                                var mapforInfoWindow = new Map();
+                                mapforInfoWindow.set("Crop Name:", val[i].planttype);
+                                mapforInfoWindow.set("Crop Type:", val[i].croptype);
+                                //mapforInfoWindow.set("Organic Certified:", val[i].certifier);
+                                mapforInfoWindow.set("Crop Year:", val[i].cropyear);
+                                createInfoWindow(mapforInfoWindow, markerforFlag);
+                            }
+                        }
+                    }
+
+                }
+                var markerCluster = new MarkerClusterer(map, allflagmarkers, { imagePath: 'Images/Cluster/m' });
+            }
+            init_producerMapAreas(user.email);
         }
+        
+    }
+    function Fail_location(resultobj) {
+        var val = resultobj.d;
+    }
 }
 
 function createInfoWindow(dataAsMap, marker) {
     //var content = "<dl>";
     var content = '<div id="iw-container">' +
                     '<div class="iw-title">Crop Information</div>' +
-                    '<div class="iw-content">' 
-        //'<img src="http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg" alt="Porcelain Factory of Vista Alegre" height="115" width="83">'
-        ;
+                    '<div class="iw-content">'
+    //'<img src="http://maps.marnoto.com/en/5wayscustomizeinfowindow/images/vistalegre.jpg" alt="Porcelain Factory of Vista Alegre" height="115" width="83">'
+    ;
     dataAsMap.forEach(function (value, key) {
 
-        content += 
-                    
-                      '<div class="iw-subTitle">'+key+'</div>' +
-                        '<p>'+value+'</p>' 
-                      
-                    
+        content +=
+
+                      '<div class="iw-subTitle">' + key + '</div>' +
+                        '<p>' + value + '</p>'
+
+
 
 
 
@@ -719,7 +740,7 @@ function createInfoWindow(dataAsMap, marker) {
                 "<dd>" + value + "</dd>";
                 '</div>' +
                 '</div>';*/
-             
+
     });
     //content += "</dl>";
     content += '</div>' +
@@ -728,7 +749,7 @@ function createInfoWindow(dataAsMap, marker) {
     var infowindow = new google.maps.InfoWindow({
 
     })
-    
+
     //alert("custom.position" + custom.position + "custom.type" + custom.type + "custom.cropname" + custom.cropname);
     google.maps.event.addListener(marker, 'click', (function (marker, content, infowindow) {
         return function () {
@@ -740,51 +761,51 @@ function createInfoWindow(dataAsMap, marker) {
         infowindow.close();
     });
 
-    google.maps.event.addListener(infowindow, 'domready', function() {
+    google.maps.event.addListener(infowindow, 'domready', function () {
 
-    // Reference to the DIV that wraps the bottom of infowindow
-    var iwOuter = $('.gm-style-iw');
+        // Reference to the DIV that wraps the bottom of infowindow
+        var iwOuter = $('.gm-style-iw');
 
-    /* Since this div is in a position prior to .gm-div style-iw.
-     * We use jQuery and create a iwBackground variable,
-     * and took advantage of the existing reference .gm-style-iw for the previous div with .prev().
-    */
-    var iwBackground = iwOuter.prev();
+        /* Since this div is in a position prior to .gm-div style-iw.
+         * We use jQuery and create a iwBackground variable,
+         * and took advantage of the existing reference .gm-style-iw for the previous div with .prev().
+        */
+        var iwBackground = iwOuter.prev();
 
-    // Removes background shadow DIV
-    iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+        // Removes background shadow DIV
+        iwBackground.children(':nth-child(2)').css({ 'display': 'none' });
 
-    // Removes white background DIV
-    iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+        // Removes white background DIV
+        iwBackground.children(':nth-child(4)').css({ 'display': 'none' });
 
-    // Moves the infowindow 115px to the right.
-    iwOuter.parent().parent().css({left: '115px'});
+        // Moves the infowindow 115px to the right.
+        iwOuter.parent().parent().css({ left: '115px' });
 
-    // Moves the shadow of the arrow 76px to the left margin.
-    iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+        // Moves the shadow of the arrow 76px to the left margin.
+        iwBackground.children(':nth-child(1)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
 
-    // Moves the arrow 76px to the left margin.
-    iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+        // Moves the arrow 76px to the left margin.
+        iwBackground.children(':nth-child(3)').attr('style', function (i, s) { return s + 'left: 76px !important;' });
 
-    // Changes the desired tail shadow color.
-    iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+        // Changes the desired tail shadow color.
+        iwBackground.children(':nth-child(3)').find('div').children().css({ 'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index': '1' });
 
-    // Reference to the div that groups the close button elements.
-    var iwCloseBtn = iwOuter.next();
+        // Reference to the div that groups the close button elements.
+        var iwCloseBtn = iwOuter.next();
 
-    // Apply the desired effect to the close button
-    iwCloseBtn.css({opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9'});
+        // Apply the desired effect to the close button
+        iwCloseBtn.css({ opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9' });
 
-    // If the content of infowindow not exceed the set maximum height, then the gradient is removed.
-    if($('.iw-content').height() < 140){
-      $('.iw-bottom-gradient').css({display: 'none'});
-    }
+        // If the content of infowindow not exceed the set maximum height, then the gradient is removed.
+        if ($('.iw-content').height() < 140) {
+            $('.iw-bottom-gradient').css({ display: 'none' });
+        }
 
-    // The API automatically applies 0.7 opacity to the button after the mouseout event. This function reverses this event to the desired value.
-    iwCloseBtn.mouseout(function(){
-      $(this).css({opacity: '1'});
+        // The API automatically applies 0.7 opacity to the button after the mouseout event. This function reverses this event to the desired value.
+        iwCloseBtn.mouseout(function () {
+            $(this).css({ opacity: '1' });
+        });
     });
-  });
 }
 function CustomControl(controlDiv, map) {
 
@@ -835,11 +856,11 @@ function CustomControl(controlDiv, map) {
             });
         }
         catch (e) {
-                alert("Please place all markers inside the polygon");
+            alert("Please place all markers inside the polygon");
         }
         if (markerInPolygon)
-        fillModalValues(polygons[0], true);
-        
+            fillModalValues(polygons[0], true);
+
     });
 
 }
@@ -853,7 +874,7 @@ function enableCropForm() {
     $("#fancy-checkbox-warning").prop("disabled", false);
     $("#successmessage").css('display', 'none');
 }
-function fillModalValues(polygon,checkforflag) {
+function fillModalValues(polygon, checkforflag) {
     $('#myModal').modal('show');
     enableCropForm();
     $("#myModal").draggable({ handle: ".modal-body" });
@@ -872,7 +893,7 @@ function fillModalValues(polygon,checkforflag) {
     $('#polygonpath').val(coordinates);
     $('#countyselected').val(getCountyInfo(coordinates));
     calcCentroid(polygon);
-    if (checkforflag && arrmarkerofFlag!=null && arrmarkerofFlag.length!=0) {
+    if (checkforflag && arrmarkerofFlag != null && arrmarkerofFlag.length != 0) {
         var checkbox = document.getElementsByName('flagoptions');
         for (var i = 0; i < checkbox.length; i++) {
             checkbox[i].checked = true;

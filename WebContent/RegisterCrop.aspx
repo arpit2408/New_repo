@@ -118,6 +118,7 @@
                                                 <label for="form_message">Comments or Description: *</label>
                                                 <textarea id="form_message" name="message" class="form-control" placeholder="Message  *" rows="4" required="required" data-error="Please,leave us a message."></textarea>
                                                 <div class="help-block with-errors"></div>
+                                                <span style="background-color:green;color:white;"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-12">

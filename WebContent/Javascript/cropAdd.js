@@ -75,6 +75,7 @@ $(document).ready(function () {
             }
         });
     });
+    //Very important for modal display edit and remove with caution
     $(document).on('show.bs.modal', '.modal', function (event) {
         var zIndex = 1040 + (10 * $('.modal:visible').length);
         $(this).css('z-index', zIndex);
@@ -93,6 +94,7 @@ function checkforflag(ele) {
     //$("input:checkbox").prop('checked', $(this).prop("checked"));
     $('#flagoptions').empty();
     $('#flagoptions').append(atLeastOneIsChecked);
+    alert(atLeastOneIsChecked);
     var checkboxes = document.getElementsByTagName('input');
     for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = false;

@@ -8,11 +8,11 @@
     <meta charset="utf-8">
     <title>Texas Crop Registry</title>
     <meta name="generator" content="Bootply" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/loginUser.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/map.js"></script>
+     <script type="text/javascript" src="/WebContent/Javascript/common.js"></script>
     <!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
@@ -24,6 +24,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 rel="stylesheet">
 </head>
 <body>
@@ -34,8 +37,12 @@ rel="stylesheet">
         $.get("HeaderNav.html", function (data) {
             $("#header").replaceWith(data);
         });
+        $.get("ListApplicator.aspx", function (data) {
+            $("#modalDiv").replaceWith(data);
+        });
     </script>
     <div id="header"></div>
+    <div id="modalDiv"></div>
     <form id="form1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
         <div>
@@ -98,7 +105,12 @@ rel="stylesheet">
 
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
-                                        <h4>Your Crop Locations</h4>
+                                        <table>
+                                            <tr>
+                                                <td><h4>Your Crop Locations</h4></td>
+                                                <td class="rightbuttonlink"><a href="/WebContent/Producer.aspx" >Add new Crop</a></td>
+                                            </tr>
+                                        </table>
                                     </div>
                                     <div id="producerPolygons" class="panel-body">
                                          <div class="table-responsive">
@@ -344,14 +356,18 @@ rel="stylesheet">
             </div>
         
     </form>
-    <div id="footer" style="background-color: #999"></div>
-</body>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/scripts.js"></script>
-<script>
-    $.get("footer.html", function (data) {
-        $("#footer").replaceWith(data);
-    });
+    <div id="footer">
+    </div>
+  
+        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    
+    <script>
+        $.get("footer.html", function (data) {
+            $("#footer").replaceWith(data);
+        });
 </script>
+</body>
+
+
+
 </html>
