@@ -1,4 +1,4 @@
-﻿var checkedItems = {};
+﻿var checkedItem = [""];
 var user;
 function loginUser() {
     var useremail = document.getElementById('email').value;
@@ -45,7 +45,7 @@ function Fail_User_Validate(returnObj) {
 
 function dashboardOnLoad() {
     var user = checkloggedInUser();
-    if (user!=null) {
+    if (user != null) {
         var href = window.top.location.href;
         var usernameValue = user.firstname;
         var useremail = user.email;
@@ -73,7 +73,9 @@ function dashboardOnLoad() {
                 var td_cropyr_v = document.createElement('td');
                 var td_county_v = document.createElement('td');
                 var td_action_v = document.createElement('td');
-                td_action_v.id = val[i].id;
+                var td_showShared = document.createElement('td');
+                
+                td_action_v.setAttribute('id', val[i].id);
                 var text_ind = document.createTextNode(i + 1);
                 var text_pt = document.createTextNode(val[i].planttype);
                 var text_ct = document.createTextNode(val[i].croptype);
@@ -90,18 +92,28 @@ function dashboardOnLoad() {
                 var cordichnge = "";
                 for (var d = 0; d < cordiarr.length; d++)
                     cordichnge = cordichnge + cordiarr[d] + ";"
-                td_action_v.innerHTML = td_action_v.innerHTML +
-                    '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" onclick=\'editPolygon("'
+                var actiondiv = document.createElement('div');
+                actiondiv.setAttribute("style","display:display");
+                actiondiv.id="unshared" + val[i].id;
+                var usractions = '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" onclick=\'editPolygon("'
                     + cordichnge + '","' + val[i].loccentroid + '","' + val[i].flagtype + '","' + val[i].id + '","'
                     + (val[i].planttype) + '","' + (val[i].croptype) + '","' + (val[i].cropyear)
-                    + '","' + (val[i].comment) + '","' + (val[i].markerPos) + '")\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'""\'>delete</i>&nbsp;&nbsp;<span><i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'sharePolygon("' + val[i].id + '")\'>share</i></span>';
-
+                    + '","' + (val[i].comment) + '","' + (val[i].markerPos)
+                    + '")\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'""\'>delete</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick="sharePolygon(this)"> share</i>';
+                actiondiv.innerHTML = actiondiv.innerHTML + usractions;
+                td_action_v.appendChild(actiondiv);
+                td_action_v.innerHTML = td_action_v.innerHTML + '<button type = "button" id=shared' + val[i].id + ' class = "btn btn-success btn-xs" style="font-family:Georgia" onclick="unsharePolygon(this)" id= >UNSHARE</button>'
+                
                 tr.appendChild(td_index_v);
                 tr.appendChild(td_plty_v);
                 tr.appendChild(td_county_v);
                 tr.appendChild(td_cropyr_v);
                 tr.appendChild(td_action_v);
                 table.appendChild(tr);
+                if (val[i].cropShared == "0")
+                    document.getElementById('shared' + val[i].id).style.display = "none";
+                else
+                    document.getElementById('unshared' + val[i].id).style.display = "none";
             }
             loadNewApplicatorAreas();
         }
@@ -112,58 +124,38 @@ function dashboardOnLoad() {
 
 }
 function loadNewApplicatorAreas() {
-    var useremail = user.email;
-    $.ajax({
-        type: 'POST',
-        url: 'ApplicatorNew.aspx/GetApplicatorAreas',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify({ email: useremail }),
-        dataType: 'json',
-        success: function (data) {
-            Applicator_loc(data)
-        },
-        error: function (textStatus, errorThrown) {
-            Applicator_loc("Error getting the data")
-        }
-    });
+    PageMethods.ListGroupedActionViewLocations(Applicator_loc, Applicator_loc);
 }
 function Applicator_loc(resultobj) {
-    var applicatorloc = resultobj.d;
-    var val = JSON.parse(applicatorloc[1]);
+    var applicatorloc = resultobj;
+    alert(applicatorloc.length);
     var tableApp = document.getElementById('tabAppBody');
-    for (var i = 0; i < val.length; i++) {
+    for (var i = 0; i < applicatorloc.length; i++) {
+        var det = applicatorloc[i].split(",");
         var tr = document.createElement('tr');
-        var td_index_app = document.createElement('td');
-        var td_plty_app = document.createElement('td');
-        var td_cropty_app = document.createElement('td');
-        var td_cmnt_app = document.createElement('td');
-        var td_county_app = document.createElement('td');
-        var td_action_app = document.createElement('td');
-        var text_ind = document.createTextNode(i + 1);
-        var text_pt = document.createTextNode(val[i].appareaname);
-        var text_ct = document.createTextNode(val[i].pesticidename);
-        var text_county = document.createTextNode(val[i].county);
-        var text_cmnt = document.createTextNode(val[i].acres);
-        td_index_app.appendChild(text_ind);
-        td_plty_app.appendChild(text_pt);
-        td_cropty_app.appendChild(text_ct);
-        td_county_app.appendChild(text_county);
-        td_cmnt_app.appendChild(text_cmnt);
-        td_action_app.innerHTML = td_action_app.innerHTML + '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" onclick=\'""\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'""\'>delete</i>';
-        tr.appendChild(td_index_app);
-        tr.appendChild(td_plty_app);
-        tr.appendChild(td_cropty_app);
-        //tr.appendChild(td_cmnt_app);
-        tr.appendChild(td_county_app);
-        tr.appendChild(td_action_app);
+        var td_Name = document.createElement('td');
+        var td_email = document.createElement('td');
+        var td_action = document.createElement('td');
+        var text_Name = document.createTextNode(det[0]+" "+det[1]);
+        var text_email = document.createTextNode(det[2]);
+        
+        td_Name.appendChild(text_Name);
+        td_email.appendChild(text_email);
+        td_action.innerHTML = td_action.innerHTML + '<button type="button" class = "btn btn-primary btn-xs" id="'+det[3]+'" onclick="showCropLocations(this)">View All</button>';
+        tr.appendChild(td_Name);
+        tr.appendChild(td_email);
+        tr.appendChild(td_action);
         tableApp.appendChild(tr);
     }
 }
-function sharePolygon(cropId) {
+function showCropLocations(e) {
+    var user_id = e.id;
+    window.location.href = 'Producer.aspx?user_id='+user_id;
+}
+function sharePolygon(e) {
     var userType = "2";
     document.getElementById('cropId').value = "";
-    //alert(document.getElementById('cropId').value);
-    document.getElementById('cropId').value = cropId;
+    document.getElementById('cropId').value = e.parentElement.id;
     $.ajax({
         type: 'POST',
         url: 'ListApplicator.aspx/GetUsers',
@@ -195,7 +187,10 @@ function Applicator_list(resultobj) {
         span.setAttribute("class", "state-icon glyphicon glyphicon-unchecked");
         li.appendChild(span);
         li.setAttribute("style", "cursor: pointer;");
-        //
+        var divforboth = document.createElement('div');
+        divforboth.setAttribute("class", "row");
+        var divforinfo = document.createElement('div');
+        divforinfo.setAttribute("class","col-sm-8");
         var td_fn = document.createElement('li');
         var td_email = document.createElement('li');
         var td_cmnyName = document.createElement('li');
@@ -205,16 +200,36 @@ function Applicator_list(resultobj) {
         var text_cmnyName = document.createTextNode('Company Name:- ' + val[i].companyname);
         var text_add = document.createTextNode('Address :- ' + val[i].address + ',' + val[i].city + ',' + val[i].state + ',' + val[i].zip);
         td_fn.appendChild(text_fn);
-        //td_ln.appendChild(text_ln);
         td_email.appendChild(text_email);
         td_cmnyName.appendChild(text_cmnyName);
         td_addr.appendChild(text_add);
         ul.appendChild(td_fn);
-        //ul.appendChild(td_ln);
         ul.appendChild(td_email);
         ul.appendChild(td_cmnyName);
         ul.appendChild(td_addr);
-        li.appendChild(ul);
+        divforinfo.appendChild(ul);
+        var divforRadio = document.createElement('div');
+        divforRadio.setAttribute("class", "col-sm-4");
+        divforRadio.innerHTML = divforRadio.innerHTML +
+        '<div class="form-group">' +
+            '<div class="row">'+
+    		    '<label for="happy" required="required" class="col-sm-12  text-middle">Share Crop Info for Action?</label>' +
+            '</div>' +
+            '<div class="row">' +
+    		    '<div class="col-sm-7 col-md-7">' +
+    			    '<div class="input-group">' +
+    				    '<div id="radioBtn' + val[i].user_id + '" class="btn-group">' +
+    					    '<a class="btn btn-primary btn-sm notActiveRadio" data-toggle="happy" data-title="Y" id="yes"  onclick="radioOptionChange(this);">YES</a>' +
+    					    '<a class="btn btn-primary btn-sm activeRadio" data-toggle="happy" data-title="N" id = "no" onclick="radioOptionChange(this);">NO</a>' +
+    				    '</div>' +
+    				    '<input type="hidden" name="happy" id="happy">' +
+    			    '</div>' +
+    		    '</div>' +
+            '</div>' +
+    	'</div>';
+        divforboth.appendChild(divforinfo);
+        divforboth.appendChild(divforRadio);
+        li.appendChild(divforboth);
         for (var j = 0; j < 3; j++) {
             var checkbox = document.createElement('input');
             checkbox.type = "checkbox";
@@ -294,32 +309,67 @@ function Applicator_list(resultobj) {
 
     });
 }
-$(document).ready(function () {
-    $('#get-checked-data').on('click', function (event) {
-        event.preventDefault();
-        counter = 0;
-        $("#check-list-box li.success").each(function (idx, li) {
-            checkedItems[counter] = $(li).attr('id');
-            counter++;
-        });
-        submitapplicatorlist();
-    });
-});
+function MappingDetails() {
+    this.producerLocId = "",
+    this.user_Id = "",
+    this.MappedForAction = ""
+}
 function submitapplicatorlist() {
     var cropId = null;
+    var listMappings = [];
+    var selectedAppliators=$("#check-list-box li.success").map(function () {
+        return this.id;
+    }).get();
     if (document.getElementById('cropId') != null)
         cropId = document.getElementById('cropId').value;
-
-    $('#listApplicatorsModal').modal('hide');
+    document.getElementById(cropId).style.display = "none";
+    var cropId = cropId.replace("unshared", "shared");
     var rowtobeUpdatedinDashboard = document.getElementById(cropId);
-    if (rowtobeUpdatedinDashboard != null)
-        rowtobeUpdatedinDashboard.innerHTML = '<span class="btn-success">Shared</span>';
-    alert(checkedItems);
-    for (var i = 0; i < checkedItems.length; i++) {
-        alert(checkedItems[i]);
-    }
+    if(rowtobeUpdatedinDashboard!=null)
+    rowtobeUpdatedinDashboard.style.display = "";
     document.getElementById('cropId').value = "";
-
+    $('#listApplicatorsModal').modal('hide');
+    var selectedli = selectedAppliators;
+    cropId = cropId.replace("shared", "");
+    for (var i = 0; i < selectedli.length; i++) {
+        det = new MappingDetails();
+        det.producerLocId = cropId;
+        var id = "radioBtn" + selectedli[i];
+        if (document.getElementById(id).childNodes[0].classList.contains('activeRadio')) {
+            if(document.getElementById(id).childNodes[0].id=="yes")
+                det.MappedForAction = 1;
+            else
+                det.MappedForAction = 0;
+        }
+        else if (document.getElementById(id).childNodes[1].classList.contains('activeRadio')) {
+            if (document.getElementById(id).childNodes[1].id == "yes")
+                det.MappedForAction = 1;
+            else
+                det.MappedForAction = 0;
+        }
+        det.user_Id = selectedli[i];
+        listMappings.push(det);
+    }
+    PageMethods.MapProducerLocations(JSON.stringify(listMappings), mappingSuccessful, mappingUnSuccessful);
+    /*$.ajax({
+        type: 'POST',
+        url: 'Dashboard.aspx/MapProducerLocations',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(listMappings),
+        dataType: 'json',
+        success: function (data) {
+            Applicator_loc(data)
+        },
+        error: function (textStatus, errorThrown) {
+            Applicator_loc("Error getting the data")
+        }
+    });*/
+    function mappingSuccessful(val) {
+        var getVal = val[1];
+        alert(getVal);
+    }
+    function mappingUnsuccessful(val) {
+    }
 }
 
 function myFunction() {
@@ -336,6 +386,37 @@ function myFunction() {
             } else {
                 tr[i].style.display = "none";
             }
-        }       
+        }
     }
 }
+
+function unsharePolygon(e) {
+    var cropid = e.id;
+    var cropIdunshare=cropid.replace("shared", "unshared");
+    var sharele = document.getElementById(cropIdunshare);
+    e.style.display = "none";
+    sharele.style.display = "";
+
+}
+
+   function radioOptionChange(e) {
+       
+        if (e.id == "no") {
+            e.className = "btn btn-primary btn-sm activeRadio";
+            if (document.getElementById(e.parentElement.id).childNodes[0].id == "yes")
+                document.getElementById(e.parentElement.id).childNodes[0].className = "btn btn-primary btn-sm notActiveRadio";
+            else
+                document.getElementById(e.parentElement.id).childNodes[1].className = "btn btn-primary btn-sm notActiveRadio";
+        }
+        else {
+            e.className = "btn btn-primary btn-sm activeRadio";
+            if (document.getElementById(e.parentElement.id).childNodes[0].id == "no")
+                document.getElementById(e.parentElement.id).childNodes[0].className = "btn btn-primary btn-sm notActiveRadio";
+            else
+                document.getElementById(e.parentElement.id).childNodes[1].className = "btn btn-primary btn-sm notActiveRadio";
+        }
+        //e.removeClass('notActive').addClass('active');
+        //$('span[data-toggle="' + tog + '"]').not('[data-title="' + sel + '"]').removeClass('active').addClass('notActive');
+        //$('span[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
+        //alert(something);
+    }

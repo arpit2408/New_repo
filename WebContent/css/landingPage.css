@@ -163,3 +163,24 @@ input::-webkit-input-placeholder {
 .paddingtopbutton {
     padding-top:25px !important;
 }
+
+/*Display Modal on Producer Page*/
+.displayModal {
+    z-index:10000 !important;
+}
+
+
+/*to display radio button on applicator listing*/
+.notActiveRadio{
+    color: #3276b1 !important;
+    background-color: #fff !important;
+}
+
+.activeRadio {
+    color: #fff !important;
+    background-color: #204d74 !important;
+}
+
+.modalZIndex {
+    z-index : 100000;
+}

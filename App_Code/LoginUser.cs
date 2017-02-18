@@ -154,6 +154,14 @@ public class LoginUser
                     {
                         auser.prefoptions = reader.GetString(15);
                     }
+                    if (!reader.IsDBNull(16))
+                    {
+                        auser.usertype = reader.GetString(16);
+                    }
+                    if (!reader.IsDBNull(17))
+                    {
+                        auser.user_id = reader.GetInt32(17).ToString();
+                    }
                     retval[0] = "1";
                 }
                 HttpContext.Current.Session["loggedon"] = 1;

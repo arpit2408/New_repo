@@ -83,7 +83,7 @@ public partial class WebContent_Producer : System.Web.UI.Page
                         }
                         if (!reader.IsDBNull(9))
                         {
-                            croparea.organiccrops = reader.GetBoolean(9).ToString();
+                            croparea.organiccrops = (reader.GetBoolean(9) ? 1 : 0).ToString();
                         }
                         if (!reader.IsDBNull(10))
                         {

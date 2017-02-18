@@ -108,7 +108,7 @@ rel="stylesheet">
                                         <table>
                                             <tr>
                                                 <td><h4>Your Crop Locations</h4></td>
-                                                <td class="rightbuttonlink"><a href="/WebContent/Producer.aspx" >Add new Crop</a></td>
+                                                <td class="rightbuttonlink col-sm-2"><a href="/WebContent/Producer.aspx" >Add new Crop</a></td>
                                             </tr>
                                         </table>
                                     </div>
@@ -193,12 +193,10 @@ rel="stylesheet">
                                         <div class="table-responsive">
                                             <table class="table table-striped">
                                                 <thead>
-                                                    <tr>
-                                                        <th>Index</th>
-                                                        <th>Name</th>
-                                                        <th>Pesticide</th>
-                                                        <th>County</th>
-                                                        <th>Action</th>
+                                                    <tr >
+                                                        <th >Name</th>
+                                                        <th >Contact</th>
+                                                        <th >Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tabAppBody">

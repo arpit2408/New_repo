@@ -34,10 +34,24 @@ function initMap() {
     href = window.top.location.href;
     urlVars = getUrlVars(href);
     recordId = decodeURIComponent(urlVars["recordId"]);
+    user_id = decodeURIComponent(urlVars["user_id"]);
+    
     var user = checkloggedInUser();
     if (user == null)
         return;
-    if (recordId != "undefined" && recordId != "" && recordId != null && recordId != -1) {
+    else if (user_id != "undefined" && user_id != "" && user_id != null && user_id != -1) {
+        $.ajax({
+            type: 'POST',
+            url: 'Dashboard.aspx/GetSpecificUserPolygons',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ user_id: user_id }),
+            dataType: 'json',
+            success: ProducerPolygons_Success,
+            error: Fail_ProducerPolygons
+        });
+        loadProducerAreas();
+    }
+    else if (recordId != "undefined" && recordId != "" && recordId != null && recordId != -1) {
         var customControlDiv = document.createElement('div');
         var customControl = new CustomControl(customControlDiv, map);
         var editPolycoordinates = urlVars["coordinates"];
@@ -186,6 +200,7 @@ function initMap() {
 
     else {
         loadProducerAreas();
+        init_producerMapAreas(user.email);
         drawingManager = new google.maps.drawing.DrawingManager({
             drawingMode: google.maps.drawing.OverlayType.POLYGON,
             drawingControl: true,
@@ -706,7 +721,7 @@ function loadProducerAreas() {
                 }
                 var markerCluster = new MarkerClusterer(map, allflagmarkers, { imagePath: 'Images/Cluster/m' });
             }
-            init_producerMapAreas(user.email);
+           
         }
         
     }

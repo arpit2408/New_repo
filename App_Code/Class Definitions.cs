@@ -8,11 +8,22 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Net;
 using System.Net.Mail;
+using System.Collections.Generic;
 
 /// <summary>
 /// Summary description for Class_Definitions
 /// </summary>
 
+public class MappingLocation
+{
+    public string producerLocID = "";
+    public string user_Id = "";
+    public string MappedForAction = "";
+    public MappingLocation()
+    {
+
+    }
+}
 
 public class user
 {
@@ -104,6 +115,11 @@ public class croplocation
     public string flagtype = "";
     public string shareCropInfo = "";
     public string markerPos = "";
+    public string cropShared = "";
+    public string pesticideApplied = "";
+    public string pesticideName = "";
+    public string markCompleted = "";
+    public string mappedAs = "";
     //public string firstName = "";
     //public Boolean isRegistered = false;
 

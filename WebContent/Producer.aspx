@@ -53,7 +53,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/Register.css">
-    <link rel="stylesheet" type="text/css" href="css/mapStyling.css">
+    
     <link href='css/custom.css' rel='stylesheet' type='text/css'>
     <link href='css/registerCrop.css' rel='stylesheet' type='text/css'>
 
@@ -110,7 +110,7 @@
         <div id="modalDiv"></div>
         <div id="modalForFlag"></div>
         <div id="map_canvas" style="height: 677px; width: 1923px;"></div>
-        <div id="loginModal"></div>  
+        <div id="loginModal" class="displayModal"></div>  
         <input id="pac-input" class="controls" type="text" placeholder="Search Box">
         <input id="Text1" class="controls" type="text" placeholder="Search Box">
     </div>

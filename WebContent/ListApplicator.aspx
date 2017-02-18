@@ -90,7 +90,7 @@
                                 <ul id="check-list-box" class="list-group checked-list-box">
                                 </ul>
                                 <br />
-                                <input class="btn btn-primary col-xs-12" type="submit" id="get-checked-data" />
+                                <input class="btn btn-primary col-xs-12" type="button" onclick="submitapplicatorlist()" value="Submit" id="get-checked-data" />
                             </div>
                         </div>
                     </div>

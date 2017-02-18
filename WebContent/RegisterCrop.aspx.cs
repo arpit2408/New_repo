@@ -180,7 +180,7 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
                 else
                 {
                     sql = "Update producer_locations set email =  '[EMAIL]', planttype = '[PTYPE]', croptype = '[CTYPE]', cropyear ='[CYEAR]' , comment = '[COMMENT]' , county = '[COUNTY]', coordinates = '[COORDINATES]',  ";
-                    sql += "  loccentroid = '[LOCCENTR]', acres = '[ACRES]', organiccrops = '[ORGCROP]', certifier = '[CERTIF]', modifieddate = '[DATE1]', year = '[YEAR]' , deleted = '0', flagtype = '[FLAGTYPE]', shareCropInfo = '[SHARECROPINFO]',markerPos = '[MARKERPOS]'  Where producerID = '[producerID]';";
+                    sql += "  loccentroid = '[LOCCENTR]', acres = '[ACRES]', organiccrops = '[ORGCROP]', certifier = '[CERTIF]', modifieddate = '[DATE1]', year = '[YEAR]' , deleted = '0', flagtype = '[FLAGTYPE]', shareCropInfo = '[SHARECROPINFO]',markerPos = '[MARKERPOS]'  Where producerLocID = '[producerLocID]';";
                     sql = sql.Replace("[EMAIL]", obj.usremail);
                     sql = sql.Replace("[PTYPE]", obj.planttype);
                     sql = sql.Replace("[CTYPE]", obj.croptype);
@@ -196,7 +196,7 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
                     sql = sql.Replace("[YEAR]", date.Year.ToString());
                     sql = sql.Replace("[FLAGTYPE]", obj.flagtype.ToString());
                     sql = sql.Replace("[SHARECROPINFO]", obj.shareCropInfo.ToString());
-                    sql = sql.Replace("[producerID]", obj.id.ToString());
+                    sql = sql.Replace("[producerLocID]", obj.id.ToString());
                     sql = sql.Replace("[MARKERPOS]", obj.markerPos.ToString());
                     msg= "Location & Crop Updated Successfully.";
                 }

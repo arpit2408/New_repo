@@ -5,14 +5,15 @@
     <title></title>
     <script type="text/javascript" src="/WebContent/Javascript/loginUser.js"></script>
 </head>
-<body>                  
+<body>   
+              
     <form id="form1" runat="server">
         <div>
             <div class="container">
-                <div class="modal fade left" id="loginforModal" role="dialog">
+                <div class="modal fade left modalZIndex" id="loginforModal" role="dialog" >
                     <div class="modal-dialog">
                          <!-- Modal content-->
-                        <div class="modal-content" style="height: auto; width: auto;">
+                        <div class="modal-content" style="height: auto; width: auto; ">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Sign In</h4>
