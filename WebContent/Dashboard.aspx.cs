@@ -46,7 +46,7 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
 
                         if (!reader.IsDBNull(14))
                         {
-                            croploc.id = reader.GetDecimal(14).ToString();
+                            croploc.id = reader.GetInt32(14).ToString();
                         }
                         if (!reader.IsDBNull(0))
                         {
@@ -311,6 +311,8 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                             croparea.organiccrops = (reader.GetBoolean(27) ? 1 : 0).ToString();
                         if (!reader.IsDBNull(28))
                             croparea.certifier = reader.GetString(28).ToString();
+                        if (!reader.IsDBNull(32))
+                            croparea.id = reader.GetInt32(32).ToString();
                         if (!reader.IsDBNull(33))
                             croparea.flagtype = reader.GetString(33).ToString();
                         if (!reader.IsDBNull(34))

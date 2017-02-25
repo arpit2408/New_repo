@@ -166,7 +166,7 @@ input::-webkit-input-placeholder {
 
 /*Display Modal on Producer Page*/
 .displayModal {
-    z-index:10000 !important;
+    z-index:99 !important;
 }
 
 
@@ -183,4 +183,8 @@ input::-webkit-input-placeholder {
 
 .modalZIndex {
     z-index : 100000;
+}
+
+searchBoxPos {
+    padding-left:-1px;
 }

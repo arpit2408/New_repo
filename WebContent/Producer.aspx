@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#"   CodeFile="Producer.aspx.cs" Inherits="WebContent_Producer" %>
+﻿<%@ Page Language="C#" CodeFile="Producer.aspx.cs" Inherits="WebContent_Producer" %>
 
 <!DOCTYPE html>
 <html>
@@ -49,13 +49,13 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-    
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/Register.css">
-    
+
     <link href='css/custom.css' rel='stylesheet' type='text/css'>
-    <link href='css/registerCrop.css' rel='stylesheet' type='text/css'>
+   
 
     <script type="text/javascript" src="/WebContent/Javascript/map.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/cropAdd.js"></script>
@@ -66,7 +66,7 @@
     <!-- Google Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-     <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/landingPage.css">
     <link href='/WebContent/css/custom_maps.css' rel='stylesheet' type='text/css'>
 </head>
@@ -83,6 +83,7 @@
     $.get("FlagTechnology.aspx", function (data) {
         $("#modalForFlag").replaceWith(data);
     });
+    
 </script>
 
 <body>
@@ -104,14 +105,25 @@
     <!-- /.header  -->
     <div id="header">
     </div>
-    
-    
-    <div id="wrapper" style="height: 677px; width: 1923px; ">
+
+
+    <div id="wrapper" style="height: 677px; width: 1923px;">
         <div id="modalDiv"></div>
         <div id="modalForFlag"></div>
         <div id="map_canvas" style="height: 677px; width: 1923px;"></div>
-        <div id="loginModal" class="displayModal"></div>  
-        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+        <div id="loginModal" class="displayModal "></div>
+        <div id="custom-search-input" style="padding-left:3px;">
+            <div style="top: 10px !important; position: relative">
+                <div class="input-group col-md-3">
+                    <input id="pac-input" class="form-control input-md controls searchBoxPos" type="text" placeholder="Search Box">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary btn-md" type="button">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
         <input id="Text1" class="controls" type="text" placeholder="Search Box">
     </div>
     <div id="footer">
@@ -120,7 +132,7 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD7FTNE22Wl6S6DTQF83sTZTqbFFPzEkmU&libraries=drawing,places,geometry&callback=initMap">
    google.maps.event.addDomListener(window, 'load', initMap);
     </script>
-        <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script>
         $.get("footer.html", function (data) {
             $("#footer").replaceWith(data);

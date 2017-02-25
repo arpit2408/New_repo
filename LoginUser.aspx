@@ -9,20 +9,20 @@
               
     <form id="form1" runat="server">
         <div>
-            <div class="container">
+            <div class="container ">
                 <div class="modal fade left modalZIndex" id="loginforModal" role="dialog" >
                     <div class="modal-dialog">
                          <!-- Modal content-->
-                        <div class="modal-content" style="height: auto; width: auto; ">
-                            <div class="modal-header">
+                        <div class="modal-content modalZIndex" style="height: auto; width: auto; ">
+                            <div class="modal-header modalZIndex">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Sign In</h4>
                             </div>
-                            <div class="modal-body" style="background-color: #eee">
+                            <div class="modal-body modalZIndex" style="background-color: #eee">
 
 
 
-                                <div style="padding-top: 30px" class="panel-body">
+                                <div style="padding-top: 30px" class="panel-body modalZIndex">
 
                                     <div style="display: none" id="login-alert" class="alert alert-danger col-sm-12"></div>
 

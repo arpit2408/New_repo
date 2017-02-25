@@ -137,6 +137,11 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
         listforuncheckvalues.Add("certifier");
         listforuncheckvalues.Add("flagtype");
         listforuncheckvalues.Add("markerPos");
+        listforuncheckvalues.Add("cropShared");
+        listforuncheckvalues.Add("pesticideApplied");
+        listforuncheckvalues.Add("pesticideName");
+        listforuncheckvalues.Add("markCompleted");
+        listforuncheckvalues.Add("mappedAs");
         String validateValue = ValidatorCustom.validatefields(obj, listforuncheckvalues);
         if (!String.IsNullOrWhiteSpace(validateValue))
         {
@@ -156,10 +161,10 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
                 string msg=null;
                 if (obj.id == "-1")
                 {
-                    sql = "INSERT INTO producer_locations (email, planttype, croptype, cropyear, comment, county, coordinates, loccentroid, acres, organiccrops, certifier, modifieddate, year, deleted,flagtype,shareCropInfo,markerPos) ";
-                    sql += " VALUES ('[EMAIL]', '[PTYPE]', '[CTYPE]', '[CYEAR]', '[COMMENT]', '[COUNTY]', '[COORDINATES]', '[LOCCENTR]', '[ACRES]', '[ORGCROP]', '[CERTIF]', '[DATE1]', '[YEAR]', 0,'[FLAGTYPE]','[SHARECROPINFO]','[MARKERPOS]');";
-                    sql += "SELECT SCOPE_IDENTITY()";
-                    sql = sql.Replace("[EMAIL]", obj.usremail);
+                    sql = "INSERT INTO producer_locations (email, planttype, croptype, cropyear, comment, county, coordinates, loccentroid, acres, organiccrops, certifier, modifieddate, year, deleted,flagtype,shareCropInfo,markerPos,user_id) ";
+                    sql += " VALUES ('[EMAIL]', '[PTYPE]', '[CTYPE]', '[CYEAR]', '[COMMENT]', '[COUNTY]', '[COORDINATES]', '[LOCCENTR]', '[ACRES]', '[ORGCROP]', '[CERTIF]', '[DATE1]', '[YEAR]', 0,'[FLAGTYPE]','[SHARECROPINFO]','[MARKERPOS]','[USER_ID]');";
+                    //sql += "SELECT SCOPE_IDENTITY()";
+                    sql = sql.Replace("[EMAIL]", auser.email);
                     sql = sql.Replace("[PTYPE]", obj.planttype);
                     sql = sql.Replace("[CTYPE]", obj.croptype);
                     sql = sql.Replace("[CYEAR]", date.Year.ToString());
@@ -175,6 +180,7 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
                     sql = sql.Replace("[FLAGTYPE]", obj.flagtype.ToString());
                     sql = sql.Replace("[SHARECROPINFO]", obj.shareCropInfo.ToString());
                     sql = sql.Replace("[MARKERPOS]", obj.markerPos.ToString());
+                    sql = sql.Replace("[USER_ID]", auser.user_id);
                     msg="Location & Crop Added Successfully.";
                 }
                 else

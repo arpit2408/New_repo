@@ -66,9 +66,7 @@ $(document).ready(function () {
         $('input[type="checkbox"]').on('change', function (e) {
             divClone = $("#trythis").clone();
             if (e.target.checked) {
-                //divClone = $("#flagtechModal").clone();
-                if (e.currentTarget.id != "someSwitchOptionSuccess") 
-                {
+                if (e.currentTarget.name == "flagoptions"){
                     $('#flagtechModal').modal('show');
                     $("#flagtechModal").draggable({ handle: ".modal-header" });
                 }

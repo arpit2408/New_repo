@@ -15,6 +15,9 @@ var arrmarkerofFlag = [];
 var arrmySetofmarkers = new Map();
 var recordId = "";
 var urlVars;
+var plantype = "";
+var croptype = "";
+var cmnts = "";
 function initMap() {
 
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
@@ -27,7 +30,7 @@ function initMap() {
     var mapElement = document.getElementById('map_canvas');
 
     map = new google.maps.Map(map_canvas, mapOptions);
-
+    
     /*var styles = [{ "featureType": "landscape", "stylers": [{ "saturation": -100 }, { "lightness": 65 }, { "visibility": "on" }] }, { "featureType": "poi", "stylers": [{ "saturation": -100 }, { "lightness": 51 }, { "visibility": "simplified" }] }, { "featureType": "road.highway", "stylers": [{ "saturation": -100 }, { "visibility": "simplified" }] }, { "featureType": "road.arterial", "stylers": [{ "saturation": -100 }, { "lightness": 30 }, { "visibility": "on" }] }, { "featureType": "road.local", "stylers": [{ "saturation": -100 }, { "lightness": 40 }, { "visibility": "on" }] }, { "featureType": "transit", "stylers": [{ "saturation": -100 }, { "visibility": "simplified" }] }, { "featureType": "administrative.province", "stylers": [{ "visibility": "off" }] }, { "featureType": "water", "elementType": "labels", "stylers": [{ "visibility": "on" }, { "lightness": -25 }, { "saturation": -100 }] }, { "featureType": "water", "elementType": "geometry", "stylers": [{ "hue": "#ffff00" }, { "lightness": -25 }, { "saturation": -97 }] }];
 
     map.set('styles', styles);*/
@@ -35,7 +38,7 @@ function initMap() {
     urlVars = getUrlVars(href);
     recordId = decodeURIComponent(urlVars["recordId"]);
     user_id = decodeURIComponent(urlVars["user_id"]);
-    
+
     var user = checkloggedInUser();
     if (user == null)
         return;
@@ -52,152 +55,8 @@ function initMap() {
         loadProducerAreas();
     }
     else if (recordId != "undefined" && recordId != "" && recordId != null && recordId != -1) {
-        var customControlDiv = document.createElement('div');
-        var customControl = new CustomControl(customControlDiv, map);
-        var editPolycoordinates = urlVars["coordinates"];
-        var editPolyCentroid = urlVars["centroid"];
-        var flagtype = urlVars["flagType"];
-        var markerEntrance = urlVars["markerPos"];
-        customControlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv);
-        var coodichange = editPolycoordinates;
-        var coordinates = coodichange.split(";");
-        var arr = new Array();
-
-        var bounds = new google.maps.LatLngBounds();
-        for (var j = 0; j < coordinates.length ; j++) {
-            if (coordinates[j] != "") {
-                var coordi = coordinates[j].split(",");
-                arr.push(new google.maps.LatLng(
-                      parseFloat(coordi[0]),
-                      parseFloat(coordi[1])
-                ));
-                bounds.extend(arr[arr.length - 1]);
-            }
-        }
-        polygons.push(new google.maps.Polygon({
-            paths: arr,
-            editable: true,
-            draggable: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#f1c40f',
-            fillOpacity: 0.35
-        }));
-        polygons[polygons.length - 1].setMap(map);
-        drawnPolygon = polygons[0];
-        map.setCenter(bounds.getCenter());
-        var listener = google.maps.event.addListener(map, "idle", function () {
-            if (map.getZoom() < 15) map.setZoom(15);
-            google.maps.event.removeListener(listener);
-        });
-        if (flagtype != "undefined") {
-            var flags = flagtype.split(",");
-            var posForFlag = editPolyCentroid.split(",");
-            var centerForflag = new google.maps.LatLng(
-                      parseFloat(posForFlag[0]),
-                      parseFloat(posForFlag[1])
-                );
-            for (var i = 0; i < flags.length; i++) {
-                if (flags[i] != null && flags[i] != "") {
-                    var value = new CustomFlagMarker();
-                    value.type = flags[i];
-                    value.position = new google.maps.LatLng(centerForflag.lat() + (i) * 0.002, centerForflag.lng() + (i) * 0.002);
-                    var marker = addMarkerOnPolygon(value);
-                    var ifExists = markerofFlag.has(marker);
-                    if (!ifExists) {
-                        markerofFlag.add(marker);
-                        arrmarkerofFlag.push(marker);
-                    }
-                }
-            }
-        }
-        vertices = polygons[0].getPath().getArray();
-        google.maps.event.addListener(polygons[0].getPath(), 'set_at', function (event) {
-            vertices = polygons[0].getPath().getArray();
-            placeFlagatCorrectLocation(polygons[0]);
-        });
-        google.maps.event.addListener(polygons[0].getPath(), 'insert_at', function (event) {
-            vertices = polygons[0].getPath().getArray();
-            placeFlagatCorrectLocation(polygons[0]);
-        });
-        google.maps.event.addListener(polygons[0], 'dragend', function (event) {
-            vertices = polygons[0].getPath().getArray();
-            placeFlagatCorrectLocation(polygons[0]);
-
-        });
-        function placeFlagatCorrectLocation(polygon) {
-            calcCentroid(polygon);
-            for (var i = 0; i < arrmarkerofFlag.length; i++) {
-                arrmarkerofFlag[i].setPosition(new google.maps.LatLng(centroid.lat() + (i) * 0.002, centroid.lng() + (i) * 0.002));
-            }
-            drawnPolygon = polygon;
-        }
-        var iconEntrance = {
-            url: '/WebContent/Images/IconsBase/entrance.png', // url
-            scaledSize: new google.maps.Size(25, 25), // scaled size
-            origin: new google.maps.Point(0, 0), // origin
-            anchor: new google.maps.Point(0, 0) // anchor
-        };
-        var drawingManager = new google.maps.drawing.DrawingManager({
-            drawingMode: null,
-            drawingControl: true,
-            drawingControlOptions: {
-                position: google.maps.ControlPosition.TOP_CENTER,
-                drawingModes: ['marker']
-            },
-            markerOptions: {
-                //icon: iconEntrance,
-                //draggable: true,
-                animation: google.maps.Animation.DROP
-            }
-        });
-        drawingManager.setMap(map);
-        google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
-            if (drawingManager.getDrawingMode() != null && drawingManager.getDrawingMode() == 'marker') {
-                //event.overlay.setMap(null);
-                var posOfMarker = event.overlay.position;
-                markerId = posOfMarker.lat() + '_' + posOfMarker.lng();
-                var marker = event.overlay;
-                var ifExists = mySetofmarkers.has(posOfMarker);
-                if (!ifExists) {
-                    mySetofmarkers.add(posOfMarker);
-                    arrmySetofmarkers.set(markerId, marker); // cache marker in markers object
-                    bindMarkerEvents(marker);
-                    //arrmarkerEntrance.push(posOfMarker);
-                }
-            }
-        });
-        if (markerEntrance != null && markerEntrance != "") {
-            var markersPositions = markerEntrance.split(";");
-            for (var i = 0; i < markersPositions.length; i++) {
-                var markerlatlng = markersPositions[i].split(",");
-                var value = new CustomFlagMarker();
-                //value.type = flags[i];
-                value.position = new google.maps.LatLng(markerlatlng[0], markerlatlng[1]);
-                var markerId = markerlatlng[0] + "_" + markerlatlng[1];
-                var marker = new google.maps.Marker({
-                    position: value.position,
-                    //icon: icons[custom.type].icon,
-                    //title: custom.type,
-                    id: markerId,
-                    map: map
-                });
-                var ifExists = mySetofmarkers.has(value.position);
-                if (!ifExists) {
-                    mySetofmarkers.add(value.position);
-                    arrmySetofmarkers.set(markerId, marker); // cache marker in markers object
-                    bindMarkerEvents(marker);
-                    //arrmySetofmarkers.push(posOfMarker);
-                }
-            }
-        }
-
-
-
+        showPolygonOnMap(recordId);
     }
-
     else {
         loadProducerAreas();
         init_producerMapAreas(user.email);
@@ -255,7 +114,7 @@ function initMap() {
                 overlayDragListener(event.overlay);
                 drawnPolygon = event.overlay;
                 $('#vertices').val(event.overlay.getPath().getArray());
-                fillModalValues(event.overlay, false);
+                fillModalValues(event.overlay, false, false);
             }
             else {
                 var posOfMarker = event.overlay.position;
@@ -266,65 +125,234 @@ function initMap() {
                 }
             }
         });
-        // Create the search box and link it to the UI element.
-        var input = document.getElementById('pac-input');
-        var searchBox = new google.maps.places.SearchBox(input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    }
+    var divElem = document.getElementById('custom-search-input');
+    var input = document.getElementById('pac-input');
+    var searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(divElem);
 
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener('bounds_changed', function () {
-            searchBox.setBounds(map.getBounds());
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function () {
+        searchBox.setBounds(map.getBounds());
+    });
+    var markers = [];
+    searchBox.addListener('places_changed', function () {
+        var places = searchBox.getPlaces();
+
+        if (places.length == 0) {
+            return;
+        }
+
+        // Clear out the old markers.
+        markers.forEach(function (marker) {
+            marker.setMap(null);
         });
-        var markers = [];
-        searchBox.addListener('places_changed', function () {
-            var places = searchBox.getPlaces();
+        markers = [];
 
-            if (places.length == 0) {
+        // For each place, get the icon, name and location.
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function (place) {
+            if (!place.geometry) {
+                console.log("Returned place contains no geometry");
                 return;
             }
+            var icon = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25)
+            };
 
-            // Clear out the old markers.
-            markers.forEach(function (marker) {
-                marker.setMap(null);
-            });
-            markers = [];
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+                map: map,
+                icon: icon,
+                title: place.name,
+                position: place.geometry.location
+            }));
 
-            // For each place, get the icon, name and location.
-            var bounds = new google.maps.LatLngBounds();
-            places.forEach(function (place) {
-                if (!place.geometry) {
-                    console.log("Returned place contains no geometry");
-                    return;
-                }
-                var icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                };
-
-                // Create a marker for each place.
-                markers.push(new google.maps.Marker({
-                    map: map,
-                    icon: icon,
-                    title: place.name,
-                    position: place.geometry.location
-                }));
-
-                if (place.geometry.viewport) {
-                    // Only geocodes have viewport.
-                    bounds.union(place.geometry.viewport);
-                } else {
-                    bounds.extend(place.geometry.location);
-                }
-            });
-            map.fitBounds(bounds);
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
         });
+        map.fitBounds(bounds);
+    });
+}
+function showPolygon(e) {
+    var action = e.id.split(",");
+    window.location.href = 'Producer.aspx?recordId=' + encodeURIComponent(action[1]) + '&typeOfView=' + action[0];
+}
+function showPolygonOnMap(recordId) {
+    $.ajax({
+        type: 'POST',
+        url: 'Producer.aspx/GetProducerPolygon',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({ polgyonId: recordId }),
+        dataType: 'json',
+        success: showPolygonForApplicator,
+        error: failedToShowLocation
+    });
+    function showPolygonForApplicator(resultObj) {
+        var val = JSON.parse(resultObj.d[1]);
+        var cordiarr = val[0].coordinates.split("\n");
+        var cordichnge = "";
+        for (var d = 0; d < cordiarr.length; d++)
+            cordichnge = cordichnge + cordiarr[d] + ";"
+        var editPolycoordinates = cordichnge;
+        var editPolyCentroid = val[0].loccentroid;
+        var flagtype = val[0].flagtype;
+        var markerEntrance = val[0].markerPos;
+        plantype = val[0].planttype;
+        croptype = val[0].croptype;
+        cmnts = val[0].comment;
+        var typeOfView = urlVars["typeOfView"];
+        var customControl = null;
+        var customControlDiv = document.createElement('div');
+        customControl = new CustomControl(customControlDiv, map, typeOfView);
+        customControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv);
+        var coodichange = editPolycoordinates;
+        var coordinates = coodichange.split(";");
+        var arr = new Array();
+
+        var bounds = new google.maps.LatLngBounds();
+        for (var j = 0; j < coordinates.length ; j++) {
+            if (coordinates[j] != "") {
+                var coordi = coordinates[j].split(",");
+                arr.push(new google.maps.LatLng(
+                      parseFloat(coordi[0]),
+                      parseFloat(coordi[1])
+                ));
+                bounds.extend(arr[arr.length - 1]);
+            }
+        }
+        polygons.push(new google.maps.Polygon({
+            paths: arr,
+            editable: typeOfView == "edit" ? true : false,
+            draggable: typeOfView == "edit" ? true : false,
+            strokeColor: '#FF0000',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#f1c40f',
+            fillOpacity: 0.35
+        }));
+        polygons[polygons.length - 1].setMap(map);
+        drawnPolygon = polygons[0];
+        map.setCenter(bounds.getCenter());
+        var listener = google.maps.event.addListener(map, "idle", function () {
+            if (map.getZoom() < 15) map.setZoom(15);
+            google.maps.event.removeListener(listener);
+        });
+        if (flagtype != "undefined") {
+            var flags = flagtype.split(",");
+            var posForFlag = editPolyCentroid.split(",");
+            var centerForflag = new google.maps.LatLng(
+                      parseFloat(posForFlag[0]),
+                      parseFloat(posForFlag[1])
+                );
+            for (var i = 0; i < flags.length; i++) {
+                if (flags[i] != null && flags[i] != "") {
+                    var value = new CustomFlagMarker();
+                    value.type = flags[i];
+                    value.position = new google.maps.LatLng(centerForflag.lat() + (i) * 0.0002, centerForflag.lng() + (i) * 0.0002);
+                    var marker = addMarkerOnPolygon(value);
+                    var ifExists = markerofFlag.has(marker);
+                    if (!ifExists) {
+                        markerofFlag.add(marker);
+                        arrmarkerofFlag.push(marker);
+                    }
+                }
+            }
+        }
+        vertices = polygons[0].getPath().getArray();
+        google.maps.event.addListener(polygons[0].getPath(), 'set_at', function (event) {
+            vertices = polygons[0].getPath().getArray();
+            placeFlagatCorrectLocation(polygons[0]);
+        });
+        google.maps.event.addListener(polygons[0].getPath(), 'insert_at', function (event) {
+            vertices = polygons[0].getPath().getArray();
+            placeFlagatCorrectLocation(polygons[0]);
+        });
+        google.maps.event.addListener(polygons[0], 'dragend', function (event) {
+            vertices = polygons[0].getPath().getArray();
+            placeFlagatCorrectLocation(polygons[0]);
+
+        });
+        function placeFlagatCorrectLocation(polygon) {
+            calcCentroid(polygon);
+            for (var i = 0; i < arrmarkerofFlag.length; i++) {
+                arrmarkerofFlag[i].setPosition(new google.maps.LatLng(centroid.lat() + (i) * 0.0002, centroid.lng() + (i) * 0.0002));
+            }
+            drawnPolygon = polygon;
+        }
+        var iconEntrance = {
+            url: '/WebContent/Images/IconsBase/entrance.png', // url
+            scaledSize: new google.maps.Size(25, 25), // scaled size
+            origin: new google.maps.Point(0, 0), // origin
+            anchor: new google.maps.Point(0, 0) // anchor
+        };
+        var drawingManager = new google.maps.drawing.DrawingManager({
+            drawingMode: null,
+            drawingControl: true,
+            drawingControlOptions: {
+                position: google.maps.ControlPosition.TOP_CENTER,
+                drawingModes: ['marker']
+            },
+            markerOptions: {
+                //icon: iconEntrance,
+                //draggable: true,
+                animation: google.maps.Animation.DROP
+            }
+        });
+        drawingManager.setMap(map);
+        google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
+            if (drawingManager.getDrawingMode() != null && drawingManager.getDrawingMode() == 'marker') {
+                //event.overlay.setMap(null);
+                var posOfMarker = event.overlay.position;
+                markerId = posOfMarker.lat() + '_' + posOfMarker.lng();
+                var marker = event.overlay;
+                var ifExists = mySetofmarkers.has(posOfMarker);
+                if (!ifExists) {
+                    mySetofmarkers.add(posOfMarker);
+                    arrmySetofmarkers.set(markerId, marker); // cache marker in markers object
+                    bindMarkerEvents(marker);
+                    //arrmarkerEntrance.push(posOfMarker);
+                }
+            }
+        });
+        if (markerEntrance != null && markerEntrance != "") {
+            var markersPositions = markerEntrance.split(";");
+            for (var i = 0; i < markersPositions.length; i++) {
+                if (markersPositions[i] == "" || markersPositions[i] == "undefined")
+                    continue;
+                var markerlatlng = markersPositions[i].split(",");
+                var value = new CustomFlagMarker();
+                //value.type = flags[i];
+                value.position = new google.maps.LatLng(markerlatlng[0], markerlatlng[1]);
+                var markerId = markerlatlng[0] + "_" + markerlatlng[1];
+                var marker = new google.maps.Marker({
+                    position: value.position,
+                    //icon: icons[custom.type].icon,
+                    //title: custom.type,
+                    id: markerId,
+                    map: map
+                });
+                var ifExists = mySetofmarkers.has(value.position);
+                if (!ifExists) {
+                    mySetofmarkers.add(value.position);
+                    arrmySetofmarkers.set(markerId, marker); // cache marker in markers object
+                    bindMarkerEvents(marker);
+                    //arrmySetofmarkers.push(posOfMarker);
+                }
+            }
+        }
     }
-
-
-
+    function failedToShowLocation() {
+    }
 }
 function replaceAll(str, find, replace) {
     return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
@@ -356,6 +384,7 @@ function Location() {
     this.flagType = "";
     this.shareCropInfo = "";
     this.markerPos = "";
+    this.cropShared = "";
 }
 function CustomFlagMarker() {
     var position = new google.maps.LatLng(0, 0);
@@ -386,6 +415,8 @@ function SubmitNewLocation(event) {
 
     var sharecropInfo = false;
     var user = checkloggedInUser();
+    if (user == null)
+        return;
     //ConfirmDialog("Do you want the information of this crop to be visible to other producers..!!");
     if (confirm("Do you want the information of this crop to be visible to other producers..!!")) {
         sharecropInfo = true;
@@ -414,7 +445,7 @@ function SubmitNewLocation(event) {
                 var value = new CustomFlagMarker();
                 value.type = flagop[i] + 'Flag';
                 valueForFlags += "," + value.type;
-                value.position = new google.maps.LatLng(centroid.lat() + (i) * 0.00002, centroid.lng() + (i) * 0.00002);
+                value.position = new google.maps.LatLng(centroid.lat() + (i) * 0.0002, centroid.lng() + (i) * 0.0002);
                 addMarkerOnPolygon(value);
             }
         }
@@ -435,9 +466,16 @@ function SubmitNewLocation(event) {
     croploc.planttype = document.getElementById('plant').value;
     croploc.croptype = document.getElementById('crop').value;
     croploc.cropyear = document.getElementById('cropYear').value;
-    if (document.getElementById('form_message') != null)
-        croploc.comment = document.getElementById('form_message').value;
-    croploc.comment = croploc.comment.replace(/'/g, "''");
+    var orgComnts = "";
+    var fullComnt = "";
+    if (document.getElementById('commentsForCrops') != null) {
+        var totalCmnts = document.getElementById('commentsForCrops').value;
+        orgComnts = cmnts;
+        totalCmnts = totalCmnts.replace(orgComnts, "");
+        var newStr = user.firstname + " " + user.lastname + ": " + totalCmnts + "\n";
+        fullComnt = fullComnt.concat(orgComnts,newStr);
+    }
+    croploc.comment = fullComnt.replace(/'/g, "''");
     croploc.county = document.getElementById('countyselected').value;
     var coordinatesforpolygon = document.getElementById('polygonpath').value;
     croploc.coordinates = coordinatesforpolygon;
@@ -467,14 +505,7 @@ function SubmitNewLocation(event) {
         $("#errormessage").fadeOut().empty();
         $("#successmessage").fadeOut().empty();
     }
-    function disableCropForm() {
-        $("#registerCropForm :input").prop("disabled", true);
-        $("#registerCropForm :submit").prop("disabled", true);
-        $("#plant").prop("disabled", true);
-        $("#crop").prop("disabled", true);
-        $("#closemyModal").prop("disabled", false);
-        $("#someSwitchOptionSuccess").prop("disabled", true);
-    }
+    
     function AddNewLocation_Success(val) {
         if (val[0] == 1) {
             $("#successmessage").show();
@@ -499,11 +530,12 @@ function SubmitNewLocation(event) {
     }
 }
 
-function editPolygon(coordinates, centroid, flagType, recordId, planttype, croptype, year, comments, markerPos) {
-    window.location.href = 'Producer.aspx?coordinates=' + coordinates + "&centroid="
-                            + centroid + "&flagType=" + flagType + "&planttype=" + encodeURIComponent(planttype)
-                                + "&croptype=" + encodeURIComponent(croptype) + "&year=" + year + "&comments" + encodeURIComponent(comments)
-                                + "&markerPos=" + markerPos + "&recordId=" + encodeURIComponent(recordId);
+function editPolygon(val) {
+    window.location.href = 'Producer.aspx?coordinates=' + val.coordinates + "&centroid="
+                            + val.loccentroid + "&flagType=" + val.flagtype + "&planttype=" + encodeURIComponent(val.planttype)
+                                + "&croptype=" + encodeURIComponent(val.croptype) + "&year=" + val.cropyear + "&comments=" + encodeURIComponent(val.comment)
+                                + "&markerPos=" + val.markerPos + "&recordId=" + encodeURIComponent(val.id)
+                                + "&typeOfView=" + encodeURIComponent(val.typeOfView);
 }
 function closeevent() {
     $('#registerCropForm').trigger("reset");
@@ -689,7 +721,7 @@ function loadProducerAreas() {
     });
     function Producer_location_Success(resultobj) {
         var user = checkloggedInUser();
-        if (user!=null) {
+        if (user != null) {
             var val = resultobj.d;
             if (val != null) {
                 for (var i = 0; i < val.length; i++) {
@@ -721,9 +753,9 @@ function loadProducerAreas() {
                 }
                 var markerCluster = new MarkerClusterer(map, allflagmarkers, { imagePath: 'Images/Cluster/m' });
             }
-           
+
         }
-        
+
     }
     function Fail_location(resultobj) {
         var val = resultobj.d;
@@ -822,7 +854,7 @@ function createInfoWindow(dataAsMap, marker) {
         });
     });
 }
-function CustomControl(controlDiv, map) {
+function CustomControl(controlDiv, map, typeOfView) {
 
     // Set CSS for the control border
     var controlUI = document.createElement('div');
@@ -844,6 +876,7 @@ function CustomControl(controlDiv, map) {
     controlUI.style.borderBottomRightRadius = '2px';
     controlUI.style.borderTopRightRadius = '2px';
     controlUI.title = 'Click to set the map to Home';
+    //controlUI.innerText = typeOfView;
     controlDiv.appendChild(controlUI);
 
     // Set CSS for the control interior
@@ -860,44 +893,72 @@ function CustomControl(controlDiv, map) {
 
     // Setup the click event listeners
     google.maps.event.addDomListener(controlUI, 'click', function () {
-        var markerInPolygon = true;
-        var BreakException = {};
-        try {
-            arrmySetofmarkers.forEach(function (value, key) {
-                markerInPolygon = google.maps.geometry.poly.containsLocation(value.position, drawnPolygon);
-                if (!markerInPolygon) {
-                    throw BreakException;
-                }
-            });
+        if (typeOfView == "edit") {
+            var markerInPolygon = true;
+            var BreakException = {};
+            try {
+                arrmySetofmarkers.forEach(function (value, key) {
+                    markerInPolygon = google.maps.geometry.poly.containsLocation(value.position, drawnPolygon);
+                    if (!markerInPolygon) {
+                        throw BreakException;
+                    }
+                });
+            }
+            catch (e) {
+                alert("Please place all markers inside the polygon");
+            }
+            if (markerInPolygon)
+                fillModalValues(polygons[0], true, false, false);
         }
-        catch (e) {
-            alert("Please place all markers inside the polygon");
+        else if (typeOfView == "build") {
+            fillModalValues(polygons[0], true, true, true);
         }
-        if (markerInPolygon)
-            fillModalValues(polygons[0], true);
-
+        else 
+            fillModalValues(polygons[0], true, true, false);
     });
 
 }
 function enableCropForm() {
-    //$("#registerCropForm :input").prop("disabled", false);
-    $("#registerCropForm :submit").prop("disabled", false);
-    $("#plant").prop("disabled", false);
-    $("#crop").prop("disabled", false);
-    $("#closemyModal").prop("disabled", false);
-    $("#someSwitchOptionSuccess").prop("disabled", false);
-    $("#fancy-checkbox-warning").prop("disabled", false);
-    $("#successmessage").css('display', 'none');
+        $("#registerCropForm :submit").prop("disabled", false);
+        $("#plant").prop("disabled", false);
+        $("#crop").prop("disabled", false);
+        $("#closemyModal").prop("disabled", false);
+        $("#someSwitchOptionSuccess").prop("disabled", false);
+        $("#fancy-checkbox-warning").prop("disabled", false);
+        $("#successmessage").css('display', 'none');
 }
-function fillModalValues(polygon, checkforflag) {
+function fillModalValues(polygon, checkforflag, valuesDisabled, isApplicator) {
     $('#myModal').modal('show');
     enableCropForm();
+    if (valuesDisabled) {
+        disableCropForm();
+        $("#applicatorcolumns").css('display', '');
+        if (isApplicator) {
+            $("#pesticideName").prop("disabled", false);
+            $("#someSwitchOptionPrimary").prop("disabled", false);
+            $("#pesticideName").attr("readonly", false);
+        }
+        else {
+            $("#pesticideName").prop("disabled", true);
+            $("#someSwitchOptionPrimary").prop("disabled", true);
+        }
+    }
+    $("#saveRegisterCrop").prop("disabled", false);
     $("#myModal").draggable({ handle: ".modal-body" });
     $('#areaPolygon').val((0.000247105 * google.maps.geometry.spherical.computeArea(polygon.getPath())).toFixed(2));
     if (recordId != null) {
-        var plantype = decodeURIComponent(urlVars["planttype"]);
-        var croptype = decodeURIComponent(urlVars["croptype"]);
         buildvaluesforDropDown(plantype, croptype);
+        $("#commentsForCrops").prop("disabled", false);
+        $("#commentsForCrops").attr("readonly", false);
+        $("#commentsForCrops").val(cmnts);
+        var base = (cmnts != "" && cmnts != "undefined")?cmnts:"";
+        var regex = new RegExp("^" + base, "i");
+        $('#commentsForCrops').on("input", function (ev) {
+            var query = $(this).val();
+            if (!regex.test(query)) {
+                $(this).val(base);
+            }
+        });
     }
     $('#cropYear').val(new Date().getFullYear());
     var coordinates = "";
@@ -940,4 +1001,12 @@ function bindMarkerEvents(marker) {
         var markerId = getMarkerUniqueId(point.latLng.lat(), point.latLng.lng()); // get marker id by using clicked point's coordinate
         removeMarker(marker, markerId); // remove it
     });
+}
+function disableCropForm() {
+    $("#registerCropForm :input").prop("disabled", true);
+    $("#registerCropForm :submit").prop("disabled", true);
+    $("#plant").prop("disabled", true);
+    $("#crop").prop("disabled", true);
+    $("#closemyModal").prop("disabled", false);
+    $("#someSwitchOptionSuccess").prop("disabled", true);
 }

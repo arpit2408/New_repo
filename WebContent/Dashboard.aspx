@@ -40,9 +40,13 @@ rel="stylesheet">
         $.get("ListApplicator.aspx", function (data) {
             $("#modalDiv").replaceWith(data);
         });
+        $.get("ListPolygonsForApplicators.aspx", function (data) {
+            $("#prodLocationListModal").replaceWith(data);
+        });
     </script>
     <div id="header"></div>
     <div id="modalDiv"></div>
+    <div id="prodLocationListModal"></div>
     <form id="form1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
         <div>
@@ -114,7 +118,7 @@ rel="stylesheet">
                                     </div>
                                     <div id="producerPolygons" class="panel-body">
                                          <div class="table-responsive">
-                                            <table id="tablePolygons" class="table table-striped">
+                                            <table id="tablePolygons" class="table table-striped table-hover">
                                                 <thead>
                                                     <tr>
                                                                 
@@ -191,7 +195,7 @@ rel="stylesheet">
                                     </div>
                                     <div class="panel-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped">
+                                            <table class="table table-striped table-hover">
                                                 <thead>
                                                     <tr >
                                                         <th >Name</th>

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -32,7 +33,7 @@ public partial class WebContent_Producer : System.Web.UI.Page
             {
                 SqlCommand cmd = null;
                 SqlDataReader reader;
-                string sql = "select TOP 10 * from producer_locations where email = '[EMAIL]' and year = '[YEAR]' order by modifieddate desc";
+                string sql = "select * from producer_locations where email = '[EMAIL]' and year = '[YEAR]' order by modifieddate desc";
                 sql = sql.Replace("[EMAIL]", email);
                 sql = sql.Replace("[YEAR]", DateTime.Today.Year.ToString());
 
@@ -161,7 +162,7 @@ public partial class WebContent_Producer : System.Web.UI.Page
 
                         if (!reader.IsDBNull(14))
                         {
-                            croploc.id = reader.GetDecimal(14).ToString();
+                            croploc.id = reader.GetInt32(14).ToString();
                         }
                         if (!reader.IsDBNull(0))
                         {
@@ -242,5 +243,78 @@ public partial class WebContent_Producer : System.Web.UI.Page
         }
         HttpContext.Current.Session["allcrops"] = locationArr;
         return locationArr;
+    }
+    [System.Web.Services.WebMethod(EnableSession = false)]
+    public static string[] GetProducerPolygon(string polgyonId){
+        SqlConnection conn = null;
+        user user = (user)HttpContext.Current.Session["user"];
+        String[] retval=new String[2];
+        if (user == null)
+            return null;
+        else
+        {
+            ArrayList polygonCordinates = new ArrayList();
+            try
+            {
+                string connection = System.Configuration.ConfigurationManager.AppSettings["connection_string"];
+                conn = new SqlConnection(connection);
+                conn.Open();
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+                    StringBuilder sql = new StringBuilder("SELECT *");
+                    sql.Append(" FROM producer_locations where producerLocID = [PRODUCERLOCID]");
+                    sql.Replace("[PRODUCERLOCID]", polgyonId);
+                    SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read() && reader.HasRows)
+                    {
+                        croplocation croparea = new croplocation();
+                        if (!reader.IsDBNull(0))
+                            croparea.usremail = reader.GetString(0).ToString();
+                        if (!reader.IsDBNull(1))
+                            croparea.planttype = reader.GetString(1).ToString();
+                        if (!reader.IsDBNull(2))
+                            croparea.croptype = reader.GetString(2).ToString();
+                        if (!reader.IsDBNull(3))
+                            croparea.cropyear = reader.GetString(3).ToString();
+                        if (!reader.IsDBNull(4))
+                            croparea.comment = reader.GetString(4).ToString();
+                        if (!reader.IsDBNull(5))
+                            croparea.county = reader.GetString(5).ToString();
+                        if (!reader.IsDBNull(6))
+                            croparea.coordinates = reader.GetString(6).ToString();
+                        if (!reader.IsDBNull(7))
+                            croparea.loccentroid = reader.GetString(7).ToString();
+                        if (!reader.IsDBNull(8))
+                            croparea.acres = reader.GetString(8).ToString();
+                        if (!reader.IsDBNull(9))
+                            croparea.organiccrops = (reader.GetBoolean(9) ? 1 : 0).ToString();
+                        if (!reader.IsDBNull(10))
+                            croparea.certifier = reader.GetString(10).ToString();
+                        if (!reader.IsDBNull(14))
+                            croparea.id = reader.GetInt32(14).ToString(); ;
+                        if (!reader.IsDBNull(15))
+                            croparea.flagtype = reader.GetString(15).ToString();
+                        if (!reader.IsDBNull(16))
+                            croparea.shareCropInfo = reader.GetString(16).ToString();
+                        if (!reader.IsDBNull(17))
+                            croparea.markerPos = reader.GetString(17).ToString();
+                        polygonCordinates.Add(croparea);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
+            finally
+            {
+                if (conn != null)
+                    conn.Close();
+            }
+            retval[0] = "1";
+            retval[1] = JsonConvert.SerializeObject(polygonCordinates);
+            return retval;
+        }
     }
 }
