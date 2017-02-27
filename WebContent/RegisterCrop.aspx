@@ -141,7 +141,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="form_message">Comments or Description: *</label>
-                                            <textarea id="commentsForCrops" name="message" class="form-control" placeholder="Message  *" rows="4" required="required" data-error="Please,leave us a message."></textarea>
+                                            <textarea id="commentsForCrops" name="message" class="form-control" placeholder="Message  *" rows="4"  data-error="Please,leave us a message."></textarea>
                                             <div class="help-block with-errors"></div>
                                             <span style="background-color: green; color: white;"></span>
                                         </div>

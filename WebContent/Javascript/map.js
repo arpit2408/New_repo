@@ -18,6 +18,7 @@ var urlVars;
 var plantype = "";
 var croptype = "";
 var cmnts = "";
+var organicCrop = "";
 function initMap() {
 
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
@@ -209,7 +210,8 @@ function showPolygonOnMap(recordId) {
         plantype = val[0].planttype;
         croptype = val[0].croptype;
         cmnts = val[0].comment;
-        var typeOfView = urlVars["typeOfView"];
+        organicCrop = val[0].organiccrops;
+        var typeOfView = urlVars["typeOfView"].replace("#","");
         var customControl = null;
         var customControlDiv = document.createElement('div');
         customControl = new CustomControl(customControlDiv, map, typeOfView);
@@ -468,11 +470,13 @@ function SubmitNewLocation(event) {
     croploc.cropyear = document.getElementById('cropYear').value;
     var orgComnts = "";
     var fullComnt = "";
+    var newStr = "";
     if (document.getElementById('commentsForCrops') != null) {
         var totalCmnts = document.getElementById('commentsForCrops').value;
         orgComnts = cmnts;
         totalCmnts = totalCmnts.replace(orgComnts, "");
-        var newStr = user.firstname + " " + user.lastname + ": " + totalCmnts + "\n";
+        if (totalCmnts.trim() != "")
+        newStr = user.firstname + " " + user.lastname + ": " + totalCmnts.trim() + "\n";
         fullComnt = fullComnt.concat(orgComnts,newStr);
     }
     croploc.comment = fullComnt.replace(/'/g, "''");
@@ -944,6 +948,7 @@ function fillModalValues(polygon, checkforflag, valuesDisabled, isApplicator) {
         }
     }
     $("#saveRegisterCrop").prop("disabled", false);
+    $("#someSwitchOptionSuccess").prop('checked', organicCrop==1?true:false);
     $("#myModal").draggable({ handle: ".modal-body" });
     $('#areaPolygon').val((0.000247105 * google.maps.geometry.spherical.computeArea(polygon.getPath())).toFixed(2));
     if (recordId != null) {
