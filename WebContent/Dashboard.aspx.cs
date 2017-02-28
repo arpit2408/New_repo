@@ -349,4 +349,171 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
             return retval;
         }
     }
+    [System.Web.Services.WebMethod(EnableSession = false)]
+    public static string[] ListUsersForUnshare(string producerLocId)
+    {
+        string[] retval = new string[2];
+        retval[0] = "0";
+        retval[1] = "";
+        SqlConnection conn = null;
+        user user = (user)HttpContext.Current.Session["user"];
+        if (user == null)
+            return null;
+        else
+        {
+            ArrayList sharedUsers = new ArrayList();
+            try
+            {
+                string connection = System.Configuration.ConfigurationManager.AppSettings["connection_string"];
+                conn = new SqlConnection(connection);
+                conn.Open();
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+                    StringBuilder sql = new StringBuilder("SELECT TOP 1000 prodLoc.[producerLocID]");
+                    sql.Append(" ,concat(usr.firstname,' ',usr.lastname) as Name");
+	                sql.Append(" ,usr.email,concat(usr.address,' ',usr.city,' ',usr.state,' ',usr.zip) as Address");
+                    sql.Append(" ,usr.phoneBusiness,[MappedForAction],prodLoc.pesticideApplied,usr.user_id");
+                    sql.Append(" FROM [TX_CROPS].[dbo].[MappingProducerLocation] mapLoc");
+                    sql.Append(" join user_details usr on usr.user_id = mapLoc.user_id");
+                    sql.Append(" join producer_locations prodLoc on prodLoc.producerLocID=mapLoc.producerLocID");
+                    sql.Append(" where mapLoc.producerLocID=[PRODUCERLOCID] and mapLoc.active=1");
+                    sql.Replace("[PRODUCERLOCID]", producerLocId);
+                    SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read() && reader.HasRows)
+                    {
+                        ListUserForUnshare mappedUser = new ListUserForUnshare();
+                        if (!reader.IsDBNull(0))
+                            mappedUser.prodLocId = (reader.GetInt32(0).ToString());
+                        if (!reader.IsDBNull(1))
+                            mappedUser.name = (reader.GetString(1).ToString());
+                        if (!reader.IsDBNull(2))
+                            mappedUser.email = (reader.GetString(2).ToString());
+                        if (!reader.IsDBNull(3))
+                            mappedUser.address = (reader.GetString(3).ToString());
+                        if (!reader.IsDBNull(4))
+                            mappedUser.phone = (reader.GetString(4).ToString());
+                        if (!reader.IsDBNull(5))
+                            mappedUser.mappedAs = (reader.GetBoolean(5) ? 1 : 0).ToString();
+                        if (!reader.IsDBNull(6))
+                            mappedUser.pesticideApplied = (reader.GetBoolean(6) ? 1 : 0).ToString();
+                        if (!reader.IsDBNull(7))
+                            mappedUser.user_id = reader.GetInt32(7).ToString();
+                        sharedUsers.Add(mappedUser);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
+            finally
+            {
+                if (conn != null)
+                    conn.Close();
+            }
+            retval[0] = "1";
+            retval[1] = JsonConvert.SerializeObject(sharedUsers);
+            return retval;
+        }
+    }
+    [System.Web.Services.WebMethod(EnableSession = false)]
+    public static string[] UnshareUserPolygon(string producerLocId, string userIds,string completeUnshare)
+    {
+        string[] retval = new string[2];
+        retval[0] = "0";
+        retval[1] = "";
+        //var data = JsonConvert.DeserializeObject<MappingLocation[]>(mappingDetails);
+        user user = null;
+        user = (user)HttpContext.Current.Session["user"];
+        SqlConnection conn = null;
+        try
+        {
+            string connection = System.Configuration.ConfigurationManager.AppSettings["connection_string"];
+            conn = new SqlConnection(connection);
+            conn.Open();
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+
+                    StringBuilder sql = new StringBuilder("select pesticideApplied from [TX_CROPS].[dbo].[producer_locations]");
+                    sql.Append(" where producerLocID=[producerLocID]");
+                    sql.Replace("[producerLocID]", producerLocId);
+                    SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read() && reader.HasRows)
+                    {
+                        if (!reader.IsDBNull(0)){
+                            String pesticideApplied = (reader.GetBoolean(0) ? 1 : 0).ToString();
+                            if (pesticideApplied.Equals("1"))
+                            {
+                                retval[0] = "0";
+                                retval[1] = "Pestcide is already applied on the crop.Please contact the pesticide applicator..!!";
+                                return retval;
+                            }
+                        }
+                    }
+                    if (completeUnshare.Equals("1"))
+                    {
+                        sql.Clear();
+                        cmd.Dispose();
+                        reader.Close();
+                        sql.Append("UPDATE producer_locations SET cropShared =  '0' where producerLocID = [producerLocID]");
+                        sql.Replace("[producerLocID]", producerLocId);
+                        cmd = new SqlCommand(sql.ToString(), conn);
+                        reader = cmd.ExecuteReader();
+                        if (!(reader.RecordsAffected == 1))
+                        {
+                            retval[0] = "0";
+                            retval[1] = "Mapping Update Unsuccessful";
+                            return retval;
+                        }
+                        sql.Clear();
+                        cmd.Dispose();
+                        reader.Close();
+                        sql.Append("UPDATE MappingProducerLocation SET active =  '0' where producerLocID = [producerLocID]");
+                        sql.Replace("[producerLocID]", producerLocId);
+                        cmd = new SqlCommand(sql.ToString(), conn);
+                        reader = cmd.ExecuteReader();
+                        if (reader.RecordsAffected == 0)
+                        {
+                            retval[0] = "0";
+                            retval[1] = "Mapping Update Unsuccessful";
+                            return retval;
+                        }
+                    }
+                    else
+                    {
+                        sql.Clear();
+                        cmd.Dispose();
+                        reader.Close();
+                        sql.Append("UPDATE MappingProducerLocation SET active =  '0' where producerLocID = [producerLocID] and user_id in ([USER_ID])");
+                        sql.Replace("[producerLocID]", producerLocId);
+                        sql.Replace("[USER_ID]", userIds);
+                        cmd = new SqlCommand(sql.ToString(), conn);
+                        reader = cmd.ExecuteReader();
+                        if (reader.RecordsAffected == 0)
+                        {
+                            retval[0] = "0";
+                            retval[1] = "Mapping Update Unsuccessful";
+                            return retval;
+                        }
+                    }
+                }
+        
+            retval[0] = "1";
+            retval[1] = "Mapping Successful";
+        }
+        catch (Exception ex)
+        {
+            retval[0] = "0";
+            retval[1] = "Mapping Unsuccessful";
+            Console.Write(ex.Message);
+        }
+        finally
+        {
+            if (conn != null)
+                conn.Close();
+        }
+        return retval;
+    }
  }

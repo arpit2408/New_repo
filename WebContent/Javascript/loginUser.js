@@ -27,7 +27,7 @@ function Authenticate_User_Success(returnObj) {
         $("#loginmsg").show();
         $('#loginmsg').append(val[1] + "<br>");
         $('#loginmsg').removeClass('alert-danger').addClass('alert-success');
-        window.location.href = 'dashboard.aspx?username=' + names[0];
+        window.location.href = 'dashboard.aspx';
         return false;
     }
     else {
@@ -46,16 +46,12 @@ function Fail_User_Validate(returnObj) {
 function dashboardOnLoad() {
     var user = checkloggedInUser();
     if (user != null) {
-        var href = window.top.location.href;
-        var usernameValue = user.firstname;
-        var useremail = user.email;
-        $('#UserName').empty();
-        $('#UserName').append(usernameValue);
+        
         $.ajax({
             type: 'POST',
             url: 'Dashboard.aspx/ListProducerPolygons',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({ useremail: useremail }),
+            data: JSON.stringify({ useremail: user.email }),
             dataType: 'json',
             success: Producer_location_Success,
             error: Fail_location
@@ -450,14 +446,131 @@ function myFunction() {
 }
 
 function unsharePolygon(e) {
-    var cropid = e.id;
-    var cropIdunshare=cropid.replace("shared", "unshared");
-    var sharele = document.getElementById(cropIdunshare);
-    e.style.display = "none";
-    sharele.style.display = "";
-
+    $.ajax({
+        type: 'POST',
+        url: 'Dashboard.aspx/ListUsersForUnshare',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({ producerLocId: e.id.replace("shared","") }),
+        dataType: 'json',
+        success: Unshare_Success,
+        error: Unshare_Failed
+    });
+    $('#listUserForUnshareModal').modal('show');
+    $("#listUserForUnshareModal").draggable({ handle: ".modal-body" });
+    
+    function Unshare_Success(resultObj) {
+        var val = JSON.parse(resultObj.d[1]);
+        var table = document.getElementById('tBodyUserUnshare');
+        table.innerHTML = "";
+        for (var i = 0; i < val.length; i++) {
+            var tr = document.createElement('tr');
+            var td_index_v = document.createElement('td');
+            var td_Name_v = document.createElement('td');
+            var td_email_v = document.createElement('td');
+            var td_Address_v = document.createElement('td');
+            var td_phone_v = document.createElement('td');
+            var td_mappedAs_v = document.createElement('td');
+            var td_PesticideApp_v = document.createElement('td');
+            td_PesticideApp_v.setAttribute('class','hidden');
+            td_PesticideApp_v.setAttribute('id', 'applied'+val[i].user_id);
+            var td_action_v = document.createElement('td');
+            var text_ind = document.createTextNode(i + 1);
+            var text_name = document.createTextNode(val[i].name);
+            var text_email = document.createTextNode(val[i].email);
+            var text_Address = document.createTextNode(val[i].address);
+            var text_Phone = document.createTextNode(val[i].phone);
+            var text_mappedAs = document.createTextNode(val[i].mappedAs == 1 ? "Applicator" : "Consultant");
+            var text_pesticideApp = document.createTextNode(val[i].pesticideApplied);
+            td_index_v.appendChild(text_ind);
+            td_Name_v.appendChild(text_name);
+            td_email_v.appendChild(text_email);
+            td_Address_v.appendChild(text_Address);
+            td_phone_v.appendChild(text_Phone);
+            td_mappedAs_v.appendChild(text_mappedAs);
+            td_PesticideApp_v.appendChild(text_pesticideApp);
+            var actiondiv = document.createElement('div');
+            //actiondiv.setAttribute("class", "material-switch pull-right");
+            actiondiv.setAttribute("style", "display:display");
+            var usractions = '<input id=unshare' + val[i].user_id + ' onclick="checkForPesticide(this)" value=' + val[i].user_id + '  type="checkbox" checked="checked"/>';
+            actiondiv.innerHTML = actiondiv.innerHTML + usractions;
+            td_action_v.appendChild(actiondiv); 
+            //tr.appendChild(td_index_v);
+            tr.appendChild(td_Name_v);
+            tr.appendChild(td_email_v);
+            tr.appendChild(td_Address_v);
+            //tr.appendChild(td_phone_v);
+            tr.appendChild(td_mappedAs_v);
+            tr.appendChild(td_PesticideApp_v);
+            tr.appendChild(td_action_v);
+            
+            table.appendChild(tr);
+        }
+        $('#unshareUsers').attr('name', 'sub'+e.id);
+        
+    }
+    function Unshare_Failed() {
+    }
 }
+function checkForPesticide(e) {
+    var id = e.id;
+    var appliedId=id.replace("unshare", "applied");
+    if (document.getElementById(appliedId).innerText == 1) {
+        alert("Cannot unmap the user as the pesticide is already applied.Contact your applicator..!!");
+        document.getElementById(id).checked = true;
+    }
+}
+function submitUnmaplist(e) {
+    alert(e.id);
+    var completeUnshare = 0;
+    var atLeastOneIsChecked = $('input:checkbox:checked').map(function () {
+        return this.value;
+    }).get();
+    var allCheckBox = $('input:checkbox').map(function () {
+        return this.value;
+    }).get();
+    allCheckBox.splice(0, 1);
+    if (atLeastOneIsChecked != null && allCheckBox != null && atLeastOneIsChecked.length != allCheckBox.length) {
+        if (atLeastOneIsChecked != null && atLeastOneIsChecked.length == 0) {
+            completeUnshare = 1;
+        }
+        var diff = $(allCheckBox).not(atLeastOneIsChecked).get();
+        var userIds = "";
+        diff.forEach(function (x) {
+            userIds = userIds + x + ",";
+        });
+        if (userIds != "")
+            userIds = userIds.slice(0, -1);
 
+        $.ajax({
+            type: 'POST',
+            url: 'Dashboard.aspx/UnshareUserPolygon',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ producerLocId: e.name.replace("subshared", ""), userIds: userIds, completeUnshare: completeUnshare }),
+            dataType: 'json',
+            success: Unmap_Success,
+            error: Unmap_Failed
+        });
+    }
+    else {
+        alert("Please deselect the checkboxes against the user you want to remove..!!")
+    }
+    function Unmap_Success(resultObj) {
+        if (resultObj.d[0] == 0) {
+            alert(resultObj.d[1]);
+        }
+        else if (resultObj.d[0] == 1) {
+            if (completeUnshare == 1) {
+                var shareid = e.name.replace("sub", "");
+                var unshareid = e.name.replace("subshared", "unshared");
+                document.getElementById(shareid).style.display = "none";
+                document.getElementById(unshareid).style.display = "";
+            }
+            $('#listUserForUnshareModal').modal('hide');
+        }
+    }
+    function Unmap_Failed() {
+    }
+}
    function radioOptionChange(e) {
        
         if (e.id == "no") {

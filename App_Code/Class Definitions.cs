@@ -74,30 +74,20 @@ public class AppArea
 
     }
 }
-//public class CropLocations
-//{
-//    public string locationid = "";
-//    public string email = "";
-//    public string croptype = "";
-//    public string cropyear = "";
-//    public string comment = "";
-//    public string county = "";
-//    public string coordinates = "";
-//    public string acres = "";
-//    public string organiccrops = "";
-//    public string certifier = "";
-//    //public string firstName = "";
-//    //public Boolean isRegistered = false;
-
-
-//    public CropLocations()
-//    {
-//        //
-//        // TODO: Add constructor logic here
-//        //
-//    }
-//}
-
+public class ListUserForUnshare
+{
+    public string prodLocId { get; set; }
+    public string name { get; set; }
+    public string email { get; set; }
+    public string address { get; set; }
+    public string phone { get; set; }
+    public string mappedAs { get; set; }
+    public string pesticideApplied { get; set; }
+    public string user_id { get; set; }
+    public ListUserForUnshare()
+    {
+    }
+}
 public class croplocation
 {
     public string id = "";

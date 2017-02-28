@@ -43,10 +43,14 @@ rel="stylesheet">
         $.get("ListPolygonsForApplicators.aspx", function (data) {
             $("#prodLocationListModal").replaceWith(data);
         });
+        $.get("ListUserDetailsForUnshare.aspx", function (data) {
+            $("#unshareCropModal").replaceWith(data);
+        });
     </script>
     <div id="header"></div>
     <div id="modalDiv"></div>
     <div id="prodLocationListModal"></div>
+    <div id="unshareCropModal"></div>
     <form id="form1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
         <div>

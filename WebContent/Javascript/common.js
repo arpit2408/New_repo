@@ -59,7 +59,7 @@ function CheckLogin_Success(val) {
         var dashboard = document.createElement('li');
         dashboard.innerHTML = '<a href="/WebContent/Dashboard.aspx">User dashboard</a>';
         var account = document.createElement('li');
-        account.innerHTML = '<a href="/node/fasids/users/account/basic_info">Account</a>';
+        account.innerHTML = '<a href="">Account</a>';
         var logout = document.createElement('li');
         logout.innerHTML = '<a onclick="Logoff()">Log out</a>';
         menuhead.appendChild(dashboard);
@@ -101,7 +101,7 @@ function Logoff() {
             else
                 return msg;
         }
-    })
+    });
 
 
 }

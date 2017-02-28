@@ -198,6 +198,7 @@ function showPolygonOnMap(recordId) {
         error: failedToShowLocation
     });
     function showPolygonForApplicator(resultObj) {
+        checkloggedInUser();
         var val = JSON.parse(resultObj.d[1]);
         var cordiarr = val[0].coordinates.split("\n");
         var cordichnge = "";
