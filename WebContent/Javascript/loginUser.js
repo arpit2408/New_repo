@@ -62,6 +62,9 @@ function dashboardOnLoad() {
 
             for (var i = 0; i < val.length; i++) {
                 var tr = document.createElement('tr');
+                tr.setAttribute("class", "clickable-row");
+                tr.setAttribute("onclick", "detailsForProducer(this)");
+                tr.setAttribute("id", val[i].id + "prodrow");
                 var td_index_v = document.createElement('td');
                 var td_plty_v = document.createElement('td');
                 var td_cropty_v = document.createElement('td');
@@ -91,10 +94,10 @@ function dashboardOnLoad() {
                 var actiondiv = document.createElement('div');
                 actiondiv.setAttribute("style","display:display");
                 actiondiv.id="unshared" + val[i].id;
-                var usractions = '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" id=edit,'+val[i].id+' onclick=\'showPolygon(this)\'>create</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick=\'""\'>delete</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick="sharePolygon(this)"> share</i>';
+                var usractions = '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" id=edit,'+val[i].id+' onclick=\'showPolygon(this)\'>create</i>&nbsp;&nbsp;<i id=delete'+val[i].id+' class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;">delete</i>&nbsp;&nbsp;<i id=shareaction'+val[i].id+' class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" "> share</i>';
                 actiondiv.innerHTML = actiondiv.innerHTML + usractions;
                 td_action_v.appendChild(actiondiv);
-                td_action_v.innerHTML = td_action_v.innerHTML + '<button type = "button" id=shared' + val[i].id + ' class = "btn btn-success btn-xs" style="font-family:Georgia" onclick="unsharePolygon(this)" id= >UNSHARE</button>'
+                td_action_v.innerHTML = td_action_v.innerHTML + '<button type = "button" id=shared' + val[i].id + ' class = "btn btn-success btn-xs" style="font-family:Georgia" id= >UNSHARE</button>'
                 
                 tr.appendChild(td_index_v);
                 tr.appendChild(td_plty_v);
@@ -106,6 +109,21 @@ function dashboardOnLoad() {
                     document.getElementById('shared' + val[i].id).style.display = "none";
                 else
                     document.getElementById('unshared' + val[i].id).style.display = "none";
+                var actiondelete = document.getElementById('delete' + val[i].id);
+                var actionunshare = document.getElementById('shared' + val[i].id);
+                var actionshare = document.getElementById('shareaction' + val[i].id);
+                actionunshare.addEventListener("click", function (ev) {
+                    unsharePolygon(this);
+                    ev.stopPropagation();
+                }, true);
+                actionshare.addEventListener("click", function (ev) {
+                    sharePolygon(this);
+                    ev.stopPropagation();
+                }, true);
+                actiondelete.addEventListener("click", function (ev) {
+                    deletePolygon(this);
+                    ev.stopPropagation();
+                }, true);
             }
             loadNewApplicatorAreas();
         }
@@ -113,7 +131,34 @@ function dashboardOnLoad() {
     function Fail_location(resultobj) {
         var val = resultobj.d;
     }
-
+}
+function deletePolygon(e) {
+    var elementid = e.id;
+    if (confirm("Are you sure you want to delete the polygon?")) {
+        $.ajax({
+            type: 'POST',
+            url: 'Producer.aspx/DeleteProdPolygon',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ polgyonId: elementid.replace("delete", "") }),
+            dataType: 'json',
+            success: deleteSuccessful,
+            error: deleteFailed
+        });
+    }
+    function deleteSuccessful(resultObj) {
+        var val = resultObj.d[0];
+        var rowid = elementid.replace("delete", "") + "prodrow";
+        if(val==1){
+            document.getElementById(rowid).style.display = "none";
+            $("#showdeletemsg").css('background-color', '#2ecc71');
+        }
+        else
+            $("#showdeletemsg").css('background-color', '#c0392b');
+        $("#showdeletemsg").css('display', '');
+        $('#showdeletemsg').val(resultObj.d[1]);
+    }
+    function deleteFailed() {
+    }
 }
 function loadNewApplicatorAreas() {
     PageMethods.ListGroupedActionViewLocations(Applicator_loc, Applicator_loc);
@@ -159,76 +204,96 @@ function polygonListingForApplicators(e) {
     });
     $('#listPolygonsForApplicatorsModal').modal('show');
     $("#listPolygonsForApplicatorsModal").draggable({ handle: ".modal-body" });
-    function listingSuccessful(resultObj) {
-        var val = JSON.parse(resultObj.d[1]);
-        var table = document.getElementById('tabBodyModal');
-        table.innerHTML = "";
-        for (var i = 0; i < val.length; i++) {
-            var tr = document.createElement('tr');
-            var td_index_v = document.createElement('td');
-            var td_plty_v = document.createElement('td');
-            var td_cropty_v = document.createElement('td');
-            var td_flag_v = document.createElement('td');
-            var td_county_v = document.createElement('td');
-            var td_cropyr_v = document.createElement('td');
-            var td_PesticideApp_v = document.createElement('td');
-            var td_PesticideName_v = document.createElement('td');
-            var td_action_v = document.createElement('td');
-            var td_markCompleted_v = document.createElement('td');
+    
+}
+function listingSuccessful(resultObj) {
+    var val = JSON.parse(resultObj.d[1]);
+    var table = document.getElementById('tabBodyModal');
+    table.innerHTML = "";
+    for (var i = 0; i < val.length; i++) {
+        var tr = document.createElement('tr');
+        var td_index_v = document.createElement('td');
+        var td_plty_v = document.createElement('td');
+        var td_cropty_v = document.createElement('td');
+        var td_flag_v = document.createElement('td');
+        var td_county_v = document.createElement('td');
+        var td_cropyr_v = document.createElement('td');
+        var td_PesticideApp_v = document.createElement('td');
+        var td_PesticideName_v = document.createElement('td');
+        var td_action_v = document.createElement('td');
+        var td_markCompleted_v = document.createElement('td');
 
-            td_action_v.setAttribute('id', val[i].id);
-            var text_ind = document.createTextNode(i + 1);
-            var text_pt = document.createTextNode(val[i].planttype);
-            var text_ct = document.createTextNode(val[i].croptype);
-            var text_flag = document.createTextNode(val[i].flagtype);
-            var text_county = document.createTextNode(val[i].county);
-            var text_cy = document.createTextNode(val[i].cropyear);
-            var text_PesticideApp_v = document.createTextNode(val[i].pesticideApplied);
-            var text_PesticideName_v = document.createTextNode(val[i].pesticideName);
-            var text_markedCompleted = document.createTextNode(val[i].markCompleted == 1?"Yes":"No");
-            td_index_v.appendChild(text_ind);
-            td_plty_v.appendChild(text_pt);
-            td_cropty_v.appendChild(text_ct);
-            td_flag_v.appendChild(text_flag);
-            td_county_v.appendChild(text_county);
-            td_cropyr_v.appendChild(text_cy);
-            td_PesticideApp_v.appendChild(text_PesticideApp_v);
-            td_PesticideName_v.appendChild(text_PesticideName_v);
-            td_markCompleted_v.appendChild(text_markedCompleted);
-            var actiondiv = document.createElement('div');
-            actiondiv.setAttribute("style", "display:display");
-            actiondiv.id = "apply" + val[i].id;
-            var usractions = '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" id=watch,' + val[i].id + ' onclick=\'showPolygon(this)\'>visibility</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" id=delete,' + val[i].id + ' onclick=\'""\'>delete</i>&nbsp;&nbsp;<i id=build,' + val[i].id + ' class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick="showPolygon(this)">build</i>';
-            actiondiv.innerHTML = actiondiv.innerHTML + usractions;
-            td_action_v.appendChild(actiondiv);
-            //tr.appendChild(td_index_v);
-            tr.appendChild(td_plty_v);
-            tr.appendChild(td_cropty_v);
-            tr.appendChild(td_flag_v);
-            tr.appendChild(td_county_v);
-            tr.appendChild(td_cropyr_v);
-            //tr.appendChild(td_PesticideApp_v);
-            tr.appendChild(td_PesticideName_v);
-            tr.appendChild(td_markCompleted_v);
-            tr.appendChild(td_action_v);
-            table.appendChild(tr);
-            if (val[i].mappedAs == "0")
-                document.getElementById('build,' + val[i].id).style.display = "none";
-        }
-    }
-    function listingFailed(resultObj) {
+        td_action_v.setAttribute('id', val[i].id);
+        var text_ind = document.createTextNode(i + 1);
+        var text_pt = document.createTextNode(val[i].planttype);
+        var text_ct = document.createTextNode(val[i].croptype);
+        var text_flag = document.createTextNode(val[i].flagtype);
+        var text_county = document.createTextNode(val[i].county);
+        var text_cy = document.createTextNode(val[i].cropyear);
+        var text_PesticideApp_v = document.createTextNode(val[i].pesticideApplied);
+        var text_PesticideName_v = document.createTextNode(val[i].pesticideName);
+        var text_markedCompleted = document.createTextNode(val[i].markCompleted == 1 ? "Yes" : "No");
+        td_index_v.appendChild(text_ind);
+        td_plty_v.appendChild(text_pt);
+        td_cropty_v.appendChild(text_ct);
+        td_flag_v.appendChild(text_flag);
+        td_county_v.appendChild(text_county);
+        td_cropyr_v.appendChild(text_cy);
+        td_PesticideApp_v.appendChild(text_PesticideApp_v);
+        td_PesticideName_v.appendChild(text_PesticideName_v);
+        td_markCompleted_v.appendChild(text_markedCompleted);
+        var actiondiv = document.createElement('div');
+        actiondiv.setAttribute("style", "display:display");
+        actiondiv.id = "apply" + val[i].id;
+        var usractions = '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" id=watch,' + val[i].id + ' onclick=\'showPolygon(this)\'>visibility</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" id=delete,' + val[i].id + ' onclick=\'""\'>delete</i>&nbsp;&nbsp;<i id=build,' + val[i].id + ' class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick="showPolygon(this)">build</i>';
+        actiondiv.innerHTML = actiondiv.innerHTML + usractions;
+        td_action_v.appendChild(actiondiv);
+        //tr.appendChild(td_index_v);
+        tr.appendChild(td_plty_v);
+        tr.appendChild(td_cropty_v);
+        tr.appendChild(td_flag_v);
+        tr.appendChild(td_county_v);
+        tr.appendChild(td_cropyr_v);
+        //tr.appendChild(td_PesticideApp_v);
+        tr.appendChild(td_PesticideName_v);
+        tr.appendChild(td_markCompleted_v);
+        tr.appendChild(td_action_v);
+        table.appendChild(tr);
+        if (val[i].mappedAs == "0")
+            document.getElementById('build,' + val[i].id).style.display = "none";
     }
 }
-
-function sharePolygon(e) {
-    var userType = "2";
+function listingFailed(resultObj) {
+}
+function detailsForProducer(producerId) {
+    var id = producerId.id;
+    $.ajax({
+        type: 'POST',
+        url: 'Producer.aspx/GetProducerPolygon',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify({ polgyonId: id.replace("prodrow", "") }),
+        dataType: 'json',
+        success: listingSuccessful,
+        error: listingFailed
+    });
+    $('#listPolygonsForApplicatorsModal').modal('show');
+    $("#listPolygonsForApplicatorsModal").draggable({ handle: ".modal-body" });
+}
+function sharePolygon(e,fromModal) {
     document.getElementById('cropId').value = "";
-    document.getElementById('cropId').value = e.parentElement.id;
+    var prodvalue="";
+    if (fromModal) {
+        $('#listUserForUnshareModal').modal('hide');
+        prodvalue = e;
+    }
+    else
+        prodvalue = e.parentElement.id;
+    document.getElementById('cropId').value=prodvalue;
     $.ajax({
         type: 'POST',
         url: 'ListApplicator.aspx/GetUsers',
         contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify({ userType: userType }),
+        data: JSON.stringify({ producerLocID: prodvalue.replace("unshared", "") }),
         dataType: 'json',
         success: function (data) {
             Applicator_list(data)
@@ -245,6 +310,7 @@ function Applicator_list(resultobj) {
     var val = JSON.parse(applicatorusr[1]);
 
     var tableApp = document.getElementById('check-list-box');
+    tableApp.innerHTML = "";
     for (var i = 0; i < val.length; i++) {
 
         var li = document.createElement('li');
@@ -457,7 +523,14 @@ function unsharePolygon(e) {
     });
     $('#listUserForUnshareModal').modal('show');
     $("#listUserForUnshareModal").draggable({ handle: ".modal-body" });
-    
+    var maptd = document.getElementById('unshareModalheader');
+    maptd.innerHTML = "";
+    var maplink = document.createElement('a');
+    maplink.setAttribute('style', 'padding-left:17px');
+    maplink.setAttribute('onclick', 'sharePolygon("' + e.id.replace("shared", "unshared") + '",true)');
+    var text_maplink = document.createTextNode('Map new user');
+    maplink.appendChild(text_maplink);
+    maptd.appendChild(maplink);
     function Unshare_Success(resultObj) {
         var val = JSON.parse(resultObj.d[1]);
         var table = document.getElementById('tBodyUserUnshare');

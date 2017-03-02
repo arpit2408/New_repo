@@ -109,14 +109,14 @@ rel="stylesheet">
                                         </div>
                                     </div>
                                 </div> -->
-                                <hr>
+                                <div id="showdeletemsg" style="display:none"></div>
 
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <table>
                                             <tr>
                                                 <td><h4>Your Crop Locations</h4></td>
-                                                <td class="rightbuttonlink col-sm-2"><a href="/WebContent/Producer.aspx" >Add new Crop</a></td>
+                                                <td class="col-sm-3" style="padding-left:25px"><a href="/WebContent/Producer.aspx" >Add new Crop</a></td>
                                             </tr>
                                         </table>
                                     </div>

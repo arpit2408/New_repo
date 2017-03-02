@@ -153,13 +153,13 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                 mLoc = data[i];
                 if (conn.State == System.Data.ConnectionState.Open)
                 {
-                    StringBuilder sql = new StringBuilder("INSERT INTO MappingProducerLocation VALUES (");
-                    sql.Append(" [producerLocID],[user_Id], [MappedForAction],'[modifiedDate]','[creationDate]')");
-                    sql.Replace("[producerLocID]", mLoc.producerLocID);
-                    sql.Replace("[user_Id]", mLoc.user_Id);
-                    sql.Replace("[MappedForAction]", mLoc.MappedForAction);
-                    sql.Replace("[modifiedDate]", null);
-                    sql.Replace("[creationDate]", DateTime.Now.ToString());
+                    StringBuilder sql = new StringBuilder("INSERT INTO MappingProducerLocation");
+                    sql.Append(" (producerLocID, user_id, MappedForAction, creationDate)");
+                    sql.Append(" VALUES ([PRODUCERLOCID],[USER_ID], [MAPPEDFORACTION],'[CREATIONDATE]')");
+                        sql.Replace("[PRODUCERLOCID]", mLoc.producerLocID);
+                        sql.Replace("[USER_ID]", mLoc.user_Id);
+                        sql.Replace("[MAPPEDFORACTION]", mLoc.MappedForAction);
+                        sql.Replace("[CREATIONDATE]", DateTime.Now.ToString());
                     SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (!(reader.RecordsAffected == 1))
@@ -171,8 +171,8 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                     sql.Clear();
                     cmd.Dispose();
                     reader.Close();
-                    sql.Append("UPDATE producer_locations SET cropShared =  '1' where producerLocID = [producerLocID]");
-                    sql.Replace("[producerLocID]", mLoc.producerLocID);
+                    sql.Append("UPDATE producer_locations SET cropShared =  '1' where producerLocID = [PRODUCERLOCID]");
+                    sql.Replace("[PRODUCERLOCID]", mLoc.producerLocID);
                     cmd = new SqlCommand(sql.ToString(), conn);
                     reader = cmd.ExecuteReader();
                     if (!(reader.RecordsAffected == 1))
@@ -321,6 +321,10 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                             croparea.markerPos = reader.GetString(35).ToString();
                         if (!reader.IsDBNull(36))
                             croparea.cropShared = (reader.GetBoolean(36) ? 1 : 0).ToString();
+                        if (!reader.IsDBNull(37))
+                            croparea.pesticideApplied = (reader.GetBoolean(37) ? 1 : 0).ToString();
+                        if (!reader.IsDBNull(38))
+                            croparea.pesticideName = reader.GetString(38).ToString();
                         if (!reader.IsDBNull(40))
                             croparea.markCompleted = (reader.GetBoolean(40) ? 1 : 0).ToString();
                         if (!reader.IsDBNull(43))
@@ -436,8 +440,8 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                 {
 
                     StringBuilder sql = new StringBuilder("select pesticideApplied from [TX_CROPS].[dbo].[producer_locations]");
-                    sql.Append(" where producerLocID=[producerLocID]");
-                    sql.Replace("[producerLocID]", producerLocId);
+                    sql.Append(" where producerLocID=[PRODUCERLOCID]");
+                    sql.Replace("[PRODUCERLOCID]", producerLocId);
                     SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read() && reader.HasRows)
@@ -457,8 +461,8 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                         sql.Clear();
                         cmd.Dispose();
                         reader.Close();
-                        sql.Append("UPDATE producer_locations SET cropShared =  '0' where producerLocID = [producerLocID]");
-                        sql.Replace("[producerLocID]", producerLocId);
+                        sql.Append("UPDATE producer_locations SET cropShared =  '0' where producerLocID = [PRODUCERLOCID]");
+                        sql.Replace("[PRODUCERLOCID]", producerLocId);
                         cmd = new SqlCommand(sql.ToString(), conn);
                         reader = cmd.ExecuteReader();
                         if (!(reader.RecordsAffected == 1))
@@ -470,8 +474,8 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                         sql.Clear();
                         cmd.Dispose();
                         reader.Close();
-                        sql.Append("UPDATE MappingProducerLocation SET active =  '0' where producerLocID = [producerLocID]");
-                        sql.Replace("[producerLocID]", producerLocId);
+                        sql.Append("UPDATE MappingProducerLocation SET active =  '0' where producerLocID = [PRODUCERLOCID]");
+                        sql.Replace("[PRODUCERLOCID]", producerLocId);
                         cmd = new SqlCommand(sql.ToString(), conn);
                         reader = cmd.ExecuteReader();
                         if (reader.RecordsAffected == 0)
@@ -486,8 +490,8 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                         sql.Clear();
                         cmd.Dispose();
                         reader.Close();
-                        sql.Append("UPDATE MappingProducerLocation SET active =  '0' where producerLocID = [producerLocID] and user_id in ([USER_ID])");
-                        sql.Replace("[producerLocID]", producerLocId);
+                        sql.Append("UPDATE MappingProducerLocation SET active =  '0' where producerLocID = [PRODUCERLOCID] and user_id in ([USER_ID])");
+                        sql.Replace("[PRODUCERLOCID]", producerLocId);
                         sql.Replace("[USER_ID]", userIds);
                         cmd = new SqlCommand(sql.ToString(), conn);
                         reader = cmd.ExecuteReader();

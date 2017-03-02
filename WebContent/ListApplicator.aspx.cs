@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -15,7 +16,7 @@ public partial class WebContent_ListApplicator : System.Web.UI.Page
 
     }
     [System.Web.Services.WebMethod(EnableSession = false)]
-    public static string[] GetUsers(string userType)
+    public static string[] GetUsers(string producerLocID)
     {
         SqlConnection conn = null;
         DateTime dt = DateTime.Now;
@@ -32,10 +33,15 @@ public partial class WebContent_ListApplicator : System.Web.UI.Page
             {
                 SqlCommand cmd = null;
                 SqlDataReader reader;
-                string sql = "select * from user_details where usertype like '%[UserType]%'  order by lastchange desc";
-                sql = sql.Replace("[UserType]", userType);
+                StringBuilder sql = new StringBuilder("select * from user_details"); 
+                sql.Append(" where (usertype like '%2,3%' or usertype like '%2%' or usertype like '%3%')");
+                sql.Append(" and user_id not in");
+                sql.Append(" (select user_id from MappingProducerLocation"); 
+                sql.Append("    where producerLocID=[PRODUCERLOCID] and active=1)"); 
+                sql.Append(" order by lastchange desc");
+                sql = sql.Replace("[PRODUCERLOCID]", producerLocID);
 
-                cmd = new SqlCommand(sql, conn);
+                cmd = new SqlCommand(sql.ToString(), conn);
                 reader = cmd.ExecuteReader();
                 user usr = null;
                 while (reader.Read() && reader.HasRows)

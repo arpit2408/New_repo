@@ -19,6 +19,8 @@ var plantype = "";
 var croptype = "";
 var cmnts = "";
 var organicCrop = "";
+var pesticideName = "";
+var markCompleted = "";
 function initMap() {
 
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
@@ -212,6 +214,9 @@ function showPolygonOnMap(recordId) {
         croptype = val[0].croptype;
         cmnts = val[0].comment;
         organicCrop = val[0].organiccrops;
+        
+        pesticideName = val[0].pesticideName;
+        markCompleted = val[0].markCompleted;
         var typeOfView = urlVars["typeOfView"].replace("#","");
         var customControl = null;
         var customControlDiv = document.createElement('div');
@@ -388,6 +393,9 @@ function Location() {
     this.shareCropInfo = "";
     this.markerPos = "";
     this.cropShared = "";
+    this.markCompleted = "";
+    this.pesticideName = "";
+    this.pesticideApplied = "";
 }
 function CustomFlagMarker() {
     var position = new google.maps.LatLng(0, 0);
@@ -488,14 +496,18 @@ function SubmitNewLocation(event) {
     var lng = centroid.lng();
     croploc.loccentroid = lat + "," + lng;
     croploc.acres = document.getElementById('areaPolygon').value;
-    var isitorganic = document.getElementById('someSwitchOptionSuccess').checked;
-    croploc.flagType = valueForFlags;
-    if (isitorganic == true) {
-        croploc.organiccrops = "1";
+    croploc.organiccrops = document.getElementById('someSwitchOptionSuccess').checked == true ? "1":"0";
+    croploc.markCompleted = document.getElementById('someSwitchOptionPrimary').checked == true ? "1" : "0";
+    var pesticideN = document.getElementById('pesticideName') != null ? document.getElementById('pesticideName').value : "";
+    if (pesticideN.trim() != "") {
+        croploc.pesticideName = pesticideN;
+        croploc.pesticideApplied = 1;
     }
     else {
-        croploc.organiccrops = "0";
+        croploc.pesticideName = "";
+        croploc.pesticideApplied = 0;
     }
+    croploc.flagType = valueForFlags;
     var posofAllMarkers = "";
     arrmySetofmarkers.forEach(function (value, key) {
         posofAllMarkers += value.position.lat() + "," + value.position.lng() + ";";
@@ -949,7 +961,9 @@ function fillModalValues(polygon, checkforflag, valuesDisabled, isApplicator) {
         }
     }
     $("#saveRegisterCrop").prop("disabled", false);
-    $("#someSwitchOptionSuccess").prop('checked', organicCrop==1?true:false);
+    $("#someSwitchOptionSuccess").prop('checked', organicCrop == 1 ? true : false);
+    $("#someSwitchOptionPrimary").prop('checked', markCompleted == 1 ? true : false);
+    $("#pesticideName").val(pesticideName);
     $("#myModal").draggable({ handle: ".modal-body" });
     $('#areaPolygon').val((0.000247105 * google.maps.geometry.spherical.computeArea(polygon.getPath())).toFixed(2));
     if (recordId != null) {

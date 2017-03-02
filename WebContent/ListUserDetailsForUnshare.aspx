@@ -14,9 +14,14 @@
                     <div class="col-xs-6">
                         <!-- Modal content-->
                         <div class="modal-content" style="height: auto; width: 867px;">
-                            <div class="modal-header">
+                            <div class="modal-header" >
                                 <button type="button"  class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">User Details</h4>
+                            
+                                <table><tr class="row">
+                                    <td><h4 class="modal-title col-sm-10">User Details</h4></td>
+                                    <td id="unshareModalheader" class="col-sm-2"></td>
+                                </tr></table>
+                            
                             </div>
                             <div class="modal-body" style="background-color: #eee">
                                 <div class="panel panel-default">

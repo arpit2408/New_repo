@@ -299,6 +299,12 @@ public partial class WebContent_Producer : System.Web.UI.Page
                             croparea.shareCropInfo = reader.GetString(16).ToString();
                         if (!reader.IsDBNull(17))
                             croparea.markerPos = reader.GetString(17).ToString();
+                        if (!reader.IsDBNull(19))
+                            croparea.pesticideApplied = (reader.GetBoolean(19) ? 1 : 0).ToString();
+                        if (!reader.IsDBNull(20))
+                            croparea.pesticideName = reader.GetString(20).ToString();
+                        if (!reader.IsDBNull(22))
+                            croparea.markCompleted = (reader.GetBoolean(22) ? 1 : 0).ToString();
                         polygonCordinates.Add(croparea);
                     }
                 }
@@ -314,6 +320,70 @@ public partial class WebContent_Producer : System.Web.UI.Page
             }
             retval[0] = "1";
             retval[1] = JsonConvert.SerializeObject(polygonCordinates);
+            return retval;
+        }
+    }
+    [System.Web.Services.WebMethod(EnableSession = false)]
+    public static string[] DeleteProdPolygon(string polgyonId)
+    {
+        SqlConnection conn = null;
+        user user = (user)HttpContext.Current.Session["user"];
+        String[] retval=new String[2];
+        retval[0] = "0";
+        retval[1] = "Encountered error in deletion..!!";
+        if (user == null)
+            return null;
+        else
+        {
+            ArrayList polygonCordinates = new ArrayList();
+            try
+            {
+                string connection = System.Configuration.ConfigurationManager.AppSettings["connection_string"];
+                conn = new SqlConnection(connection);
+                conn.Open();
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+                    StringBuilder sql = new StringBuilder("SELECT *");
+                    sql.Append(" FROM producer_locations where producerLocID = [PRODUCERLOCID] and deleted = 0");
+                    sql.Replace("[PRODUCERLOCID]", polgyonId);
+                    SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    int counter = 0;
+                    while (reader.Read() && reader.HasRows){
+                        counter++;
+                    }
+                    if (counter > 1){
+                        retval[0] = "0";
+                        retval[1] = "More than one associated record cannot proceed..!!";
+                        return retval;
+                    }
+                    sql.Clear();
+                    cmd.Dispose();
+                    reader.Close();
+                    sql.Append("update producer_locations set deleted=1 where producerLocID=[PRODUCERLOCID] and user_id=[USER_ID];");
+                    sql.Replace("[PRODUCERLOCID]", polgyonId);
+                    sql.Replace("[USER_ID]", user.user_id);
+                    cmd = new SqlCommand(sql.ToString(), conn);
+                    reader = cmd.ExecuteReader();
+                    if (reader.RecordsAffected > 1)
+                    {
+                        retval[0] = "0";
+                        retval[1] = "Delete Unsuccessful";
+                        return retval;
+                    }
+                    retval[0] = "1";
+                    retval[1] = "Deleted Successfully";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
+            finally
+            {
+                if (conn != null)
+                    conn.Close();
+            }
             return retval;
         }
     }

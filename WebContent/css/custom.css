@@ -72,3 +72,27 @@ label {
 .well .list-group {
     margin-bottom: 0px;
 }
+
+/*To make Modal appear in center of screen*/
+.vertical-alignment-helper {
+    display:table;
+    padding-right: 258px !important;
+    height: 100%;
+    width: 100%;
+    top: 26px !important;
+    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: block;
+    vertical-align: middle;
+    pointer-events:none;
+}
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events: all;
+}
