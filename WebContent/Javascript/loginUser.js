@@ -1,5 +1,8 @@
 ﻿var checkedItem = [""];
 var user;
+var asc1 = 1;
+var asc2 = 1;
+var asc3 = 1;
 function loginUser() {
     var useremail = document.getElementById('email').value;
     var password = document.getElementById('password').value;
@@ -99,10 +102,11 @@ function dashboardOnLoad() {
                 td_action_v.appendChild(actiondiv);
                 td_action_v.innerHTML = td_action_v.innerHTML + '<button type = "button" id=shared' + val[i].id + ' class = "btn btn-success btn-xs" style="font-family:Georgia" id= >UNSHARE</button>'
                 
-                tr.appendChild(td_index_v);
-                tr.appendChild(td_plty_v);
+                //tr.appendChild(td_index_v);
+                //tr.appendChild(td_plty_v);
+                tr.appendChild(td_cropty_v);
                 tr.appendChild(td_county_v);
-                tr.appendChild(td_cropyr_v);
+                //tr.appendChild(td_cropyr_v);
                 tr.appendChild(td_action_v);
                 table.appendChild(tr);
                 if (val[i].cropShared == "0")
@@ -147,15 +151,23 @@ function deletePolygon(e) {
     }
     function deleteSuccessful(resultObj) {
         var val = resultObj.d[0];
-        var rowid = elementid.replace("delete", "") + "prodrow";
-        if(val==1){
-            document.getElementById(rowid).style.display = "none";
-            $("#showdeletemsg").css('background-color', '#2ecc71');
+        $("#successmessage").empty();
+        $("#errormessage").empty();
+        setTimeout(fade_out, 2000);
+        function fade_out() {
+            $("#errormessage").fadeOut().empty();
+            $("#successmessage").fadeOut().empty();
         }
-        else
-            $("#showdeletemsg").css('background-color', '#c0392b');
-        $("#showdeletemsg").css('display', '');
-        $('#showdeletemsg').val(resultObj.d[1]);
+        var rowid = elementid.replace("delete", "") + "prodrow";
+        if (val == 1) {
+            document.getElementById(rowid).style.display = "none";
+            $("#successmessage").css('display', '');
+            $("#successmessage").append(resultObj.d[1]);
+        }
+        else {
+            $("#errormessage").css('display', '');
+            $("#errormessage").append(resultObj.d[1]);
+        }
     }
     function deleteFailed() {
     }
@@ -245,7 +257,7 @@ function listingSuccessful(resultObj) {
         var actiondiv = document.createElement('div');
         actiondiv.setAttribute("style", "display:display");
         actiondiv.id = "apply" + val[i].id;
-        var usractions = '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" id=watch,' + val[i].id + ' onclick=\'showPolygon(this)\'>visibility</i>&nbsp;&nbsp;<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" id=delete,' + val[i].id + ' onclick=\'""\'>delete</i>&nbsp;&nbsp;<i id=build,' + val[i].id + ' class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick="showPolygon(this)">build</i>';
+        var usractions = '<i class=\'material-icons\' style="color: #4e0b0b;font-size: 1.08em;" id=watch,' + val[i].id + ' onclick=\'showPolygon(this)\'>visibility</i>&nbsp;&nbsp;<i id=build,' + val[i].id + ' class=\'material-icons\' style="color: #4e0b0b;font-size: 1.38em;" onclick="showPolygon(this)">build</i>';
         actiondiv.innerHTML = actiondiv.innerHTML + usractions;
         td_action_v.appendChild(actiondiv);
         //tr.appendChild(td_index_v);
@@ -259,7 +271,9 @@ function listingSuccessful(resultObj) {
         tr.appendChild(td_markCompleted_v);
         tr.appendChild(td_action_v);
         table.appendChild(tr);
-        if (val[i].mappedAs == "0")
+        if (val[i].mappedAs == "1")
+            document.getElementById('build,' + val[i].id).style.display = "";
+        else
             document.getElementById('build,' + val[i].id).style.display = "none";
     }
 }
@@ -545,7 +559,10 @@ function unsharePolygon(e) {
             var td_mappedAs_v = document.createElement('td');
             var td_PesticideApp_v = document.createElement('td');
             td_PesticideApp_v.setAttribute('class','hidden');
-            td_PesticideApp_v.setAttribute('id', 'applied'+val[i].user_id);
+            td_PesticideApp_v.setAttribute('id', 'applied' + val[i].user_id);
+            var td_Mapped_v = document.createElement('td');
+            td_Mapped_v.setAttribute('class', 'hidden');
+            td_Mapped_v.setAttribute('id', 'mapped' + val[i].user_id);
             var td_action_v = document.createElement('td');
             var text_ind = document.createTextNode(i + 1);
             var text_name = document.createTextNode(val[i].name);
@@ -554,6 +571,7 @@ function unsharePolygon(e) {
             var text_Phone = document.createTextNode(val[i].phone);
             var text_mappedAs = document.createTextNode(val[i].mappedAs == 1 ? "Applicator" : "Consultant");
             var text_pesticideApp = document.createTextNode(val[i].pesticideApplied);
+            var text_Mapped = document.createTextNode(val[i].mappedAs);
             td_index_v.appendChild(text_ind);
             td_Name_v.appendChild(text_name);
             td_email_v.appendChild(text_email);
@@ -561,6 +579,7 @@ function unsharePolygon(e) {
             td_phone_v.appendChild(text_Phone);
             td_mappedAs_v.appendChild(text_mappedAs);
             td_PesticideApp_v.appendChild(text_pesticideApp);
+            td_Mapped_v.appendChild(text_Mapped);
             var actiondiv = document.createElement('div');
             //actiondiv.setAttribute("class", "material-switch pull-right");
             actiondiv.setAttribute("style", "display:display");
@@ -575,25 +594,25 @@ function unsharePolygon(e) {
             tr.appendChild(td_mappedAs_v);
             tr.appendChild(td_PesticideApp_v);
             tr.appendChild(td_action_v);
-            
+            tr.appendChild(td_Mapped_v);
             table.appendChild(tr);
         }
         $('#unshareUsers').attr('name', 'sub'+e.id);
-        
     }
     function Unshare_Failed() {
     }
 }
 function checkForPesticide(e) {
     var id = e.id;
-    var appliedId=id.replace("unshare", "applied");
-    if (document.getElementById(appliedId).innerText == 1) {
-        alert("Cannot unmap the user as the pesticide is already applied.Contact your applicator..!!");
+    var appliedId = id.replace("unshare", "applied");
+    var mappedId = id.replace("unshare", "mapped");
+    if (document.getElementById(appliedId).innerText == 1 && document.getElementById(mappedId).innerText == 1) {
+        alert("Cannot unmap the user as the pesticide is already applied.Contact your applicator.");
         document.getElementById(id).checked = true;
     }
 }
 function submitUnmaplist(e) {
-    alert(e.id);
+    //alert(e.id);
     var completeUnshare = 0;
     var atLeastOneIsChecked = $('input:checkbox:checked').map(function () {
         return this.value;
@@ -629,7 +648,7 @@ function submitUnmaplist(e) {
     }
     function Unmap_Success(resultObj) {
         if (resultObj.d[0] == 0) {
-            alert(resultObj.d[1]);
+            //alert(resultObj.d[1]);
         }
         else if (resultObj.d[0] == 1) {
             if (completeUnshare == 1) {
@@ -665,3 +684,8 @@ function submitUnmaplist(e) {
         //$('span[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
         //alert(something);
     }
+   
+
+   $(function () {
+       $("#tablePolygons").tablesorter();
+   });

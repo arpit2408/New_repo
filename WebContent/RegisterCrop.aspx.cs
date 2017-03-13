@@ -193,7 +193,7 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
                 }
                 else
                 {
-                    sql = new StringBuilder("Update producer_locations set email =  '[EMAIL]', planttype = '[PTYPE]',");
+                    sql = new StringBuilder("Update producer_locations set planttype = '[PTYPE]',");
                     sql.Append(" croptype = '[CTYPE]', cropyear ='[CYEAR]' , comment = '[COMMENT]' , county = '[COUNTY]',"); 
                     sql.Append(" coordinates = '[COORDINATES]',loccentroid = '[LOCCENTR]', acres = '[ACRES]',");
                     sql.Append(" organiccrops = '[ORGCROP]', certifier = '[CERTIF]', modifieddate = '[DATE1]',");
@@ -202,7 +202,7 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
                     sql.Append(" pesticideApplied='[PESTICIDEAPPLIED]',");
                     sql.Append(" pesticideName='[PESTICIDENAME]', markCompleted='[MARKCOMPLETED]'");
                     sql.Append(" Where producerLocID = '[producerLocID]'");
-                    sql.Replace("[EMAIL]", auser.email);
+                    //sql.Replace("[EMAIL]", obj.usremail);
                     sql.Replace("[PTYPE]", obj.planttype);
                     sql.Replace("[CTYPE]", obj.croptype);
                     sql.Replace("[CYEAR]", date.Year.ToString());

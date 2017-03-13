@@ -13,6 +13,7 @@
     <script type="text/javascript" src="/WebContent/Javascript/loginUser.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/map.js"></script>
      <script type="text/javascript" src="/WebContent/Javascript/common.js"></script>
+    
     <!--[if lt IE 9]>
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
@@ -56,7 +57,7 @@ rel="stylesheet">
         <div>
             <div class="container-fluid">
                 <div class="row" style="padding-top: 50px; background-color: whitesmoke">
-                    <div class="col-sm-2">
+                    <!-- <div class="col-sm-2">
 
                         <hr>
                         
@@ -71,25 +72,19 @@ rel="stylesheet">
                             </li>
                         </ul>
                         
-                    </div>
+                    </div> -->
                        
                     <!-- /col-3 -->
-                    <div class="col-sm-10">
-
+                    <div class="col-sm-12">
+                        <div class="alert alert-danger" id="errormessage" style="display: none"></div>
+                        <div class="alert alert-success" id="successmessage" style="display: none"></div>
                         <!-- column 2 -->
-                        <ul class="list-inline pull-right">
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">1. Is there a way..</a></li>
-                                <li><a href="#">2. Hello, admin. I would..</a></li>
-                                <li><a href="#"><strong>All messages</strong></a></li>
-                            </ul>
-                            </li>
-                        </ul>
-                        <hr>
+                        
 
                         <div class="row">
                             <!-- center left-->
-                            <div class="col-md-7">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-6">
                                 <!-- <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4>Producer Preferences</h4>
@@ -109,7 +104,7 @@ rel="stylesheet">
                                         </div>
                                     </div>
                                 </div> -->
-                                <div id="showdeletemsg" style="display:none"></div>
+                                
 
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
@@ -126,12 +121,12 @@ rel="stylesheet">
                                                 <thead>
                                                     <tr>
                                                                 
-                                                        <th>Index</th>
-                                                        <th>Plant Type</th>
+                                                        
+                                                        <th id="cropType">Crop Type</th>
                                                        
-                                                        <th>County</th>
-                                                        <th>Year</th>
-                                                        <th>Action</th>
+                                                        <th id="cropCounty">County</th>
+                                                        
+                                                        <th id="cropAction">Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tabBody">
@@ -148,7 +143,7 @@ rel="stylesheet">
                                 
                             </div>
                             <!--/col-->
-                            <div class="col-md-5">
+                            <div class="col-md-4">
                                 <!-- <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4>Applicator Preferences</h4>
@@ -194,7 +189,7 @@ rel="stylesheet">
                                     <div class="panel-heading">
                                         <div class="panel-title">
                                             <i class="glyphicon glyphicon-wrench pull-right"></i>
-                                            <h4>Your Application Areas</h4>
+                                            <h4>Crops shared with you</h4>
                                         </div>
                                     </div>
                                     <div class="panel-body">
@@ -217,7 +212,9 @@ rel="stylesheet">
                                     <!--/panel content-->
 
                                 </div>
+                                
                                 <!--tabs-->
+                                <!--
                                 <div class="panel">
                                     <ul class="nav nav-tabs" id="myTab">
                                         <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
@@ -247,7 +244,7 @@ rel="stylesheet">
 
                                 </div>
                                 <!--/tabs-->
-
+                                <!--
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4>New Requests</h4>
@@ -276,7 +273,7 @@ rel="stylesheet">
                                             </ul>
                                         </div>
                                     </div>
-                                <!--
+                                
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <div class="panel-title">
@@ -351,6 +348,7 @@ rel="stylesheet">
                                 <!--/panel-->
 
                             </div>
+                             <div class="col-md-1"></div>
                             <!--/col-span-6-->
 
                         </div>

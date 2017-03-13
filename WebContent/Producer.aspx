@@ -55,8 +55,6 @@
     <link rel="stylesheet" type="text/css" href="css/Register.css">
 
     <link href='css/custom.css' rel='stylesheet' type='text/css'>
-   
-
     <script type="text/javascript" src="/WebContent/Javascript/map.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/cropAdd.js"></script>
     <script type="text/javascript" src="/WebContent/Javascript/common.js"></script>

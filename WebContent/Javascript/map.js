@@ -473,7 +473,7 @@ function SubmitNewLocation(event) {
         croploc.id = recordId;
     else
         croploc.id = "-1";
-    croploc.usremail = user.email;
+    //croploc.usremail = user.email;
     croploc.planttype = document.getElementById('plant').value;
     croploc.croptype = document.getElementById('crop').value;
     croploc.cropyear = document.getElementById('cropYear').value;
