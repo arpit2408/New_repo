@@ -47,11 +47,15 @@ rel="stylesheet">
         $.get("ListUserDetailsForUnshare.aspx", function (data) {
             $("#unshareCropModal").replaceWith(data);
         });
+        $.get("AccountEdit.aspx", function (data) {
+            $("#accountEdit").replaceWith(data);
+        });
     </script>
     <div id="header"></div>
     <div id="modalDiv"></div>
     <div id="prodLocationListModal"></div>
     <div id="unshareCropModal"></div>
+    <div id="accountEdit"></div>
     <form id="form1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
         <div>

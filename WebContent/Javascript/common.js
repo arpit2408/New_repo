@@ -20,6 +20,16 @@ function getCountyInfo(croplocation) {
     function Fail(val) {
     }
 }
+function checkforLandingPage() {
+    var user = checkloggedInUser();
+    if (user != null) {
+        window.location.href = 'dashboard.aspx';
+    }
+    else {
+        $('#loginforModal').modal('show');
+        $("#loginforModal").draggable({ handle: ".modal-body" });
+    }
+}
 function checkloggedInUser() {
     jQuery.ajax({
         // type: 'POST',
@@ -59,7 +69,7 @@ function CheckLogin_Success(val) {
         var dashboard = document.createElement('li');
         dashboard.innerHTML = '<a href="/WebContent/Dashboard.aspx">User dashboard</a>';
         var account = document.createElement('li');
-        account.innerHTML = '<a href="">Account</a>';
+        account.innerHTML = '<a onclick="openProfileModal()">Account</a>';
         var logout = document.createElement('li');
         logout.innerHTML = '<a onclick="Logoff()">Log out</a>';
         menuhead.appendChild(dashboard);
@@ -69,6 +79,7 @@ function CheckLogin_Success(val) {
         $('#UserName').append(user.firstname);
         $('#UserName').append('<span class="caret"></span>');
         $('#UserNameli').append(menuhead);
+        $('#UserNameli').prop('onclick', null).off('click');
         return user;
     }
     else {
@@ -77,6 +88,7 @@ function CheckLogin_Success(val) {
             return null;
     }
 }
+
 function FailedLogin() {
 }
 
@@ -112,7 +124,8 @@ function Logoff_Success(val) {
         $("#header").replaceWith(data);
     });
     $('#UserNameli').empty();
-    $('#UserNameli').append('<a id="UserName" data-toggle="modal" data-target="#loginforModal" data-direction="right">SIGN IN <b class="caret"></b></a>');
+    $('#UserNameli').click("checkforLandingPage();");
+    $('#UserNameli').append('<a id="UserName">SIGN IN <b class="caret"></b></a>');
     $('#SignUpli').show();
     $('#Homeli').show();
     
@@ -122,7 +135,70 @@ function Logoff_Success(val) {
 function FailedLogoff(name) {
     
 }
-
+function closeEventAccDetails() {
+    $('#profileEditModal').on('hidden.bs.modal', function (e) {
+        $(this)
+          .find("input,textarea,select")
+             .val('')
+             .end()
+          .find("input[type=checkbox], input[type=radio]")
+             .prop("checked", "")
+             .end();
+    })
+}
+function openProfileModal() {
+    closeEventAccDetails();
+    $('#profileEditModal').modal('show');
+    $("#profileEditModal").draggable({ handle: ".modal-body" });
+    $("#usremail").val(function (index, val) {
+        return val + user.email;
+    });
+    $("#company").val(function (index, val) {
+        return val + user.companyname;
+    });
+    $("#address").val(function (index, val) {
+        return val + user.address;
+    });
+    
+    $("#FirstName").val(function (index, val) {
+        return val + user.firstname;
+    });
+    $("#LastName").val(function (index, val) {
+        return val + user.lastname;
+    });
+    $("#zip").val(function (index, val) {
+        return val + user.zip;
+    });
+    $("#phoneNum").val(function (index, val) {
+        return val + user.phone1;
+    });
+    buildvaluesforDropDownState(user.state, user.city);
+}
+function updateAccDetails() {
+    user.firstname = document.getElementById("FirstName").value;
+    user.lastname = document.getElementById("LastName").value;
+    user.address = document.getElementById("address").value;
+    user.companyname = document.getElementById("company").value;
+    user.state = document.getElementById("state").value;
+    user.city = document.getElementById("city").value;
+    user.zip = document.getElementById("zip").value;
+    user.phone1 = document.getElementById("phoneNum").value;
+    var str = JSON.stringify(user);
+    $.ajax({
+       type: 'POST',
+       url: 'AccountEdit.aspx/UpdateUserDetails',
+       contentType: 'application/json; charset=utf-8',
+       data: JSON.stringify({ userdetails: str }),
+       dataType: 'json',
+       success: UpdateDetails_Success,
+       error: UpdateDetails_Fail
+    });
+    function UpdateDetails_Success(val) {
+        $('#profileEditModal').modal('hide');
+    }
+    function UpdateDetails_Fail() {
+    }
+}
 function init_producerMapAreas(email) {
     $.ajax({
         type: 'POST',

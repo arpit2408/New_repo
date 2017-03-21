@@ -62,7 +62,7 @@
                                     <div class="" style="padding-top: 10px">
                                         <div style="border-top: 1px solid#888; padding-top: 15px; font-size: 85%">
                                             Don't have an account! 
-                                                        <a href="/WebContent/Registration.html">Sign Up Here</a>
+                                                        <a href="/WebContent/RegisterNewUser.aspx">Sign Up Here</a>
                                         </div>
                                     </div>
                                 </div>

@@ -114,7 +114,7 @@ function MarkerClusterer(map, opt_markers, opt_options) {
    * @type {?number}
    * @private
    */
-  this.maxZoom_ = options['maxZoom'] || null;
+  this.maxZoom_ = 11 || null;
 
   this.styles_ = options['styles'] || [];
 

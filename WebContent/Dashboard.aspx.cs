@@ -373,7 +373,7 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                 conn.Open();
                 if (conn.State == System.Data.ConnectionState.Open)
                 {
-                    StringBuilder sql = new StringBuilder("SELECT TOP 1000 prodLoc.[producerLocID]");
+                    StringBuilder sql = new StringBuilder("SELECT  prodLoc.[producerLocID]");
                     sql.Append(" ,concat(usr.firstname,' ',usr.lastname) as Name");
 	                sql.Append(" ,usr.email,concat(usr.address,' ',usr.city,' ',usr.state,' ',usr.zip) as Address");
                     sql.Append(" ,usr.phoneBusiness,[MappedForAction],prodLoc.pesticideApplied,usr.user_id");

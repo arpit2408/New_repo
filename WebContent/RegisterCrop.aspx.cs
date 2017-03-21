@@ -142,6 +142,7 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
         listforuncheckvalues.Add("pesticideName");
         listforuncheckvalues.Add("markCompleted");
         listforuncheckvalues.Add("mappedAs");
+        listforuncheckvalues.Add("usremail");
         String validateValue = ValidatorCustom.validatefields(obj, listforuncheckvalues);
         if (!String.IsNullOrWhiteSpace(validateValue))
         {

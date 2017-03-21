@@ -188,3 +188,8 @@ input::-webkit-input-placeholder {
 searchBoxPos {
     padding-left:-1px;
 }
+
+/*For borders on table in account info section*/
+.borderless td, .borderless th {
+    border: none;
+}

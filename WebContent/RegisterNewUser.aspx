@@ -46,10 +46,9 @@
                 <label id="messages_content"/>
             </div>
             
-            <div class="main-login main-center">
+            <div class="main-login main-center" >
                 <div id="messages" class="hide" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    
                 </div>
                 
                 <div class="alert alert-danger" id="errormessage" style="display: none"></div>
@@ -224,6 +223,7 @@
             </div>
         </div>
     </div>
+    <div style="padding-bottom:20px;"></div>
     <!-- Footer -->
     <div id="footer">
     </div>

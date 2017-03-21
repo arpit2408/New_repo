@@ -87,4 +87,21 @@ function print_city(city_id, state_index){
 	for (var i=0; i<city_arr.length; i++) {
 		option_str.options[option_str.length] = new Option(city_arr[i],city_arr[i]);
 	}
+	return city_arr;
+}
+function buildvaluesforDropDownState(state, city) {
+    $('#state').val(state);
+    var state_index = 0;
+    for (var i = 0; i < state_arr.length; i++) {
+        if (state === state_arr[i])
+            state_index = i + 1;
+    }
+    var cityValues = print_city('city', state_index);
+    var selectedIndex = 0;
+    for (var i = 0; i < cityValues.length; i++) {
+        if (cityValues[i] === city)
+            selectedIndex = i + 1;
+    }
+    var option_str = document.getElementById('city');
+    option_str.selectedIndex = selectedIndex;
 }

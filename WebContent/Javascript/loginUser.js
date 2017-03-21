@@ -684,8 +684,3 @@ function submitUnmaplist(e) {
         //$('span[data-toggle="' + tog + '"][data-title="' + sel + '"]').removeClass('notActive').addClass('active');
         //alert(something);
     }
-   
-
-   $(function () {
-       $("#tablePolygons").tablesorter();
-   });
