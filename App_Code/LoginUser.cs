@@ -32,19 +32,16 @@ public class LoginUser
             if (conn.State == System.Data.ConnectionState.Open)
             {
 
-                string sql = "SELECT u.[email],u.[firstname],[textpassword],v.valid_flag FROM [TX_CROPS].[dbo].[user_validation] v join user_details u on u.email=v.email where v.email = '[EMAIL]'"; // string sql = "select password, salt from test_table where Username = '[ID]'";
+                string sql = "SELECT [email],[firstname],[password] FROM  user_details  where email = '[EMAIL]'"; // string sql = "select password, salt from test_table where Username = '[ID]'";
                 sql = sql.Replace("[EMAIL]", id);//
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 SqlDataReader reader;
                 reader = cmd.ExecuteReader();
                 string authpwd = "";
-
-                bool isactivate = false;
                 string firstname = "";
                 while (reader.Read())
                 {
                     authpwd = reader.GetString(2);
-                    isactivate = reader.GetBoolean(3);
                     firstname = reader.GetString(1);
                 }
 
@@ -136,31 +133,19 @@ public class LoginUser
                     }
                     if (!reader.IsDBNull(9))
                     {
-                        auser.phone1 = reader.GetString(9);
+                        auser.phone = reader.GetString(9);
                     }
-                    if (!reader.IsDBNull(10))
+                    if (!reader.IsDBNull(12))
                     {
-                        auser.phone2 = reader.GetString(10);
-                    }
-                    if (!reader.IsDBNull(13))
-                    {
-                        auser.activated = reader.GetBoolean(13);////////here
-                    }
-                    if (!reader.IsDBNull(14))
-                    {
-                        auser.preferences = reader.GetString(14);
+                        auser.activated = reader.GetBoolean(12);////////here
                     }
                     if (!reader.IsDBNull(15))
                     {
-                        auser.prefoptions = reader.GetString(15);
+                        auser.usertype = reader.GetString(15);
                     }
                     if (!reader.IsDBNull(16))
                     {
-                        auser.usertype = reader.GetString(16);
-                    }
-                    if (!reader.IsDBNull(17))
-                    {
-                        auser.user_id = reader.GetInt32(17).ToString();
+                        auser.user_id = reader.GetInt32(16).ToString();
                     }
                     retval[0] = "1";
                 }

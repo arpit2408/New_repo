@@ -331,12 +331,9 @@ public class Login
                     }
                     if (!reader.IsDBNull(9))
                     {
-                        auser.phone1 = reader.GetString(9);
+                        auser.phone = reader.GetString(9);
                     }
-                    if (!reader.IsDBNull(10))
-                    {
-                        auser.phone2 = reader.GetString(10);
-                    }
+                    
                     if (!reader.IsDBNull(13))
                     {
                         auser.activated = reader.GetBoolean(13);////////here

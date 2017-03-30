@@ -21,6 +21,21 @@ public partial class WebContent_AccountEdit : System.Web.UI.Page
         string[] retval = new string[2];
         retval[0] = "0";
         retval[1] = "";
+        List<String> listforuncheckvalues = new List<string>();
+        listforuncheckvalues.Add("company");
+        listforuncheckvalues.Add("password");
+        listforuncheckvalues.Add("activated");
+        listforuncheckvalues.Add("preferences");
+        listforuncheckvalues.Add("prefoptions");
+        listforuncheckvalues.Add("usertype");
+        listforuncheckvalues.Add("website");
+        listforuncheckvalues.Add("lastname");
+        String validateValue = ValidatorCustom.validatefields(updatedUser, listforuncheckvalues);
+        if (!String.IsNullOrWhiteSpace(validateValue))
+        {
+            retval[1] = validateValue;
+            return retval;
+        }
          SqlConnection conn = null;
          try
          {
@@ -39,7 +54,7 @@ public partial class WebContent_AccountEdit : System.Web.UI.Page
                  sql.Append(" city =  '[CITY]',");
                  sql.Append(" state =  '[STATE]',");
                  sql.Append(" zip =  '[ZIP]',");
-                 sql.Append(" phoneBusiness =  '[PHONE]'");
+                 sql.Append(" phone =  '[PHONE]'");
                  sql.Append(" where user_id = [USERID]");
                  sql.Replace("[USERID]", updatedUser.user_id);
                  sql.Replace("[FIRSTNAME]", updatedUser.firstname);
@@ -49,12 +64,12 @@ public partial class WebContent_AccountEdit : System.Web.UI.Page
                  sql.Replace("[CITY]", updatedUser.city);
                  sql.Replace("[STATE]", updatedUser.state);
                  sql.Replace("[ZIP]", updatedUser.zip);
-                 sql.Replace("[PHONE]", updatedUser.phone1);
+                 sql.Replace("[PHONE]", updatedUser.phone);
                  SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
                  SqlDataReader reader = cmd.ExecuteReader();
                  if (reader.RecordsAffected == 1)
                  {
-                     retval[0] = "0";
+                     retval[0] = "1";
                      retval[1] = "User Details Updated Successfully";
                      HttpContext.Current.Session["user"] = updatedUser;
                      return retval;

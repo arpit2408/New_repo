@@ -1,7 +1,0 @@
-﻿                    #mbox{background-color:white; padding:8px; border:2px outset #666;}
-#mbm{font-family:sans-serif;font-weight:bold;float:right;padding-bottom:5px;}
-#ol{background-image: url(overlay.png);}
-#mbox h3 { color: #000000;font-family: Arial;font-size: 19px;font-weight: 700;margin-bottom: 19px;margin-top: 19px;text-align: center;}
-.dialog{display: none;}
-
-* html #ol{background-image:none; filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="overlay.png", sizingMethod="scale");}

@@ -23,6 +23,10 @@ public partial class WebContent_Producer : System.Web.UI.Page
         string[] retval = new string[2];
         retval[0] = "0";
         retval[1] = "";
+        user user = null;
+        user = (user)HttpContext.Current.Session["user"];
+        if (user == null)
+            return retval;
         ArrayList locationArr = new ArrayList();
         try
         {
@@ -33,8 +37,9 @@ public partial class WebContent_Producer : System.Web.UI.Page
             {
                 SqlCommand cmd = null;
                 SqlDataReader reader;
-                string sql = "select * from producer_locations where email = '[EMAIL]' and year = '[YEAR]' order by modifieddate desc";
-                sql = sql.Replace("[EMAIL]", email);
+                string sql = "select * from producer_locations where user_id = '[USER_ID]' and email='[EMAIL]' and year = '[YEAR]'  order by modifieddate desc";
+                sql = sql.Replace("[USER_ID]", user.user_id);
+                sql = sql.Replace("[EMAIL]", user.user_id);
                 sql = sql.Replace("[YEAR]", DateTime.Today.Year.ToString());
 
                 cmd = new SqlCommand(sql, conn);

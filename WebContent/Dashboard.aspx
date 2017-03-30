@@ -50,12 +50,16 @@ rel="stylesheet">
         $.get("AccountEdit.aspx", function (data) {
             $("#accountEdit").replaceWith(data);
         });
+        $.get("ChangePassword.aspx", function (data) {
+            $("#changePass").replaceWith(data);
+        });
     </script>
     <div id="header"></div>
     <div id="modalDiv"></div>
     <div id="prodLocationListModal"></div>
     <div id="unshareCropModal"></div>
     <div id="accountEdit"></div>
+    <div id="changePass"></div>
     <form id="form1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
         <div>
@@ -115,7 +119,7 @@ rel="stylesheet">
                                         <table>
                                             <tr>
                                                 <td><h4>Your Crop Locations</h4></td>
-                                                <td class="col-sm-3" style="padding-left:25px"><a href="/WebContent/Producer.aspx" >Add new Crop</a></td>
+                                                <td id="AddCrop" class="col-sm-3" style="padding-left:25px"><a href="/WebContent/Producer.aspx" >Add new Crop</a></td>
                                             </tr>
                                         </table>
                                     </div>

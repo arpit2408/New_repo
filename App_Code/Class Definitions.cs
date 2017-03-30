@@ -28,8 +28,6 @@ public class MappingLocation
 public class user
 {
     public string email = "";
-    public string password = "";
-    public string password2 = "";
     public string firstname = "";
     public string lastname = "";
     public string companyname = "";
@@ -38,8 +36,8 @@ public class user
     public string state = "";
     public string zip = "";
     public string website = "";
-    public string phone1 = "";
-    public string phone2 = "";
+    public string phone = "";
+    public string password = "";
     //public string roles = "";
     public Boolean activated = false;
     public string preferences = "";

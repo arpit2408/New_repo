@@ -21,6 +21,8 @@ var cmnts = "";
 var organicCrop = "";
 var pesticideName = "";
 var markCompleted = "";
+var prodshareCropInfo = false;
+var typeOfView = "";
 function initMap() {
 
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
@@ -217,7 +219,8 @@ function showPolygonOnMap(recordId) {
         
         pesticideName = val[0].pesticideName;
         markCompleted = val[0].markCompleted;
-        var typeOfView = urlVars["typeOfView"].replace("#","");
+        prodshareCropInfo = val[0].shareCropInfo;
+        typeOfView = urlVars["typeOfView"].replace("#","");
         var customControl = null;
         var customControlDiv = document.createElement('div');
         customControl = new CustomControl(customControlDiv, map, typeOfView);
@@ -423,16 +426,16 @@ function CustomFlagMarker() {
 }*/
 
 function SubmitNewLocation(event) {
-
-    var sharecropInfo = false;
+    var sharecropInfo = prodshareCropInfo;
     var user = checkloggedInUser();
     if (user == null)
         return;
-    //ConfirmDialog("Do you want the information of this crop to be visible to other producers..!!");
-    if (confirm("Do you want the information of this crop to be visible to other producers..!!")) {
-        sharecropInfo = true;
-    } else {
-        sharecropInfo = false;
+    if (typeOfView=="edit") {
+        if (confirm("Do you want the information of this crop to be visible to other producers..!!")) {
+            sharecropInfo = true;
+        } else {
+            sharecropInfo = false;
+        }
     }
     var flagvalues = $('#flagoptions').text();
     var flagop = flagvalues.split("Flag");

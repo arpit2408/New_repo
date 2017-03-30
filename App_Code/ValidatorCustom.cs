@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -24,17 +25,28 @@ public class ValidatorCustom
                      .GetFields()
                      .Select(field => field.GetValue(obj))
                      .ToList();
-        var fieldNames = typeof(croplocation).GetFields()
+        List<string> fieldNames=new List<string>();
+        if(obj.GetType().ToString().Equals("croplocation")){
+        fieldNames = typeof(croplocation).GetFields()
                             .Select(field => field.Name)
                             .ToList();
+        }
+        if(obj.GetType().ToString().Equals("user")){
+            fieldNames = typeof(user).GetFields()
+                            .Select(field => field.Name)
+                            .ToList();
+        }
         TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
         for (int i = 0; i < fieldValues.Count; i++)
         {
-            bool flagforcheck = String.IsNullOrWhiteSpace((string)fieldValues.ElementAtOrDefault(i));
-            if (flagforcheck && !listforuncheckvalues.Contains(fieldNames.ElementAtOrDefault(i).ToString()))
+            if (!listforuncheckvalues.Contains(fieldNames.ElementAtOrDefault(i).ToString()))
             {
-                var field = textInfo.ToTitleCase(fieldNames.ElementAtOrDefault(i).ToString());
-                return field + " has incorrect value";
+                bool flagforcheck = String.IsNullOrWhiteSpace((string)fieldValues.ElementAtOrDefault(i));
+                if (flagforcheck)
+                {
+                    var field = textInfo.ToTitleCase(fieldNames.ElementAtOrDefault(i).ToString());
+                    return field + " has incorrect value";
+                }
             }
         }
         return null;

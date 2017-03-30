@@ -81,7 +81,12 @@
     $.get("FlagTechnology.aspx", function (data) {
         $("#modalForFlag").replaceWith(data);
     });
-    
+    $.get("AccountEdit.aspx", function (data) {
+        $("#accountEdit").replaceWith(data);
+    });
+    $.get("ChangePassword.aspx", function (data) {
+        $("#changePass").replaceWith(data);
+    });
 </script>
 
 <body>
@@ -110,6 +115,8 @@
         <div id="modalForFlag"></div>
         <div id="map_canvas" style="height: 677px; width: 1923px;"></div>
         <div id="loginModal" class="displayModal "></div>
+        <div id="accountEdit"></div>
+        <div id="changePass"></div>
         <div id="custom-search-input" style="padding-left:3px;">
             <div style="top: 10px !important; position: relative">
                 <div class="input-group col-md-3">

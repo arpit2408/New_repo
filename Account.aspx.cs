@@ -132,8 +132,8 @@ public partial class _Default : System.Web.UI.Page
                 sql = sql.Replace("[STATE]", obj.state);
                 sql = sql.Replace("[ZIP]", obj.zip);
                 sql = sql.Replace("[WEB]", obj.website);
-                sql = sql.Replace("[PHONE1]", obj.phone1);
-                sql = sql.Replace("[PHONE2]", obj.phone2);
+                sql = sql.Replace("[PHONE1]", obj.phone);
+                //sql = sql.Replace("[PHONE2]", obj.phone2);
                 sql = sql.Replace("[DATE2]", date2.ToString());
                 
                 cmd = new SqlCommand(sql, conn);
@@ -820,8 +820,8 @@ public partial class _Default : System.Web.UI.Page
                 sql = sql.Replace("[STATE]", obj.state);
                 sql = sql.Replace("[ZIP]", obj.zip);
                 sql = sql.Replace("[WEB]", obj.website);
-                sql = sql.Replace("[PHONE1]", obj.phone1);
-                sql = sql.Replace("[PHONE2]", obj.phone2);
+                sql = sql.Replace("[PHONE1]", obj.phone);
+                //sql = sql.Replace("[PHONE2]", obj.phone2);
                 sql = sql.Replace("[DATE1]", date1.ToString());
                 sql = sql.Replace("[DATE2]", date2.ToString());
                 sql = sql.Replace("[ACTIVE]", "0");
@@ -1054,7 +1054,7 @@ public partial class _Default : System.Web.UI.Page
                 {
                     retval[0] = "1";
                     retval[1] = "Authentication Successful!";
-                    retval = ChangePassword_HELPER(obj.email, obj.password2);
+                    retval = ChangePassword_HELPER(obj.email, obj.password);
                 }
 
             }

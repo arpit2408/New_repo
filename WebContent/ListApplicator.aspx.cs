@@ -84,7 +84,7 @@ public partial class WebContent_ListApplicator : System.Web.UI.Page
                         }
                         if (!reader.IsDBNull(9))
                         {
-                            usr.phone1 = reader.GetString(9).ToString();
+                            usr.phone = reader.GetString(9).ToString();
                         }
                         if (!reader.IsDBNull(17))
                         {
@@ -180,7 +180,7 @@ public partial class WebContent_ListApplicator : System.Web.UI.Page
                         }
                         if (!reader.IsDBNull(9))
                         {
-                            usr.phone1 = reader.GetString(9).ToString();
+                            usr.phone = reader.GetString(9).ToString();
                         }
 
                         UserArr.Add(usr);

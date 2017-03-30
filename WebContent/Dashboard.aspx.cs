@@ -22,6 +22,8 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
         user user = null;
         user = (user)HttpContext.Current.Session["user"];
         ArrayList locationArr = null;
+        if (user == null)
+            return locationArr;
         locationArr = new ArrayList();
         try
         {
@@ -32,8 +34,9 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
             {
                 SqlCommand cmd = null;
                 SqlDataReader reader;
-                string sql = "select * from producer_locations where email = '[EMAIL]' and cropyear = '[YEAR]' and deleted = 0 order by modifieddate desc;";
+                string sql = "select * from producer_locations where email = '[EMAIL]' and user_id='[USER_ID]' and cropyear = '[YEAR]' and deleted = 0 order by modifieddate desc;";
                 sql = sql.Replace("[EMAIL]", useremail);
+                sql = sql.Replace("[USER_ID]", user.user_id);
                 sql = sql.Replace("[YEAR]", dt.Year.ToString());
                 cmd = new SqlCommand(sql, conn);
                 reader = cmd.ExecuteReader();
@@ -376,7 +379,7 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                     StringBuilder sql = new StringBuilder("SELECT  prodLoc.[producerLocID]");
                     sql.Append(" ,concat(usr.firstname,' ',usr.lastname) as Name");
 	                sql.Append(" ,usr.email,concat(usr.address,' ',usr.city,' ',usr.state,' ',usr.zip) as Address");
-                    sql.Append(" ,usr.phoneBusiness,[MappedForAction],prodLoc.pesticideApplied,usr.user_id");
+                    sql.Append(" ,usr.phone,[MappedForAction],prodLoc.pesticideApplied,usr.user_id");
                     sql.Append(" FROM [TX_CROPS].[dbo].[MappingProducerLocation] mapLoc");
                     sql.Append(" join user_details usr on usr.user_id = mapLoc.user_id");
                     sql.Append(" join producer_locations prodLoc on prodLoc.producerLocID=mapLoc.producerLocID");

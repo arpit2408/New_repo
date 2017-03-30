@@ -193,3 +193,15 @@ searchBoxPos {
 .borderless td, .borderless th {
     border: none;
 }
+
+/*to make the logo come in center for Landing page*/
+.img-center {
+    background: url(/WebContent/Images/HomePage/LogoTX_header.png) no-repeat center center;
+    height:300px;
+    width:300px;
+
+}
+#imglogoLanding {
+    display: block;
+    margin: 0 auto;
+}

@@ -29,21 +29,15 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
             conn.Open();
             if (conn.State == System.Data.ConnectionState.Open)
             {
-                string sql = "select * from user_validation where email = UPPER('[EMAIL]');";
+                string sql = "select * from user_details where email = UPPER('[EMAIL]');";
                 sql = sql.Replace("[EMAIL]", userid.ToUpper());
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 SqlDataReader reader;
                 reader = cmd.ExecuteReader();
                 if (reader.HasRows == true)
-                {
                     retval = true;
-                }
                 else
-                {
                     retval = false;
-                }
-
-
             }
         }
         catch (Exception e)
@@ -183,22 +177,15 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
         DateTime date2 = new DateTime();
         date1 = DateTime.Now;
         date2 = DateTime.Now;
-        string startcode = "";
+       
         Random rand = new Random();
         bool fail_newuser = false;
         if (CheckUserExists(obj.email) == true)
         {
             retval[0] = "0";
-            retval[1] = "A user with this email is already registered with the system. Please click the 'Forgotten Password' link to retrieve your password.";
+            retval[1] = "A user with this email is already registered with the system. ";
             return retval;
         }
-        for (int x = 0; x < 10; x++)
-        {
-            char num = (char)(65 + (rand.NextDouble() * 26));
-            startcode += num.ToString();
-
-        }
-
         SqlConnection conn = null;
         try
         {
@@ -208,23 +195,28 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
             conn.Open();
             if (conn.State == System.Data.ConnectionState.Open)
             {
-                //            // --------------------------------------------------------------------------------------------------------
-                //            // -----------------------------Rama Changes begin---------------------------------------------------
-
-                string sql = "INSERT INTO user_validation VALUES ('[EMAIL]', '[PWD]', '[SALT]','[DATE1]', '[DATE2]', '[VALID]','[Accesscode]','[TextPwd]');";
+                string sql = "INSERT INTO user_details VALUES ('[EMAIL]', '[FIRST]', '[LAST]', '[CONAME]', '[ADDRESS]', '[CITY]', '[STATE]', '[ZIP]', '[WEB]', " +
+                      "'[PHONE]', '[DATE1]', '[DATE2]', '[ACTIVE]', '[PREFERENCES]', '[PREFUSERS]','[USERTYPE]', '[PASSWORD]');";
                 sql = sql.Replace("[EMAIL]", obj.email);
-                sql = sql.Replace("[PWD]", obj.password);
-                sql = sql.Replace("[SALT]", null);
-                //            // -----------------------------Rama Changes end---------------------------------------------------
-                //            //---------------------------------------------------------------------------------------------------------
+                sql = sql.Replace("[FIRST]", obj.firstname);
+                sql = sql.Replace("[LAST]", obj.lastname);
+                sql = sql.Replace("[CONAME]", obj.companyname);
+                sql = sql.Replace("[ADDRESS]", obj.address);
+                sql = sql.Replace("[CITY]", obj.city);
+                sql = sql.Replace("[STATE]", obj.state);
+                sql = sql.Replace("[ZIP]", obj.zip);
+                sql = sql.Replace("[WEB]", obj.website);
+                sql = sql.Replace("[PHONE]", obj.phone);
+                
                 sql = sql.Replace("[DATE1]", date1.ToString());
-                sql = sql.Replace("[DATE2]", date2.ToString());
-                sql = sql.Replace("[VALID]", "0");
-                sql = sql.Replace("[Accesscode]", null);
-                sql = sql.Replace("[TextPwd]", startcode);
+                sql = sql.Replace("[DATE2]", date1.ToString());
+                sql = sql.Replace("[ACTIVE]", "0");
+                sql = sql.Replace("[PREFERENCES]", "none");
+                sql = sql.Replace("[PREFUSERS]", "");
+                sql = sql.Replace("[USERTYPE]", obj.usertype);
+                sql = sql.Replace("[PASSWORD]", obj.password);
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                SqlDataReader reader;
-                reader = cmd.ExecuteReader();
+                SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.RecordsAffected == 1)
                 {
                     retval[0] = "1";
@@ -237,43 +229,19 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
                     retval[1] = "User not registered";
                     fail_newuser = true;
                 }
-
-                //modify user details
-                sql = "INSERT INTO user_details VALUES ('[EMAIL]', '[FIRST]', '[LAST]', '[CONAME]', '[ADDRESS]', '[CITY]', '[STATE]', '[ZIP]', '[WEB]', " +
-                      "'[PHONE1]', '[PHONE2]', '[DATE1]', '[DATE2]', '[ACTIVE]', '[PREFERENCES]', '[PREFUSERS]','[USERTYPE]');";
-                sql = sql.Replace("[EMAIL]", obj.email);
-                sql = sql.Replace("[FIRST]", obj.firstname);
-                sql = sql.Replace("[LAST]", obj.lastname);
-                sql = sql.Replace("[CONAME]", obj.companyname);
-                sql = sql.Replace("[ADDRESS]", obj.address);
-                sql = sql.Replace("[CITY]", obj.city);
-                sql = sql.Replace("[STATE]", obj.state);
-                sql = sql.Replace("[ZIP]", obj.zip);
-                sql = sql.Replace("[WEB]", obj.website);
-                sql = sql.Replace("[PHONE1]", obj.phone1);
-                sql = sql.Replace("[PHONE2]", obj.phone2);
-                sql = sql.Replace("[DATE1]", date1.ToString());
-                sql = sql.Replace("[DATE2]", date2.ToString());
-                sql = sql.Replace("[ACTIVE]", "0");
-                sql = sql.Replace("[PREFERENCES]", "none");
-                sql = sql.Replace("[PREFUSERS]", "");
-                sql = sql.Replace("[USERTYPE]", obj.usertype);
-
                 cmd.Dispose();
                 reader.Close();
-                cmd = new SqlCommand(sql, conn);
-                reader = cmd.ExecuteReader();
                 if (reader.RecordsAffected == 1)
                 {
-                    retval[1] = "You have successfully registered with the system. Please check your email for a message from Texas Crop Registry. The message will include a onetime only password that must be used to log you in to the system.<br>";
+                    retval[1] = "You have successfully registered with the system.";
                     retval[0] = "1";
                 }
             }
             string email_result = null;
             if (!fail_newuser)
             {
-                email_result = send(obj.email.ToString(), startcode, "Registration"); ;
-                // send(obj.email.ToString(), startcode, "Registration");
+                email_result = send(obj.email.ToString(), "0", "Registration"); ;
+               
                 if (email_result == "sent")
                 {
                     retval[1] += "Password sent to " + obj.email;// +" to email address";
@@ -299,8 +267,7 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
         {
             conn.Close();
         }
-        //retval[0] = "1";
-        //retval[1] = "Registration Successful!";
+        
         return retval;
     }
 }

@@ -248,6 +248,7 @@ function SubmitNewApplicatorLocation(event)
             $("#successmessage").show();
             $("#successmessage").empty();
             $("#errormessage").empty();
+            $("#errormessage").hide();
             $("#successmessage").append('<strong>Success! </strong>' + val[1]);
             $("#form1 :input").prop("disabled", true);
         }
@@ -255,6 +256,8 @@ function SubmitNewApplicatorLocation(event)
 
             $("#errormessage").show();
             $("#errormessage").empty();
+            $("#successmessage").empty();
+            $("#successmessage").hide();
             $("#errormessage").append('<strong>Error! Some values are incorrect. </strong>' + val[1]);
         }
     }

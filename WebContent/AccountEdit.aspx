@@ -26,14 +26,18 @@
                             <div class="modal-content" style="height: auto; width: 800px;">
                                 <div class="modal-header">
                                     <button type="button" id="closemyModalDet" onclick="closeEventAccDetails();" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Edit Profile</h4>
+                                    
+                                        <h4 class="modal-title col-md-3">Edit Profile</h4>
+                                        
                                 </div>
                                 <div class="modal-body" style="background-color: #eee">
                                     <div class="panel panel-info">
                                         
                                         <div class="panel-body">
                                             <div class="row">
-                                                
+                                                <div class="alert alert-danger" id="accerrormessage" style="display: none"></div>
+                                                <div class="alert alert-success" id="accsuccessmessage" style="display: none"></div>
+
 
 
                                                 <div class=" col-md-12 col-lg-12 ">
@@ -79,9 +83,12 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                    
-                                                    <a href="#" class="btn btn-primary form-actions" type="submit" onclick="updateAccDetails()">Update Details</a>
-                                                    <a href="#" class="btn btn-danger form-actions" type="submit">Cancel</a>
+                                                    <div class="row">
+                                                        <div class="col-md-2"><a href="#" class="btn btn-primary form-actions" type="submit" onclick="updateAccDetails()">Update Details</a></div>
+                                                        <div class="col-md-2"><a href="#" class="btn btn-danger form-actions" type="submit">Cancel</a></div>
+                                                        <div class="col-md-5"></div>
+                                                        <div class="col-md-3" style="padding-left:28px;"><a href="#" class="btn btn-info form-actions" onclick="changePassword()">Change Password</a></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

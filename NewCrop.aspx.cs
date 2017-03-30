@@ -469,12 +469,9 @@ public partial class NewCrop : System.Web.UI.Page
                     }
                     if (!reader.IsDBNull(9))
                     {
-                        applicator.phone1 = reader.GetString(9);
+                        applicator.phone = reader.GetString(9);
                     }
-                    if (!reader.IsDBNull(10))
-                    {
-                        applicator.phone2 = reader.GetString(10);
-                    }
+                    
                     if (!reader.IsDBNull(13))
                     {
                         applicator.activated = reader.GetBoolean(13);
@@ -965,12 +962,9 @@ public partial class NewCrop : System.Web.UI.Page
                     }
                     if (!reader.IsDBNull(9))
                     {
-                        applicator.phone1 = reader.GetString(9);
+                        applicator.phone = reader.GetString(9);
                     }
-                    if (!reader.IsDBNull(10))
-                    {
-                        applicator.phone2 = reader.GetString(10);
-                    }
+                    
                     if (!reader.IsDBNull(13))
                     {
                         applicator.activated = reader.GetBoolean(13);

@@ -63,6 +63,10 @@ function CheckLogin_Success(val) {
         menuhead.setAttribute("class", "dropdown-menu");
         $('#SignUpli').hide();
         $('#Homeli').hide();
+        if (!user.usertype.includes("1")) {
+            $('#producers').hide();
+            $('#AddCrop').hide();
+        }
         $('#UserName').removeAttr('data-target');
         $('#UserName').attr('data-toggle', 'dropdown');
         $('#UserName').attr('class', 'dropdown-toggle');
@@ -136,6 +140,10 @@ function FailedLogoff(name) {
     
 }
 function closeEventAccDetails() {
+    $("#accsuccessmessage").empty();
+    $("#accerrormessage").empty();
+    $("#accerrormessage").hide();
+    $("#accsuccessmessage").hide();
     $('#profileEditModal').on('hidden.bs.modal', function (e) {
         $(this)
           .find("input,textarea,select")
@@ -146,8 +154,85 @@ function closeEventAccDetails() {
              .end();
     })
 }
+
+function closeChangePass() {
+    $("#passsuccessmessage").empty();
+    $("#passerrormessage").empty();
+    $("#passerrormessage").hide();
+    $("#passsuccessmessage").hide();
+    $('#passwordChange_Modal').on('hidden.bs.modal', function (e) {
+        $(this)
+          .find("input,textarea,select")
+             .val('')
+             .end()
+          .find("input[type=checkbox], input[type=radio]")
+             .prop("checked", "")
+             .end();
+    })
+    $('#passwordChange_Modal').modal('hide');
+}
+function changePassword() {
+    $('#passwordChange_Modal').modal('show');
+    $("#passwordChange_Modal").draggable({ handle: ".modal-body" });
+}
+function updateUsrPassword() {
+    var oldPass = document.getElementById('oldPass').value;
+    var newPass = document.getElementById('newPass').value;
+    var confirmPass = document.getElementById('confimPass').value;
+    if (confirmPass.length < 8 || newPass.length < 8) {
+        $("#passerrormessage").show();
+        $("#passerrormessage").empty();
+        $("#passsuccessmessage").empty();
+        $("#passsuccessmessage").hide();
+        $("#passerrormessage").append('<strong>Error! </strong>' + "Password should be more than 7 characters");
+        if (confirmPass != newPass) {
+            $("#passerrormessage").show();
+            $("#passerrormessage").empty();
+            $("#passsuccessmessage").empty();
+            $("#passsuccessmessage").hide();
+            $("#passerrormessage").append('<strong>Error! </strong>' + "Passwords do not match");
+            return;
+        }
+    }
+    else {
+        $.ajax({
+            type: 'POST',
+            url: 'ChangePassword.aspx/UpdateUserPassword',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ id: user.email, oldpwd: oldPass, newpwd: newPass }),
+            dataType: 'json',
+            success: UpdatePassword_Success,
+            error: UpdatePassword_Fail
+        });
+    }
+}
+setTimeout(fade_out, 200);
+function fade_out() {
+    $("#errormessage").fadeOut().empty();
+    $("#successmessage").fadeOut().empty();
+}
+function UpdatePassword_Success(returnObj) {
+    var val = returnObj.d;
+    if (val[0] == 1) {
+        $("#passsuccessmessage").show();
+        $("#passsuccessmessage").empty();
+        $("#passerrormessage").empty();
+        $("#passerrormessage").hide();
+        $("#passsuccessmessage").append('<strong>Success! </strong>' + val[1]);
+        closeChangePass();
+    }
+    else {
+        $("#passerrormessage").show();
+        $("#passerrormessage").empty();
+        $("#passsuccessmessage").empty();
+        $("#passsuccessmessage").hide();
+        $("#passerrormessage").append('<strong>Error! </strong>' + val[1]);
+    }
+}
+function UpdatePassword_Fail() {
+}
 function openProfileModal() {
-    closeEventAccDetails();
+   
     $('#profileEditModal').modal('show');
     $("#profileEditModal").draggable({ handle: ".modal-body" });
     $("#usremail").val(function (index, val) {
@@ -170,10 +255,22 @@ function openProfileModal() {
         return val + user.zip;
     });
     $("#phoneNum").val(function (index, val) {
-        return val + user.phone1;
+        return val + user.phone;
     });
     buildvaluesforDropDownState(user.state, user.city);
 }
+$(document).ready(function () {
+    $(document).on('show.bs.modal', '.modal', function (event) {
+        var zIndex = 1040 + (10 * $('.modal:visible').length);
+        $(this).css('z-index', zIndex);
+        setTimeout(function () {
+            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1).addClass('modal-stack');
+        }, 0);
+    });
+    $(document).on('hidden.bs.modal', '.modal', function () {
+        $('.modal:visible').length && $(document.body).addClass('modal-open');
+    });
+});
 function updateAccDetails() {
     user.firstname = document.getElementById("FirstName").value;
     user.lastname = document.getElementById("LastName").value;
@@ -182,7 +279,7 @@ function updateAccDetails() {
     user.state = document.getElementById("state").value;
     user.city = document.getElementById("city").value;
     user.zip = document.getElementById("zip").value;
-    user.phone1 = document.getElementById("phoneNum").value;
+    user.phone = document.getElementById("phoneNum").value;
     var str = JSON.stringify(user);
     $.ajax({
        type: 'POST',
@@ -193,8 +290,19 @@ function updateAccDetails() {
        success: UpdateDetails_Success,
        error: UpdateDetails_Fail
     });
-    function UpdateDetails_Success(val) {
-        $('#profileEditModal').modal('hide');
+    function UpdateDetails_Success(returnObj) {
+        var val = returnObj.d;
+        if (val[0] == 1) {
+            closeEventAccDetails();
+            $('#profileEditModal').modal('hide');
+        }
+        else {
+            $("#accerrormessage").show();
+            $("#accerrormessage").empty();
+            $("#accsuccessmessage").empty();
+            $("#accsuccessmessage").hide();
+            $("#accerrormessage").append('<strong>Error! </strong>' + val[1]);
+        }
     }
     function UpdateDetails_Fail() {
     }

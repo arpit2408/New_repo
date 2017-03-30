@@ -14,7 +14,7 @@ function Details() {
     this.city = "",
     this.state = "",
     this.zip = "",
-    this.txtPhone = "",
+    this.phone = "",
     this.password = "",
     this.confirm = "",
     this.usertype = "",
@@ -230,7 +230,7 @@ function Signup() {
         det.city = document.getElementById('city').value;
         det.state = document.getElementById('state').value;
         det.zip = document.getElementById('zipCode').value;
-        det.txtPhone = document.getElementById('txtPhone').value;
+        det.phone = document.getElementById('txtPhone').value;
         det.password = document.getElementById('usrpassword').value;
         det.confirm = document.getElementById('confirmusrpassword').value;
         det.identification = document.getElementById('identification').value;

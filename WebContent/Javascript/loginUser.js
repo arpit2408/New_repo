@@ -344,7 +344,7 @@ function Applicator_list(resultobj) {
         var td_cmnyName = document.createElement('li');
         var td_addr = document.createElement('li');
         var text_fn = document.createTextNode('Name:- ' + val[i].firstname + '       ' + val[i].lastname);
-        var text_email = document.createTextNode('Contact details:- ' + val[i].email + ',' + val[i].phone1);
+        var text_email = document.createTextNode('Contact details:- ' + val[i].email + ',' + val[i].phone);
         var text_cmnyName = document.createTextNode('Company Name:- ' + val[i].companyname);
         var text_add = document.createTextNode('Address :- ' + val[i].address + ',' + val[i].city + ',' + val[i].state + ',' + val[i].zip);
         td_fn.appendChild(text_fn);
