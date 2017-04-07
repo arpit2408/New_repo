@@ -86,9 +86,9 @@ public partial class WebContent_ListApplicator : System.Web.UI.Page
                         {
                             usr.phone = reader.GetString(9).ToString();
                         }
-                        if (!reader.IsDBNull(17))
+                        if (!reader.IsDBNull(16))
                         {
-                            usr.user_id = reader.GetInt32(17).ToString();
+                            usr.user_id = reader.GetInt32(16).ToString();
                         }
                         UserArr.Add(usr);
 

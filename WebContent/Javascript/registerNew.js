@@ -9,6 +9,7 @@ var flagforidentification = false;
 function Details() {
     this.email = "",
     this.firstname = "",
+    this.lastname = "",
     this.companyname = "",
     this.address = "",
     this.city = "",
@@ -138,6 +139,18 @@ function validatefields() {
             flagforvalidforName = true;
         }
     });
+    $('#lname').blur(function (e) {
+        if (document.getElementById('lname').value.length < 2) {
+            $('#lname').closest('.input-group').removeClass('success').addClass('has-error');
+            $('#lnameerror').text("Please enter a valid last name");
+            flagforvalidforName = false;
+        }
+        else {
+            $('#lname').closest('.input-group').removeClass('has-error').addClass('has-success');
+            $('#lnameerror').text("");
+            flagforvalidforName = true;
+        }
+    });
     $('#zipCode').blur(function (e) {
         if (document.getElementById('zipCode') != null && document.getElementById('zipCode').value.length < 5) {
             $('#zipCode').closest('.input-group').removeClass('success').addClass('has-error');
@@ -221,6 +234,7 @@ function Signup() {
         det = new Details();
         det.email = document.getElementById('usremail').value; //'arpit2409@tamu.edu'//
         det.firstname = document.getElementById('name').value;
+        det.lastname = document.getElementById('lname').value;
         det.companyname = document.getElementById('companyName').value;
         det.address = document.getElementById('Address').value;
         if (document.getElementById('city').value == "") {

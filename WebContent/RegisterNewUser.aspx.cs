@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Script.Services;
 using System.Web.UI;
@@ -131,7 +132,14 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
         {
             MailMessage mail = new MailMessage();
             mail.IsBodyHtml = true;
-            mail.AlternateViews.Add(getEmbeddedImage("C:/Users/arpit2408/Documents/TSC_TDA_RELEASE_Jan_29_2014_AGB/WebContent/Images/HomePage/Logo.jpg"));
+            string htmlBody = "<html><body><h1>Welcome</h1><br><img src=\"cid:filename\"></body></html>";
+            AlternateView avHtml = AlternateView.CreateAlternateViewFromString
+               (htmlBody, null, MediaTypeNames.Text.Html);
+
+            LinkedResource inline = new LinkedResource(HttpContext.Current.Server.MapPath("/") + "/WebContent/Images/HomePage/LogoTX_header.png", MediaTypeNames.Image.Jpeg);
+            inline.ContentId = Guid.NewGuid().ToString();
+            avHtml.LinkedResources.Add(inline);
+            mail.AlternateViews.Add(avHtml);
             var client = new SmtpClient("smtp.gmail.com", 587)
             {
                 Credentials = new NetworkCredential("netflix240890@gmail.com", "Arpit@240890"),

@@ -51,19 +51,16 @@
                                     </div>
 
                                 </div>
-
-                                <div class="">
-                                    <input type="input" class="btn btn-primary" style="width: 120px" onclick="loginUser()" onkeydown="loginUser()" value="Login" />
-                                </div>
-
-
-
+                                    <div class="cols-sm-8">
+                                        <input type="input" class="btn btn-primary" style="width: 120px" onclick="loginUser()" onkeydown="loginUser()" value="Login" />
+                                    </div>
                                 <div class="form-group">
-                                    <div class="" style="padding-top: 10px">
-                                        <div style="border-top: 1px solid#888; padding-top: 15px; font-size: 85%">
+                                    <div class="row" style="padding-top: 10px">
+                                        <div style="border-top: 1px solid#888; padding-top: 15px; font-size: 85%" class="col-sm-9">
                                             Don't have an account! 
                                                         <a href="/WebContent/RegisterNewUser.aspx">Sign Up Here</a>
                                         </div>
+                                        <div style="border-top: 1px solid#888; padding-top: 15px; font-size: 85%" class="col-sm-3"><a onclick="showModalForgotpass();">Forgot Password</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -75,4 +72,5 @@
         </div>
     </form>
 </body>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 </html>

@@ -87,7 +87,7 @@
                                                         <div class="col-md-2"><a href="#" class="btn btn-primary form-actions" type="submit" onclick="updateAccDetails()">Update Details</a></div>
                                                         <div class="col-md-2"><a href="#" class="btn btn-danger form-actions" type="submit">Cancel</a></div>
                                                         <div class="col-md-5"></div>
-                                                        <div class="col-md-3" style="padding-left:28px;"><a href="#" class="btn btn-info form-actions" onclick="changePassword()">Change Password</a></div>
+                                                        <div class="col-md-3" id="changePwd" style="padding-left:28px;"><a href="#" class="btn btn-info form-actions" onclick="changePassword()">Change Password</a></div>
                                                     </div>
                                                 </div>
                                             </div>

@@ -3,7 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Runtime.Serialization;
+using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
@@ -199,6 +203,247 @@ public class LoginUser
             EventLog event1 = new EventLog();
             event1.InsertSuccessfullLogoff(auser.email);
         }*/
+        return retval;
+    }
+    public static string send(string email, string link, string type)
+    {
+        
+        string confMsg = null;
+        try
+        {
+            MailMessage mail = new MailMessage();
+            mail.IsBodyHtml = true;
+            var baseurl=HttpContext.Current.Server.MapPath("/");
+            string resetlink = "http://localhost:4061/WebContent/PasswordReset.aspx?username=" + email + "&token=" + link;
+            var body = new StringBuilder();
+            //body.AppendFormat("Hello, {0}\n", email);
+            body.AppendLine(@"Your Password link is here");
+            body.AppendLine("<a href='"+resetlink+"'>login</a>");
+            string htmlBody = "<html><body><br><img src=\"cid:filename\">"
+                +"<h4>You recently requested a Password change form our website. Please click the below Link to reset the password<h4>"
+                + "</body></html>"+body;
+            AlternateView avHtml = AlternateView.CreateAlternateViewFromString
+               (htmlBody, null, MediaTypeNames.Text.Html);
+
+            LinkedResource inline = new LinkedResource(HttpContext.Current.Server.MapPath("/") + "/WebContent/Images/HomePage/LogoTX_header.png", MediaTypeNames.Image.Jpeg);
+            inline.ContentId = Guid.NewGuid().ToString();
+            avHtml.LinkedResources.Add(inline);
+            mail.AlternateViews.Add(avHtml);
+            var client = new SmtpClient("smtp.gmail.com", 587){
+                Credentials = new NetworkCredential("netflix240890@gmail.com", "Arpit@240890"),
+                EnableSsl = true
+            };
+            mail.From = new MailAddress("netflix240890@gmail.com");
+            mail.To.Add(email);
+            mail.Subject = "HittheTarget password reset link";
+
+            client.Send(mail);
+
+            confMsg = "sent";
+        }
+        catch (Exception e)
+        {
+            confMsg = e.Message.ToString();
+        }
+        return confMsg;
+    }
+    [OperationContract]
+    public string[] ForgotPassGenerate(string email){
+        string[] retval = new string[2];// "";
+        retval[0] = "0";
+        retval[1] = "";
+        SqlConnection conn = null;
+        try
+        {
+            string connection = System.Configuration.ConfigurationManager.AppSettings["connection_string"];
+            conn = new SqlConnection(connection);
+            conn.Open();
+            if (conn.State == System.Data.ConnectionState.Open)
+            {
+                StringBuilder sql = new StringBuilder("select email from user_details where email = '[EMAIL]'");
+                sql.Replace("[EMAIL]", email.Trim());
+                SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
+                SqlDataReader reader;
+                reader = cmd.ExecuteReader();
+                user auser = new user();
+                while (reader.Read()){
+                    if (!reader.IsDBNull(0))
+                        auser.email = reader.GetString(0);
+                }
+                cmd.Dispose();
+                reader.Close();
+                if (auser.email == null || auser.email =="")
+                {
+                    retval[0] = "0";
+                    retval[1] = "Don't have this email id registered. Please signup.";
+                    return retval;
+                }
+                else
+                {
+                    sql.Clear();
+                    int saltSize = 7;
+                    string hashString=Guid.NewGuid().ToString();
+
+                    byte[] tokenHash = new byte[saltSize];
+                    RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                    rng.GetNonZeroBytes(tokenHash);
+                    DateTime date = new DateTime();
+                    date = DateTime.Now.AddDays(1);
+                    int tknUsed = 0;
+                    string tokenhashstr = Convert.ToBase64String(tokenHash, 0, tokenHash.Length);
+                    sql.Append("INSERT INTO ResetTickets" +
+                        "([email]" +
+                        ",[tokenHash]" +
+                        ",[expirationDate]" +
+                        ",[tokenUsed])" +
+                        " VALUES" +
+                        " ('[EMAIL]'" +
+                        ",'[TOKENHASH]'" +
+                        ",'[EXPIRATIONDATE]'" +
+                        ",'[TOKENUSED]')");
+                    sql.Replace("[EMAIL]", auser.email.Trim());
+                    sql.Replace("[TOKENHASH]", tokenhashstr);
+                    sql.Replace("[EXPIRATIONDATE]", date.ToString());
+                    sql.Replace("[TOKENUSED]", tknUsed.ToString());
+                    cmd = new SqlCommand(sql.ToString(), conn);
+                    reader = cmd.ExecuteReader();
+                    if (reader.RecordsAffected == 1)
+                    {
+                        string email_result = send(email, tokenhashstr, "Registration");
+                        if (email_result == "sent")
+                        {
+                            retval[1] += "Password reset link has bee sent to " + auser.email + ".Please visit you email to follow futher instructions";
+                            retval[0] = "1";
+                            return retval;
+                        }
+                        else
+                        {
+                            retval[1] += "Password link could not be sent to above email address.";
+                            retval[0] = "0";
+                            return retval;
+                        }
+                    }
+                    cmd.Dispose();
+                    reader.Close();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            retval[0] = "0";
+            retval[1] = "Database Access Problem"+ex.Message;
+            return retval;
+        }
+        finally{
+            if(conn!=null)
+            conn.Close();
+        }
+        return retval;
+    }
+    [OperationContract]
+    public string[] CheckPasswordResetLink(string email,string token)
+    {
+        string[] retval = new string[2];// "";
+        retval[0] = "0";
+        retval[1] = "";
+        SqlConnection conn = null;
+        try
+        {
+            string connection = System.Configuration.ConfigurationManager.AppSettings["connection_string"];
+            conn = new SqlConnection(connection);
+            conn.Open();
+            if (conn.State == System.Data.ConnectionState.Open)
+            {
+                StringBuilder sql = new StringBuilder("SELECT [email],[tokenHash],[expirationDate],[tokenUsed]");
+                sql.Append(" FROM [TX_CROPS].[dbo].[ResetTickets]");
+                sql.Append(" where email = '[EMAIL]'");
+                sql.Replace("[EMAIL]", email.Trim());
+                SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
+                SqlDataReader reader;
+                reader = cmd.ExecuteReader();
+                user auser = new user();
+                string tokenHash = "";
+                DateTime expirationDate = DateTime.Now;
+                int tokenUsed=0;
+                while (reader.Read())
+                {
+                    if (!reader.IsDBNull(0))
+                    {
+                        tokenHash = reader.GetString(1);
+                        expirationDate= DateTime.Parse(reader["expirationDate"].ToString());
+                        tokenUsed = (reader.GetBoolean(3) ? 1 : 0);
+                    }
+                }
+                cmd.Dispose();
+                reader.Close();
+                DateTime compareDateWithToday=expirationDate.AddDays(-1);
+                int result = DateTime.Compare(compareDateWithToday, DateTime.Now);
+                if (!tokenHash.Equals(token) || result > 0 || tokenUsed == 1)
+                {
+                    retval[0] = "0";
+                    retval[1] = "Link is broken or expired. Please visit the website again to sent another link";
+                }
+                else
+                {
+                    retval[0] = "1";
+                    retval[1] = "Link Success";
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            retval[0] = "0";
+            retval[1] = "Database Access Problem" + ex.Message;
+            return retval;
+        }
+        finally
+        {
+            if (conn != null)
+                conn.Close();
+        }
+        return retval;
+    }
+    [OperationContract]
+    public string[] ResetPassForgotLink(string email, string token, string newPass)
+    {
+        SqlConnection conn = null;
+        DateTime dt = DateTime.Now;
+        string[] retval = new string[2];
+        retval[0] = "0";
+        retval[1] = "";
+        retval = CheckPasswordResetLink(email, token);
+        try
+        {
+            string connection = System.Configuration.ConfigurationManager.AppSettings["connection_string"];
+            conn = new SqlConnection(connection);
+            conn.Open();
+            if (conn.State == System.Data.ConnectionState.Open)
+            {
+                    StringBuilder sql = new StringBuilder();
+                    sql.Append("UPDATE user_details SET");
+                    sql.Append(" password =  '[PASSWORD]'");
+                    sql.Append(" where email = [EMAIL]");
+                    sql.Replace("[USERID]", email.Trim());
+                    sql.Replace("[PASSWORD]", newPass.Trim());
+                    SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.RecordsAffected == 1)
+                    {
+                        retval[0] = "1";
+                        retval[1] = "Password Updated Successfully.Please visit the website and login with new password";
+                        return retval;
+                    }
+                    sql.Clear();
+                    cmd.Dispose();
+                    reader.Close();
+            }
+        }
+        catch (Exception errReader)
+        {
+            retval[0] = "0";
+            retval[1] = "Database Access Problem";
+            retval[1] += errReader.Message;
+        }
         return retval;
     }
 }

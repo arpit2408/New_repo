@@ -24,7 +24,7 @@ var markCompleted = "";
 var prodshareCropInfo = false;
 var typeOfView = "";
 function initMap() {
-
+    
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
     var mapOptions = {
         zoom: 5,
@@ -35,7 +35,7 @@ function initMap() {
     var mapElement = document.getElementById('map_canvas');
 
     map = new google.maps.Map(map_canvas, mapOptions);
-    
+   
     /*var styles = [{ "featureType": "landscape", "stylers": [{ "saturation": -100 }, { "lightness": 65 }, { "visibility": "on" }] }, { "featureType": "poi", "stylers": [{ "saturation": -100 }, { "lightness": 51 }, { "visibility": "simplified" }] }, { "featureType": "road.highway", "stylers": [{ "saturation": -100 }, { "visibility": "simplified" }] }, { "featureType": "road.arterial", "stylers": [{ "saturation": -100 }, { "lightness": 30 }, { "visibility": "on" }] }, { "featureType": "road.local", "stylers": [{ "saturation": -100 }, { "lightness": 40 }, { "visibility": "on" }] }, { "featureType": "transit", "stylers": [{ "saturation": -100 }, { "visibility": "simplified" }] }, { "featureType": "administrative.province", "stylers": [{ "visibility": "off" }] }, { "featureType": "water", "elementType": "labels", "stylers": [{ "visibility": "on" }, { "lightness": -25 }, { "saturation": -100 }] }, { "featureType": "water", "elementType": "geometry", "stylers": [{ "hue": "#ffff00" }, { "lightness": -25 }, { "saturation": -97 }] }];
 
     map.set('styles', styles);*/
@@ -43,7 +43,11 @@ function initMap() {
     urlVars = getUrlVars(href);
     recordId = decodeURIComponent(urlVars["recordId"]);
     user_id = decodeURIComponent(urlVars["user_id"]);
-
+    google.maps.event.addDomListener(window, "resize", function () {
+        var center = map.getCenter();
+        google.maps.event.trigger(map, "resize");
+        map.setCenter(center);
+    });
     var user = checkloggedInUser();
     if (user == null)
         return;
@@ -69,7 +73,7 @@ function initMap() {
             drawingMode: google.maps.drawing.OverlayType.POLYGON,
             drawingControl: true,
             drawingControlOptions: {
-                position: google.maps.ControlPosition.TOP_CENTER,
+                position: google.maps.ControlPosition.BOTTOM_CENTER,
                 drawingModes: ['polygon']
             },
             polygonOptions: {
@@ -225,7 +229,7 @@ function showPolygonOnMap(recordId) {
         var customControlDiv = document.createElement('div');
         customControl = new CustomControl(customControlDiv, map, typeOfView);
         customControlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(customControlDiv);
+        map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(customControlDiv);
         var coodichange = editPolycoordinates;
         var coordinates = coodichange.split(";");
         var arr = new Array();
@@ -255,7 +259,7 @@ function showPolygonOnMap(recordId) {
         drawnPolygon = polygons[0];
         map.setCenter(bounds.getCenter());
         var listener = google.maps.event.addListener(map, "idle", function () {
-            if (map.getZoom() < 15) map.setZoom(15);
+            if (map.getZoom() < 13) map.setZoom(13);
             google.maps.event.removeListener(listener);
         });
         if (flagtype != "undefined") {
@@ -310,7 +314,7 @@ function showPolygonOnMap(recordId) {
             drawingMode: null,
             drawingControl: true,
             drawingControlOptions: {
-                position: google.maps.ControlPosition.TOP_CENTER,
+                position: google.maps.ControlPosition.BOTTOM_CENTER,
                 drawingModes: ['marker']
             },
             markerOptions: {
@@ -561,16 +565,7 @@ function closeevent() {
     $('#registerCropForm').trigger("reset");
     //$('#flagtechModal').trigger("reset");
 }
-function getUrlVars(hrefString) {
-    var vars = [], hash;
-    var hashes = hrefString.slice(window.location.href.indexOf('?') + 1).split('&');
-    for (var i = 0; i < hashes.length; i++) {
-        hash = hashes[i].split('=');
-        vars.push(hash[0]);
-        vars[hash[0]] = hash[1];
-    }
-    return vars;
-}
+
 function addMarkerOnPolygon(positionOfMarker) {
     var iconBase = '/WebContent/Images/Flags/';
     var iconBlackFlag = {
@@ -825,7 +820,9 @@ function CustomControl(controlDiv, map, typeOfView) {
     controlUI.style.backgroundClip = 'padding-box';
     controlUI.style.borderBottomRightRadius = '2px';
     controlUI.style.borderTopRightRadius = '2px';
+    controlUI.style.bottom = '4px'
     controlUI.title = 'Click to set the map to Home';
+    controlUI.id = 'Savepoly'
     //controlUI.innerText = typeOfView;
     controlDiv.appendChild(controlUI);
 

@@ -205,3 +205,81 @@ searchBoxPos {
     display: block;
     margin: 0 auto;
 }
+#indexImage {
+    width: 90%;
+}
+#imageHold {
+    width: 1270px !important;
+    height: 270px !important;
+}
+@media (max-width: 768px) {
+    #imageHold {
+        max-width: 111%;
+        height: 220px !important;
+    }
+    #listUserForUnshareModal .modal-content
+    {
+        max-width: 232%;
+        margin-top: 142px;
+        overflow: auto;
+        word-wrap:break-word;
+    }
+    #listApplicatorsModal .modal-content {
+        width: 768px !important;
+        max-width: 250%;
+        overflow: auto;
+        word-wrap: break-word;
+        margin-left: -21px;
+        margin-top: 119px;
+    }
+    #listPolygonsForApplicatorsModal .modal-content {
+        width: 768px !important;
+        max-width: 100%;
+        margin-left: -6%;
+        margin-top: 19%;
+        overflow: auto;
+    }
+    #profileEditModal .modal-content {
+        max-width: 100%;
+        overflow: auto;
+    }
+    #changePwd {
+        padding-left:15px;
+        overflow: auto;
+    }
+    #passwordChange_Modal .modal-content {
+        overflow: auto;
+        max-width: 100%;
+    }
+    #loginforModal .modal-content {
+        max-width: 100%;
+        margin-top: 9%;
+    }
+    #searchboxProd {
+        max-width: 77%;
+    }
+    #map_canvas {
+        max-height: 100%;
+        max-width: 100%;
+        overflow: auto;
+    }
+    #wrapper {
+        max-height: 100%;
+        max-width: 100%;
+        overflow: auto;
+    }
+    #Savepoly {
+        bottom:0.7%;
+        top:0%;
+    }
+    #myModal .modal-content {
+        max-width: 100%;
+    }
+    #forgotPass_Modal .modal-content {
+        max-width: 100%;
+        margin-top: 49%;
+    }
+}
+#Savepoly {
+        top:89.3%;
+    }

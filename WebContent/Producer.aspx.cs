@@ -39,7 +39,7 @@ public partial class WebContent_Producer : System.Web.UI.Page
                 SqlDataReader reader;
                 string sql = "select * from producer_locations where user_id = '[USER_ID]' and email='[EMAIL]' and year = '[YEAR]'  order by modifieddate desc";
                 sql = sql.Replace("[USER_ID]", user.user_id);
-                sql = sql.Replace("[EMAIL]", user.user_id);
+                sql = sql.Replace("[EMAIL]", user.email);
                 sql = sql.Replace("[YEAR]", DateTime.Today.Year.ToString());
 
                 cmd = new SqlCommand(sql, conn);

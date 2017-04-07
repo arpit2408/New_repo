@@ -56,13 +56,23 @@
                 <form id="registerUserForm" runat="server">
                     <asp:ScriptManager ID="ScriptManager1" runat="server" ScriptMode="Release" EnablePageMethods="true"></asp:ScriptManager>
                     <div class="form-group">
-                        <label for="name" class="cols-sm-2 control-label">Your Name</label>
+                        <label for="name" class="cols-sm-2 control-label">First Name</label>
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter your Name" required="required" />
+                                <input type="text" class="form-control" name="name" id="name" placeholder="Enter your First Name" required="required" />
                             </div>
                             <span class="errorspan" id="nameerror"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name" class="cols-sm-2 control-label">Last Name</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                <input type="text" class="form-control" name="lname" id="lname" placeholder="Enter your Last Name" required="required" />
+                            </div>
+                            <span class="errorspan" id="lnameerror"></span>
                         </div>
                     </div>
 

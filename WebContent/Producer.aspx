@@ -110,16 +110,16 @@
     </div>
 
 
-    <div id="wrapper" style="height: 677px; width: 1923px;">
+    <div id="wrapper" style="height: 100%; width: 100%;">
         <div id="modalDiv"></div>
         <div id="modalForFlag"></div>
-        <div id="map_canvas" style="height: 677px; width: 1923px;"></div>
+        <div id="map_canvas" style="height: 100%; width: 100%;"></div>
         <div id="loginModal" class="displayModal "></div>
         <div id="accountEdit"></div>
         <div id="changePass"></div>
         <div id="custom-search-input" style="padding-left:3px;">
             <div style="top: 10px !important; position: relative">
-                <div class="input-group col-md-3">
+                <div id="searchboxProd" class="input-group col-md-3">
                     <input id="pac-input" class="form-control input-md controls searchBoxPos" type="text" placeholder="Search Box">
                     <span class="input-group-btn">
                         <button class="btn btn-primary btn-md" type="button">
@@ -129,7 +129,7 @@
                 </div>
             </div>
         </div>
-        <input id="Text1" class="controls" type="text" placeholder="Search Box">
+        
     </div>
     <div id="footer">
     </div>

@@ -20,6 +20,16 @@ function getCountyInfo(croplocation) {
     function Fail(val) {
     }
 }
+function getUrlVars(hrefString) {
+    var vars = [], hash;
+    var hashes = hrefString.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
 function checkforLandingPage() {
     var user = checkloggedInUser();
     if (user != null) {
@@ -133,7 +143,7 @@ function Logoff_Success(val) {
     $('#SignUpli').show();
     $('#Homeli').show();
     
-    window.location.href = '/WebContent/LandingPage.html' ;
+    window.location.href = '/WebContent/index.html' ;
 }
 
 function FailedLogoff(name) {
