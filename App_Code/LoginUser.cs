@@ -214,7 +214,8 @@ public class LoginUser
             MailMessage mail = new MailMessage();
             mail.IsBodyHtml = true;
             var baseurl=HttpContext.Current.Server.MapPath("/");
-            string resetlink = "http://localhost:4061/WebContent/PasswordReset.aspx?username=" + email + "&token=" + link;
+            string relativeurl=HttpContext.Current.Request.Url.Authority.ToString();
+            string resetlink = "http://" + relativeurl + "/WebContent/PasswordReset.aspx?username=" + email + "&token=" + link;
             var body = new StringBuilder();
             //body.AppendFormat("Hello, {0}\n", email);
             body.AppendLine(@"Your Password link is here");
@@ -340,8 +341,7 @@ public class LoginUser
         }
         return retval;
     }
-    [OperationContract]
-    public string[] CheckPasswordResetLink(string email,string token)
+    public static string[] CheckPasswordResetLink(string email,string token)
     {
         string[] retval = new string[2];// "";
         retval[0] = "0";
@@ -411,7 +411,9 @@ public class LoginUser
         string[] retval = new string[2];
         retval[0] = "0";
         retval[1] = "";
-        retval = CheckPasswordResetLink(email, token);
+        retval = CheckPasswordResetLink(email, token.Replace("#",""));
+        if (retval[0].Equals("0"))
+            return retval;
         try
         {
             string connection = System.Configuration.ConfigurationManager.AppSettings["connection_string"];
@@ -422,15 +424,23 @@ public class LoginUser
                     StringBuilder sql = new StringBuilder();
                     sql.Append("UPDATE user_details SET");
                     sql.Append(" password =  '[PASSWORD]'");
-                    sql.Append(" where email = [EMAIL]");
-                    sql.Replace("[USERID]", email.Trim());
+                    sql.Append(" where email = '[EMAIL]'");
+                    sql.Replace("[EMAIL]", email.Trim());
                     sql.Replace("[PASSWORD]", newPass.Trim());
                     SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     if (reader.RecordsAffected == 1)
                     {
+                        sql.Clear();
+                        cmd.Dispose();
+                        reader.Close();
+                        sql.Append("delete from ResetTickets ");
+                        sql.Append(" where email = '[EMAIL]'");
+                        sql.Replace("[EMAIL]", email.Trim());
+                        cmd = new SqlCommand(sql.ToString(), conn);
+                        reader = cmd.ExecuteReader();
                         retval[0] = "1";
-                        retval[1] = "Password Updated Successfully.Please visit the website and login with new password";
+                        retval[1] = "Password Updated Successfully.Redirecting you to Login Page";
                         return retval;
                     }
                     sql.Clear();
@@ -443,6 +453,11 @@ public class LoginUser
             retval[0] = "0";
             retval[1] = "Database Access Problem";
             retval[1] += errReader.Message;
+        }
+        finally
+        {
+            if (conn != null)
+                conn.Close();
         }
         return retval;
     }

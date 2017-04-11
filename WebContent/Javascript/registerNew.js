@@ -162,14 +162,14 @@ function validatefields() {
             $('#zipCodeerror').text("");
         }
     });
-    $('#usremail').blur(function (e) {
-        if (document.getElementById('usremail') != null && !isValidEmailAddress(document.getElementById('usremail').value)) {
-            $('#usremail').closest('.input-group').removeClass('success').addClass('has-error');
+    $('#usremailadd').blur(function (e) {
+        if (document.getElementById('usremailadd') != null && !isValidEmailAddress(document.getElementById('usremailadd').value)) {
+            $('#usremailadd').closest('.input-group').removeClass('success').addClass('has-error');
             $('#emailerror').text("Please enter a correct email address");
             flagforvalidforEmail = false;
         }
         else {
-            $('#usremail').closest('.input-group').removeClass('has-error').addClass('has-success');
+            $('#usremailadd').closest('.input-group').removeClass('has-error').addClass('has-success');
             $('#emailerror').text("");
             flagforvalidforEmail = true;
         }
@@ -232,7 +232,7 @@ function Signup() {
     else {
         var det = null;
         det = new Details();
-        det.email = document.getElementById('usremail').value; //'arpit2409@tamu.edu'//
+        det.email = document.getElementById('usremailadd').value; //'arpit2409@tamu.edu'//
         det.firstname = document.getElementById('name').value;
         det.lastname = document.getElementById('lname').value;
         det.companyname = document.getElementById('companyName').value;

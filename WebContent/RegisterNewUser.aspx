@@ -81,7 +81,7 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" name="email" id="usremail" placeholder="Enter your Email" />
+                                <input type="text" class="form-control" name="usremailadd" id="usremailadd" placeholder="Enter your Email" />
                             </div>
                             <span class="errorspan" id="emailerror"></span>
                         </div>

@@ -279,6 +279,26 @@ searchBoxPos {
         max-width: 100%;
         margin-top: 49%;
     }
+    #nav ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    position: relative;
+    z-index: 1; /* This was added to your code */
+    }
+    #switchCheckBoxesProd {
+        top: -19px !important;
+    }
+    #switchLabelProd {
+        padding-left: 0px;
+    }
+    #switchLabelPest {
+        margin-top: 3%; 
+    }
+    #switchCheckBoxesPest {
+        top: -19px !important;
+        padding-right: 9%;
+    }
 }
 #Savepoly {
         top:89.3%;

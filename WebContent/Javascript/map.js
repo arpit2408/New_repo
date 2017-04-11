@@ -23,19 +23,21 @@ var pesticideName = "";
 var markCompleted = "";
 var prodshareCropInfo = false;
 var typeOfView = "";
+var newShape;
 function initMap() {
     
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
     var mapOptions = {
         zoom: 5,
         center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeId: google.maps.MapTypeId.SATELLITE,
         disableDefaultUI: false
     }
+
     var mapElement = document.getElementById('map_canvas');
 
     map = new google.maps.Map(map_canvas, mapOptions);
-   
+    
     /*var styles = [{ "featureType": "landscape", "stylers": [{ "saturation": -100 }, { "lightness": 65 }, { "visibility": "on" }] }, { "featureType": "poi", "stylers": [{ "saturation": -100 }, { "lightness": 51 }, { "visibility": "simplified" }] }, { "featureType": "road.highway", "stylers": [{ "saturation": -100 }, { "visibility": "simplified" }] }, { "featureType": "road.arterial", "stylers": [{ "saturation": -100 }, { "lightness": 30 }, { "visibility": "on" }] }, { "featureType": "road.local", "stylers": [{ "saturation": -100 }, { "lightness": 40 }, { "visibility": "on" }] }, { "featureType": "transit", "stylers": [{ "saturation": -100 }, { "visibility": "simplified" }] }, { "featureType": "administrative.province", "stylers": [{ "visibility": "off" }] }, { "featureType": "water", "elementType": "labels", "stylers": [{ "visibility": "on" }, { "lightness": -25 }, { "saturation": -100 }] }, { "featureType": "water", "elementType": "geometry", "stylers": [{ "hue": "#ffff00" }, { "lightness": -25 }, { "saturation": -97 }] }];
 
     map.set('styles', styles);*/
@@ -52,6 +54,7 @@ function initMap() {
     if (user == null)
         return;
     else if (user_id != "undefined" && user_id != "" && user_id != null && user_id != -1) {
+        map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
         $.ajax({
             type: 'POST',
             url: 'Dashboard.aspx/GetSpecificUserPolygons',
@@ -64,13 +67,41 @@ function initMap() {
         loadProducerAreas();
     }
     else if (recordId != "undefined" && recordId != "" && recordId != null && recordId != -1) {
+        map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
         showPolygonOnMap(recordId);
     }
     else {
+        infoWindowlocgeo = new google.maps.InfoWindow;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                infoWindowlocgeo.setPosition(pos);
+                infoWindowlocgeo.setContent('Location found.');
+                //infoWindowlocgeo.open(map);
+                map.setCenter(pos);
+                map.setZoom(12);
+            }, function () {
+                handleLocationError(true, infoWindowlocgeo, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, infoWindowlocgeo, map.getCenter());
+        }
+        function handleLocationError(browserHasGeolocation, infoWindowlocgeo, pos) {
+            infoWindowlocgeo.setPosition(pos);
+            infoWindowlocgeo.setContent(browserHasGeolocation ?
+                                  'Error: The Geolocation service failed.' :
+                                  'Error: Your browser doesn\'t support geolocation.');
+            //infoWindowlocgeo.open(map);
+        }
         loadProducerAreas();
         init_producerMapAreas(user.email);
         drawingManager = new google.maps.drawing.DrawingManager({
-            drawingMode: google.maps.drawing.OverlayType.POLYGON,
+            //drawingMode: google.maps.drawing.OverlayType.POLYGON,
             drawingControl: true,
             drawingControlOptions: {
                 position: google.maps.ControlPosition.BOTTOM_CENTER,
@@ -91,7 +122,7 @@ function initMap() {
 
         // Add a listener for creating new shape event.
         google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
-            var newShape = event.overlay;
+            newShape = event.overlay;
             newShape.type = event.type;
             shapes.push(newShape);
             if (drawingManager.getDrawingMode()) {
@@ -224,12 +255,14 @@ function showPolygonOnMap(recordId) {
         pesticideName = val[0].pesticideName;
         markCompleted = val[0].markCompleted;
         prodshareCropInfo = val[0].shareCropInfo;
-        typeOfView = urlVars["typeOfView"].replace("#","");
-        var customControl = null;
-        var customControlDiv = document.createElement('div');
-        customControl = new CustomControl(customControlDiv, map, typeOfView);
-        customControlDiv.index = 1;
-        map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(customControlDiv);
+        typeOfView = urlVars["typeOfView"].replace("#", "");
+        if (typeOfView != "watch"){
+            var customControl = null;
+            var customControlDiv = document.createElement('div');
+            customControl = new CustomControl(customControlDiv, map, typeOfView);
+            customControlDiv.index = 1;
+            map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(customControlDiv);
+        }
         var coodichange = editPolycoordinates;
         var coordinates = coodichange.split(";");
         var arr = new Array();
@@ -248,7 +281,7 @@ function showPolygonOnMap(recordId) {
         polygons.push(new google.maps.Polygon({
             paths: arr,
             editable: typeOfView == "edit" ? true : false,
-            draggable: typeOfView == "edit" ? true : false,
+            //draggable: typeOfView == "edit" ? true : false,
             strokeColor: '#FF0000',
             strokeOpacity: 0.8,
             strokeWeight: 2,
@@ -323,7 +356,8 @@ function showPolygonOnMap(recordId) {
                 animation: google.maps.Animation.DROP
             }
         });
-        drawingManager.setMap(map);
+        if(typeOfView!="watch")
+            drawingManager.setMap(map);
         google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
             if (drawingManager.getDrawingMode() != null && drawingManager.getDrawingMode() == 'marker') {
                 //event.overlay.setMap(null);
@@ -434,7 +468,7 @@ function SubmitNewLocation(event) {
     var user = checkloggedInUser();
     if (user == null)
         return;
-    if (typeOfView=="edit") {
+    if (typeOfView == "edit" || typeOfView=="") {
         if (confirm("Do you want the information of this crop to be visible to other producers..!!")) {
             sharecropInfo = true;
         } else {
@@ -563,7 +597,12 @@ function editPolygon(val) {
 }
 function closeevent() {
     $('#registerCropForm').trigger("reset");
-    //$('#flagtechModal').trigger("reset");
+    if(newShape!=null)
+        newShape.setMap(null);
+    var indexshape = shapes.indexOf(newShape);
+    if (indexshape > -1) {
+        shapes.splice(indexshape, 1);
+    }
 }
 
 function addMarkerOnPolygon(positionOfMarker) {
@@ -810,6 +849,7 @@ function CustomControl(controlDiv, map, typeOfView) {
     controlUI.style.height = '29px';
     controlUI.style.width = '30px';
     controlUI.style.marginTop = '5px';
+    controlUI.style.marginBottom = '5px';
     controlUI.style.marginLeft = '-6px';
     controlUI.style.paddingTop = '2px';
     controlUI.style.cursor = 'pointer';
@@ -902,9 +942,10 @@ function fillModalValues(polygon, checkforflag, valuesDisabled, isApplicator) {
         $("#commentsForCrops").attr("readonly", false);
         $("#commentsForCrops").val(cmnts);
         var base = (cmnts != "" && cmnts != "undefined")?cmnts:"";
-        var regex = new RegExp("^" + base, "i");
+        var regex = new RegExp("^" + base);
         $('#commentsForCrops').on("input", function (ev) {
             var query = $(this).val();
+            regex.lastIndex = 0;
             if (!regex.test(query)) {
                 $(this).val(base);
             }

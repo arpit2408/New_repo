@@ -19,7 +19,7 @@
 </head>
 <body>
     <script type="text/javascript">
-        window.onload = passwordlinkcheck;
+        //window.onload = passwordlinkcheck;
     </script>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navBar" style="background-color: #4e0b0b; color: #fff">
         <div class="container-fluid">

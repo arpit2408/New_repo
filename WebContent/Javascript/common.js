@@ -164,7 +164,22 @@ function closeEventAccDetails() {
              .end();
     })
 }
-
+function closeForgotPass() {
+    $("#forgotPasssuccessmessage").empty();
+    $("#forgotPasserrormessage").empty();
+    $("#forgotPasserrormessage").hide();
+    $("#forgotPasssuccessmessage").hide();
+    $('#forgotPass_Modal').on('hidden.bs.modal', function (e) {
+        $(this)
+          .find("input,textarea,select")
+             .val('')
+             .end()
+          .find("input[type=checkbox], input[type=radio]")
+             .prop("checked", "")
+             .end();
+    })
+    $('#forgotPass_Modal').modal('hide');
+}
 function closeChangePass() {
     $("#passsuccessmessage").empty();
     $("#passerrormessage").empty();
@@ -245,7 +260,7 @@ function openProfileModal() {
    
     $('#profileEditModal').modal('show');
     $("#profileEditModal").draggable({ handle: ".modal-body" });
-    $("#usremail").val(function (index, val) {
+    $("#usremailpro").val(function (index, val) {
         return val + user.email;
     });
     $("#company").val(function (index, val) {

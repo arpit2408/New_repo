@@ -97,10 +97,10 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <div class="panel panel-default">
-                                                        <div class="col-md-6">
-                                                            <div class="panel-heading" style="align-content: flex-start">Certified Organic Crop</div>
+                                                        <div id="switchLabelProd" class="col-md-6">
+                                                            <div class="panel-heading" >Certified Organic Crop</div>
                                                         </div>
-                                                        <div class="col-md-6" style="top: 40px">
+                                                        <div id="switchCheckBoxesProd" class="col-md-6" style="top: 40px">
                                                             <div class="material-switch pull-right">
                                                                 <input id="someSwitchOptionSuccess" name="someSwitchOption001" type="checkbox" />
                                                                 <label for="someSwitchOptionSuccess" class="label-success"></label>
@@ -114,10 +114,10 @@
                                                 <div class="form-group">
                                                     <div class="panel panel-default">
                                                         <div class="row">
-                                                            <div class="col-md-6">
+                                                            <div id="switchLabelPest" class="col-md-6">
                                                                 <div class="panel-heading" style="align-content: flex-start">Mark Completed</div>
                                                             </div>
-                                                            <div class="col-md-6" style="top: 40px">
+                                                            <div id="switchCheckBoxesPest" class="col-md-6" style="top: 40px">
                                                                 <div class="material-switch pull-right">
                                                                     <input id="someSwitchOptionPrimary" name="someSwitchOption001" type="checkbox" />
                                                                     <label for="someSwitchOptionPrimary" class="label-primary"></label>

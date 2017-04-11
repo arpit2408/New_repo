@@ -22,7 +22,7 @@
                             <!-- Modal content-->
                             <div class="modal-content" style="height: auto; width: 800px;">
                                 <div class="modal-header">
-                                    <button type="button" id="closemyModalPass" onclick="closeChangePass();" class="close" data-dismiss="modal">&times;</button>
+                                    <button type="button" id="closemyModalPass" onclick="closeForgotPass();" class="close" data-dismiss="modal">&times;</button>
 
                                     <h4 class="modal-title col-md-3">Change Password</h4>
 

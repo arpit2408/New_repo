@@ -19,7 +19,7 @@ function loginUser() {
     //PageMethods.AuthenticateUser(useremail, password, Authenticate_User_Success, Fail_User_Validate);
 }
 
-function passwordlinkcheck() {
+/*function passwordlinkcheck() {
     href = window.top.location.href;
     urlVars = getUrlVars(href);
     var username = decodeURIComponent(urlVars["username"]);
@@ -33,7 +33,7 @@ function passwordlinkcheck() {
         success: PasswordReset_Success,
         error: PasswordReset_Fail
     });
-}
+}*/
 function passWordResetVialink() {
     var newPass = document.getElementById('newPass').value;
     var confirmPass = document.getElementById('confimPass').value;
@@ -61,7 +61,7 @@ function passWordResetVialink() {
             type: 'POST',
             url: '/LoginUser.svc/ResetPassForgotLink',
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({ email: username, token: link, newPass: newPass }),
+            data: JSON.stringify({ email: username, token: link[1].toString(), newPass: newPass }),
             dataType: 'json',
             success: PasswordReset_Success,
             error: PasswordReset_Fail
@@ -76,6 +76,10 @@ function PasswordReset_Success(returnObj) {
         $("#passerrormessage").empty();
         $("#passerrormessage").hide();
         $("#passsuccessmessage").append('<strong>Success! </strong>' + val[1]);
+        setTimeout(function () {
+            window.location.href = '/WebContent/dashboard.aspx';
+        }, 2000);
+        
     }
     else {
         $("#passerrormessage").show();
@@ -125,13 +129,11 @@ function showModalForgotpass() {
     }
 
     function Authenticate_User_Success(returnObj) {
-        setTimeout(fade_out, 5000);
-        function fade_out() {
-            $("#loginmsg").fadeOut().empty();
-        }
+        
         var val = returnObj.d;
         if (val[0] == 1) {
             var names = val[1].split(" ");
+            $("#loginmsg").empty();
             $("#loginmsg").show();
             $('#loginmsg').append(val[1] + "<br>");
             $('#loginmsg').removeClass('alert-danger').addClass('alert-success');
@@ -139,6 +141,7 @@ function showModalForgotpass() {
             return false;
         }
         else {
+            $("#loginmsg").empty();
             $("#loginmsg").show();
             $('#loginmsg').append("Error Logging In" + "<br>");
             $('#loginmsg').removeClass('alert-success').addClass('alert-danger');
@@ -146,6 +149,7 @@ function showModalForgotpass() {
     }
     function Fail_User_Validate(returnObj) {
         var val = returnObj.d;
+        $("#loginmsg").empty();
         $("#loginmsg").show();
         $('#loginmsg').append("Error Logging In" + "<br>");
         $('#loginmsg').removeClass('alert-success').addClass('alert-danger');
@@ -569,27 +573,20 @@ function showModalForgotpass() {
     }
     function submitapplicatorlist() {
         var cropId = null;
+        if (document.getElementById('cropId') != null)
+            cropId = document.getElementById('cropId').value;
+        cropId = cropId.replace("unshared", "");
         var listMappings = [];
         var selectedAppliators=$("#check-list-box li.success").map(function () {
             return this.id;
         }).get();
-        if (document.getElementById('cropId') != null)
-            cropId = document.getElementById('cropId').value;
-        document.getElementById(cropId).style.display = "none";
-        var cropId = cropId.replace("unshared", "shared");
-        var rowtobeUpdatedinDashboard = document.getElementById(cropId);
-        if(rowtobeUpdatedinDashboard!=null)
-            rowtobeUpdatedinDashboard.style.display = "";
-        document.getElementById('cropId').value = "";
-        $('#listApplicatorsModal').modal('hide');
         var selectedli = selectedAppliators;
-        cropId = cropId.replace("shared", "");
         for (var i = 0; i < selectedli.length; i++) {
             det = new MappingDetails();
             det.producerLocId = cropId;
             var id = "radioBtn" + selectedli[i];
             if (document.getElementById(id).childNodes[0].classList.contains('activeRadio')) {
-                if(document.getElementById(id).childNodes[0].id=="yes")
+                if (document.getElementById(id).childNodes[0].id == "yes")
                     det.MappedForAction = 1;
                 else
                     det.MappedForAction = 0;
@@ -601,14 +598,39 @@ function showModalForgotpass() {
                     det.MappedForAction = 0;
             }
             det.user_Id = selectedli[i];
+            var flag = 0;
+            if (det.MappedForAction == 1) {
+                listMappings.forEach(function (element) {
+                    if (element.MappedForAction == 1) {
+                        alert("Please map only one user for action")
+                        flag = 1;
+                        return;
+                    }
+                });
+            }
+            if (flag == 1)
+                return;
             listMappings.push(det);
         }
-        PageMethods.MapProducerLocations(JSON.stringify(listMappings));
-        function mappingSuccessful(val) {
-            var getVal = val[1];
-            //alert(getVal);
+        PageMethods.CheckIfCropHasMappedAction(cropId,JSON.stringify(listMappings), OnSucceeded, OnFailed);
+        function OnSucceeded(val) {
+            if (val[0] == "0") {
+                alert(val[1]);
+            }
+            else {
+                if (document.getElementById('cropId') != null)
+                    cropId = document.getElementById('cropId').value;
+                document.getElementById(cropId).style.display = "none";
+                cropId = cropId.replace("unshared", "shared");
+                var rowtobeUpdatedinDashboard = document.getElementById(cropId);
+                if (rowtobeUpdatedinDashboard != null)
+                    rowtobeUpdatedinDashboard.style.display = "";
+                document.getElementById('cropId').value = "";
+                $('#listApplicatorsModal').modal('hide');
+                PageMethods.MapProducerLocations(JSON.stringify(listMappings));
+            }
         }
-        function mappingUnsuccessful(val) {
+        function OnFailed(val) {
         }
     }
 
@@ -647,7 +669,7 @@ function showModalForgotpass() {
         var maplink = document.createElement('a');
         maplink.setAttribute('style', 'padding-left:17px');
         maplink.setAttribute('onclick', 'sharePolygon("' + e.id.replace("shared", "unshared") + '",true)');
-        var text_maplink = document.createTextNode('Map new user');
+        var text_maplink = document.createTextNode('Assign user');
         maplink.appendChild(text_maplink);
         maptd.appendChild(maplink);
         function Unshare_Success(resultObj) {
@@ -737,7 +759,6 @@ function showModalForgotpass() {
             });
             if (userIds != "")
                 userIds = userIds.slice(0, -1);
-
             $.ajax({
                 type: 'POST',
                 url: 'Dashboard.aspx/UnshareUserPolygon',
@@ -756,13 +777,14 @@ function showModalForgotpass() {
                 //alert(resultObj.d[1]);
             }
             else if (resultObj.d[0] == 1) {
-                if (completeUnshare == 1) {
+                $('#listUserForUnshareModal').modal('hide');
+            }
+            else if (resultObj.d[0] == 2) {
                     var shareid = e.name.replace("sub", "");
                     var unshareid = e.name.replace("subshared", "unshared");
                     document.getElementById(shareid).style.display = "none";
                     document.getElementById(unshareid).style.display = "";
-                }
-                $('#listUserForUnshareModal').modal('hide');
+                    $('#listUserForUnshareModal').modal('hide');
             }
         }
         function Unmap_Failed() {

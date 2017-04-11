@@ -19,7 +19,7 @@
                         <div class="modal-content" style="height: auto; width: 800px;">
                             <div class="modal-header">
                                 <button type="button" id="closemyModal" onclick="closeevent();" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Choose your Applicator</h4>
+                                <h4 class="modal-title">Choose your Applicator/Consultant</h4>
                             </div>
                             <div class="modal-body" style="background-color: #eee">
 

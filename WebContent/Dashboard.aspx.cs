@@ -224,9 +224,9 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                 {
                     StringBuilder sql = new StringBuilder("SELECT usr.firstname,usr.lastname,usr.email,usr.user_id");
                     sql.Append(" FROM [MappingProducerLocation] map");
-                    sql.Append(" join producer_locations ploc on ploc.producerLocID=map.producerLocID");
+                    sql.Append(" join producer_locations ploc on ploc.producerLocID=map.producerLocID  and ploc.deleted=0 ");
                     sql.Append(" join user_details usr on ploc.user_id =usr.user_id");
-                    sql.Append(" where map.User_ID= [User_ID] and map.creationDate > [Year]");
+                    sql.Append(" where map.User_ID= [User_ID] and map.creationDate > [Year]  and active=1 ");
                     sql.Append(" group by usr.email,usr.firstname,usr.lastname,usr.user_id");
                     sql.Replace("[User_ID]", user.user_id);
                     sql.Replace("[Year]", DateTime.Today.Year.ToString());
@@ -281,7 +281,7 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                     StringBuilder sql = new StringBuilder("SELECT *");
                     sql.Append(" FROM [TX_CROPS].[dbo].[user_details] usrdet");
                     sql.Append(" join producer_locations ploc on usrdet.user_id= ploc.user_id");
-                    sql.Append(" join MappingProducerLocation mapLoc on ploc.producerLocID = mapLoc.producerLocID");
+                    sql.Append(" join MappingProducerLocation mapLoc on ploc.producerLocID = mapLoc.producerLocID and active = 1 ");
                     sql.Append(" where usrdet.user_id=[User_ID] and mapLoc.user_id=[Session_User_ID]");
                     sql.Replace("[User_ID]", user_id.ToString());
                     sql.Replace("[Session_User_ID]", user.user_id);
@@ -425,11 +425,37 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
         }
     }
     [System.Web.Services.WebMethod(EnableSession = false)]
+    public static string[] CheckIfCropHasMappedAction(string producerLocId, string mappingDetails)
+    {
+        string[] retval = new string[2];
+        retval[0] = "0";
+        retval[1] = "";
+        MappingLocation[] mLocs = JsonConvert.DeserializeObject<MappingLocation[]>(mappingDetails);
+        foreach (MappingLocation mLoc in mLocs)
+        {
+            if (mLoc.MappedForAction.Equals("1"))
+            {
+                ListUserForUnshare[] sharedUsers = JsonConvert.DeserializeObject<ListUserForUnshare[]>(ListUsersForUnshare(producerLocId)[1]);
+                foreach (ListUserForUnshare mappedUser in sharedUsers)
+                {
+                    if (mappedUser.mappedAs.Equals("1"))
+                    {
+                        retval[1] = "There is already a user mapped for action for this crop.";
+                        return retval;
+                    }
+                }
+            }
+        }
+        retval[0] = "1";
+        return retval;
+    }
+    [System.Web.Services.WebMethod(EnableSession = false)]
     public static string[] UnshareUserPolygon(string producerLocId, string userIds,string completeUnshare)
     {
         string[] retval = new string[2];
         retval[0] = "0";
         retval[1] = "";
+        bool completeUnshareCrops = false;
         //var data = JsonConvert.DeserializeObject<MappingLocation[]>(mappingDetails);
         user user = null;
         user = (user)HttpContext.Current.Session["user"];
@@ -441,25 +467,70 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
             conn.Open();
                 if (conn.State == System.Data.ConnectionState.Open)
                 {
-
-                    StringBuilder sql = new StringBuilder("select pesticideApplied from [TX_CROPS].[dbo].[producer_locations]");
-                    sql.Append(" where producerLocID=[PRODUCERLOCID]");
+                    StringBuilder sql = new StringBuilder("select MappedForAction from MappingProducerLocation");
+                    sql.Append(" where producerLocID =[PRODUCERLOCID]");
+                    sql.Append(" and active = 1 and user_id in ([USER_ID])");
                     sql.Replace("[PRODUCERLOCID]", producerLocId);
+                    sql.Replace("[USER_ID]", userIds);
                     SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read() && reader.HasRows)
                     {
-                        if (!reader.IsDBNull(0)){
-                            String pesticideApplied = (reader.GetBoolean(0) ? 1 : 0).ToString();
-                            if (pesticideApplied.Equals("1"))
+                        if (!reader.IsDBNull(0))
+                        {
+                            String mappedForAction = (reader.GetBoolean(0) ? 1 : 0).ToString();
+                            if (mappedForAction.Equals("1"))
                             {
-                                retval[0] = "0";
-                                retval[1] = "Pestcide is already applied on the crop.Please contact the pesticide applicator..!!";
-                                return retval;
+                                sql.Clear();
+                                cmd.Dispose();
+                                reader.Close();
+                                sql = new StringBuilder("select pesticideApplied from [TX_CROPS].[dbo].[producer_locations]");
+                                sql.Append(" where producerLocID=[PRODUCERLOCID]");
+                                sql.Replace("[PRODUCERLOCID]", producerLocId);
+                                cmd = new SqlCommand(sql.ToString(), conn);
+                                reader = cmd.ExecuteReader();
+                                while (reader.Read() && reader.HasRows)
+                                {
+                                    if (!reader.IsDBNull(0))
+                                    {
+                                        String pesticideApplied = (reader.GetBoolean(0) ? 1 : 0).ToString();
+                                        if (pesticideApplied.Equals("1"))
+                                        {
+                                            retval[0] = "0";
+                                            retval[1] = "Pestcide is already applied on the crop.Please contact the pesticide applicator..!!";
+                                            return retval;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-                    if (completeUnshare.Equals("1"))
+                    sql.Clear();
+                    cmd.Dispose();
+                    reader.Close();
+                    sql.Append("UPDATE MappingProducerLocation SET active =  '0' where producerLocID = [PRODUCERLOCID] and user_id in ([USER_ID])");
+                    sql.Replace("[PRODUCERLOCID]", producerLocId);
+                    sql.Replace("[USER_ID]", userIds);
+                    cmd = new SqlCommand(sql.ToString(), conn);
+                    reader = cmd.ExecuteReader();
+                    if (reader.RecordsAffected == 0)
+                    {
+                        
+                        retval[1] = "Mapping Update Unsuccessful";
+                        return retval;
+                    }
+                    retval[0] = "1";
+                    retval[1] = "Mapping Successful";
+                    sql.Clear();
+                    cmd.Dispose();
+                    reader.Close();
+                    sql.Append("select * from MappingProducerLocation where producerLocID =[PRODUCERLOCID] and active = 1");
+                    sql.Replace("[PRODUCERLOCID]", producerLocId);
+                    cmd = new SqlCommand(sql.ToString(), conn);
+                    reader = cmd.ExecuteReader();
+                    if (!reader.HasRows)
+                        completeUnshareCrops = true;
+                    if (completeUnshareCrops)
                     {
                         sql.Clear();
                         cmd.Dispose();
@@ -487,28 +558,9 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                             retval[1] = "Mapping Update Unsuccessful";
                             return retval;
                         }
-                    }
-                    else
-                    {
-                        sql.Clear();
-                        cmd.Dispose();
-                        reader.Close();
-                        sql.Append("UPDATE MappingProducerLocation SET active =  '0' where producerLocID = [PRODUCERLOCID] and user_id in ([USER_ID])");
-                        sql.Replace("[PRODUCERLOCID]", producerLocId);
-                        sql.Replace("[USER_ID]", userIds);
-                        cmd = new SqlCommand(sql.ToString(), conn);
-                        reader = cmd.ExecuteReader();
-                        if (reader.RecordsAffected == 0)
-                        {
-                            retval[0] = "0";
-                            retval[1] = "Mapping Update Unsuccessful";
-                            return retval;
-                        }
+                        retval[0] = "2";
                     }
                 }
-        
-            retval[0] = "1";
-            retval[1] = "Mapping Successful";
         }
         catch (Exception ex)
         {

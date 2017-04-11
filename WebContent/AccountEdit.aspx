@@ -53,7 +53,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>Email:</td>
-                                                                <td ><input type="email" class="form-control" id="usremail" disabled="disabled"/></td>
+                                                                <td ><input type="email" class="form-control" id="usremailpro" readonly="readonly"/></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Company:</td>
