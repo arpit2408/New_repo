@@ -294,44 +294,44 @@ public partial class WebContent_Dashboard : System.Web.UI.Page
                         croplocation croparea = new croplocation();
                         if (!reader.IsDBNull(0))
                             croparea.usremail = reader.GetString(0).ToString();
-                        if (!reader.IsDBNull(19))
-                            croparea.planttype = reader.GetString(19).ToString();
                         if (!reader.IsDBNull(20))
-                            croparea.croptype = reader.GetString(20).ToString();
+                            croparea.planttype = reader.GetString(20).ToString();
                         if (!reader.IsDBNull(21))
-                            croparea.cropyear = reader.GetString(21).ToString();
+                            croparea.croptype = reader.GetString(21).ToString();
                         if (!reader.IsDBNull(22))
-                            croparea.comment = reader.GetString(22).ToString();
+                            croparea.cropyear = reader.GetString(22).ToString();
                         if (!reader.IsDBNull(23))
-                            croparea.county = reader.GetString(23).ToString();
+                            croparea.comment = reader.GetString(23).ToString();
                         if (!reader.IsDBNull(24))
-                            croparea.coordinates = reader.GetString(24).ToString();
+                            croparea.county = reader.GetString(24).ToString();
                         if (!reader.IsDBNull(25))
-                            croparea.loccentroid = reader.GetString(25).ToString();
+                            croparea.coordinates = reader.GetString(25).ToString();
                         if (!reader.IsDBNull(26))
-                            croparea.acres = reader.GetString(26).ToString();
+                            croparea.loccentroid = reader.GetString(26).ToString();
                         if (!reader.IsDBNull(27))
-                            croparea.organiccrops = (reader.GetBoolean(27) ? 1 : 0).ToString();
+                            croparea.acres = reader.GetString(27).ToString();
                         if (!reader.IsDBNull(28))
-                            croparea.certifier = reader.GetString(28).ToString();
-                        if (!reader.IsDBNull(32))
-                            croparea.id = reader.GetInt32(32).ToString();
+                            croparea.organiccrops = (reader.GetBoolean(28) ? 1 : 0).ToString();
+                        if (!reader.IsDBNull(29))
+                            croparea.certifier = reader.GetString(29).ToString();
                         if (!reader.IsDBNull(33))
-                            croparea.flagtype = reader.GetString(33).ToString();
+                            croparea.id = reader.GetInt32(33).ToString();
                         if (!reader.IsDBNull(34))
-                            croparea.shareCropInfo = reader.GetString(34).ToString();
+                            croparea.flagtype = reader.GetString(34).ToString();
                         if (!reader.IsDBNull(35))
-                            croparea.markerPos = reader.GetString(35).ToString();
+                            croparea.shareCropInfo = reader.GetString(35).ToString();
                         if (!reader.IsDBNull(36))
-                            croparea.cropShared = (reader.GetBoolean(36) ? 1 : 0).ToString();
+                            croparea.markerPos = reader.GetString(36).ToString();
                         if (!reader.IsDBNull(37))
-                            croparea.pesticideApplied = (reader.GetBoolean(37) ? 1 : 0).ToString();
+                            croparea.cropShared = (reader.GetBoolean(37) ? 1 : 0).ToString();
                         if (!reader.IsDBNull(38))
-                            croparea.pesticideName = reader.GetString(38).ToString();
-                        if (!reader.IsDBNull(40))
-                            croparea.markCompleted = (reader.GetBoolean(40) ? 1 : 0).ToString();
-                        if (!reader.IsDBNull(43))
-                            croparea.mappedAs = (reader.GetBoolean(43) ? 1 : 0).ToString();
+                            croparea.pesticideApplied = (reader.GetBoolean(38) ? 1 : 0).ToString();
+                        if (!reader.IsDBNull(39))
+                            croparea.pesticideName = reader.GetString(39).ToString();
+                        if (!reader.IsDBNull(41))
+                            croparea.markCompleted = (reader.GetBoolean(41) ? 1 : 0).ToString();
+                        if (!reader.IsDBNull(44))
+                            croparea.mappedAs = (reader.GetBoolean(44) ? 1 : 0).ToString();
                         locationArr.Add(croparea);
                     }
                     cmd.Dispose();

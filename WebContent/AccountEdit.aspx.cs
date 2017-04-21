@@ -30,6 +30,7 @@ public partial class WebContent_AccountEdit : System.Web.UI.Page
         listforuncheckvalues.Add("usertype");
         listforuncheckvalues.Add("website");
         listforuncheckvalues.Add("lastname");
+        listforuncheckvalues.Add("identification");
         String validateValue = ValidatorCustom.validatefields(updatedUser, listforuncheckvalues);
         if (!String.IsNullOrWhiteSpace(validateValue))
         {

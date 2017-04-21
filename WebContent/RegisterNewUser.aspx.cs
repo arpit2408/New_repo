@@ -1,7 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.OleDb;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -59,74 +63,7 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
     [System.Web.Services.WebMethod(EnableSession = true)]
     public static string send(string email, string variable, string type)
     {
-        /*string confMsg = null;
-        //-- ---------------Rama Changes Begin -------------------------
-        string url = "http://kel.tamu.edu/TexasCropRegistry/TexasCropRegistry.aspx?page=Account&type=ACTIVATEACCOUNT";
-        //-- ---------------Rama Changes End -------------------------
-        string urlmain = "http://kel.tamu.edu/TexasCropRegistry/TexasCropRegistry.aspx";
-        //string hostMail = "kel.texas.sensitive.crops@gmail.com";
-        //string hosUsr = "kel.texas.sensitive.crops";
-        //string hostPwd = "tscr_kel_2012";
-        string hostMail = "texascropregistry@gmail.com";
-        string hosUsr = "texascropregistry";
-        string hostPwd = "Regi$tryKEL";
-        string hostSMTP = "smtp.gmail.com";//gmail smtp 
-        string subject = "Texas Crop Registry " + type + " information";
-        string body1 = "Dear User,\n\n\n" +
-                      "Thank you for registering with Texas Crop Registry!.\n\n\n" +
-                      "This email is automatically generated, please do not reply.\n\n" +
-            //            "Welcome to PIDS. To complete your registration, please go to the registration page of the PIDS website, and change your automatic password:\n" +
-            ////"Your user id: " + email + "\n\n" +
-                                    "Your one time only password is:\n\n" + variable + "\n\n" +
-                                    "To complete your registration, please go to the registration page of the Texas Crop registry website, and change your automatic password: \n\n" + url + "\n\n" +
-                                    "If you have trouble using the previous link, you can go to the main page: \n\n" + urlmain + "\n\n\n\n" +
-                                    "and click on the 'Register' link, scroll to the bottom of the page and click the 'Change Password' link.\n\n" +
-                                    "Thanks for working with us!\n\n\n" +
-                                    "Texas Crop Registry Program";
-        string body2 = "Texas Crop Registry Password recovery. This email is automatically generated, please do not reply.\n\n" +
-                        "You have requested your password from Texas Crops Registry. Your new password is:\n\n" + variable + "\n\n" +
-                        "We encourage you to change the password to something more memorable once you have retrieved it." +
-                        " To change your password go to the Texas Crop Registry web site and click the Registration/Account tab. Then follow the 'Change Password' link.\n\n" +
-                        "Thank you for working with us!\n\n" +
-                        "Texas Crop Registry";
-        //string body3 = "Dear User,\n\n\n"+
-        //                "Thank you for your continuing collaboration with Pecan ipmPIPE program.\n\n\n"+
-        //                "This email is automatically generated, please do not reply.\n\n\n\n" +
-        //                "You made some recent changes to your profile preferences. You select to receive email notifications when a new crop is added to our database using the "+ variable + "criteria.\n\n"+
-        //                "You can always modify your notifications by login into your account and specifying a new criteria.\n\n\n\n"+
-        //                "Thank you for working with us!\n\n\n" +
-        //                "Texas Crop Registry Program";
-        MailMessage mail = new MailMessage();
-        mail.To.Add(email);
-        mail.From = new MailAddress(hostMail);//pecanipmpipe temporary email account
-        mail.Subject = subject;
-        if (type == "Registration") { mail.Body = body1; }
-        else if (type == "Password") { mail.Body = body2; }
-        //else { mail.Body = body3; }
-        SmtpClient smtp = new SmtpClient();
-        NetworkCredential credentials = new NetworkCredential();
-
-        try
-        {
-            //smtp.Host = ConfigurationManager.AppSettings["SMTP"];not working yet from Server email setup!
-            credentials.UserName = hosUsr;
-            credentials.Password = hostPwd;
-            smtp.Host = hostSMTP;
-            smtp.Port = 587;//It can be 25, so try both.
-            smtp.Credentials = credentials;
-            smtp.EnableSsl = true;
-            smtp.Send(mail);
-            confMsg = "sent";
-        }
-        catch (Exception err1)
-        {
-            confMsg = err1.Message.ToString();
-        }
-        finally
-        {
-            mail.Dispose();
-        }
-        return confMsg;*/
+       
         string confMsg = null;
         try
         {
@@ -142,27 +79,14 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
             mail.AlternateViews.Add(avHtml);
             var client = new SmtpClient("smtp.gmail.com", 587)
             {
-                Credentials = new NetworkCredential("netflix240890@gmail.com", "Arpit@240890"),
+                Credentials = new NetworkCredential("adm.hitthetarget@gmail.com", "Crop$@KEL_2017"),
                 EnableSsl = true
             };
-            mail.From = new MailAddress("netflix240890@gmail.com");
+            mail.From = new MailAddress("adm.hitthetarget@gmail.com");
             mail.To.Add(email);
-            mail.Subject = "yourSubject";
+            mail.Subject = "Welcome to Crop Registry System";
 
             client.Send(mail);
-           
-            /*MailMessage mail = new MailMessage("netflix240890@gmail.com", email);
-            SmtpClient client = new SmtpClient();
-            client.Port = 587;
-            client.Credentials = new System.Net.NetworkCredential("netflix240890@gmail.com", "Arpit@240890");
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Host = "smtp.gmail.com";
-            client.EnableSsl = true;
-            mail.Subject = "this is a test email.";
-            mail.Body = "this is my test email body";
-            
-            client.Send(mail);*/
             confMsg = "sent";
         }
         catch (Exception e)
@@ -176,10 +100,16 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
     [System.Web.Script.Services.ScriptMethod()]
     public static string[] RegisterUserDetails(string userdetails)
     {
-        user obj = JsonConvert.DeserializeObject<user>(userdetails);
         string[] retval = new string[2];
         retval[0] = "0";
         retval[1] = "";
+        user obj = JsonConvert.DeserializeObject<user>(userdetails);
+        retval = checkForValidLicense(obj.identification, obj.firstname, obj.lastname);
+        if (retval[0].Equals("0"))
+        {
+            retval[1] = retval[1].Equals("") ? "Please enter a valid registration number." : retval[1];
+            return retval;
+        }
         string firts = (obj).firstname;
         DateTime date1 = new DateTime();
         DateTime date2 = new DateTime();
@@ -204,7 +134,7 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
             if (conn.State == System.Data.ConnectionState.Open)
             {
                 string sql = "INSERT INTO user_details VALUES ('[EMAIL]', '[FIRST]', '[LAST]', '[CONAME]', '[ADDRESS]', '[CITY]', '[STATE]', '[ZIP]', '[WEB]', " +
-                      "'[PHONE]', '[DATE1]', '[DATE2]', '[ACTIVE]', '[PREFERENCES]', '[PREFUSERS]','[USERTYPE]', '[PASSWORD]');";
+                      "'[PHONE]', '[DATE1]', '[DATE2]', '[ACTIVE]', '[PREFERENCES]', '[PREFUSERS]','[USERTYPE]', '[PASSWORD]','[identification]');";
                 sql = sql.Replace("[EMAIL]", obj.email);
                 sql = sql.Replace("[FIRST]", obj.firstname);
                 sql = sql.Replace("[LAST]", obj.lastname);
@@ -215,7 +145,7 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
                 sql = sql.Replace("[ZIP]", obj.zip);
                 sql = sql.Replace("[WEB]", obj.website);
                 sql = sql.Replace("[PHONE]", obj.phone);
-                
+                sql = sql.Replace("[identification]", obj.identification);
                 sql = sql.Replace("[DATE1]", date1.ToString());
                 sql = sql.Replace("[DATE2]", date1.ToString());
                 sql = sql.Replace("[ACTIVE]", "0");
@@ -276,6 +206,120 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
             conn.Close();
         }
         
+        return retval;
+    }
+    public static string[] checkForValidLicense(string registrationNumber,string firstname,string lastname)
+    {
+        string[] retval = new string[2];
+        retval[0] = "0";
+        retval[1] = "";
+        try
+        {
+            var date = DateTime.Now.ToString("yyyy-MM-dd");
+            bool checkFileFlag = false;
+            var directoryPath = HttpContext.Current.Server.MapPath("/") + "WebContent\\RecurringResources\\";
+            /*var newfile = directoryPath + date + ".xls";
+            string[] files = Directory.GetFiles(directoryPath);
+            foreach (string file in files)
+            {
+                checkFileFlag = true;
+                newfile = directoryPath + Path.GetFileName(file);
+                DateTime fileDate = DateTime.Parse(Path.GetFileName(file).Replace(".xls", ""));
+                if (fileDate < DateTime.Now.AddDays(-7))
+                {
+                    System.IO.DirectoryInfo di = new DirectoryInfo(directoryPath);
+                    foreach (FileInfo Dfile in di.GetFiles())
+                    {
+                        Dfile.Delete();
+                    }
+                    newfile = directoryPath + date + ".xls";
+                    using (var client = new WebClient())
+                    {
+                        client.DownloadFile("http://texasagriculture.gov/Portals/0/Reports/PIR/pesticide_applicator_pir.xls", newfile);
+                    }
+                    break;
+                }
+            }
+            if (!checkFileFlag)
+            {
+                using (var client = new WebClient())
+                {
+                    client.DownloadFile(new Uri("http://texasagriculture.gov/Portals/0/Reports/PIR/pesticide_applicator_pir.xls"), newfile);
+                }
+            }*/
+            string PATH_TO_FILE = HttpContext.Current.Server.MapPath("/") + "WebContent\\PropertiesResources\\datafileforResources.txt";
+            var newfile = directoryPath + "pesticide_applicator_pir.xls";
+            var datafromfile = new Dictionary<string, string>();
+            foreach (var row in File.ReadAllLines(PATH_TO_FILE))
+                datafromfile.Add(row.Split('=')[0], string.Join("=", row.Split('=').Skip(1).ToArray()));
+            var fileName = string.Format(newfile, Directory.GetCurrentDirectory());
+            var connectionString = string.Format(datafromfile["connectionString"], fileName);
+            var adapter = new OleDbDataAdapter(datafromfile["sheetreadingstring"], connectionString);
+            var ds = new DataSet();
+
+            adapter.Fill(ds, "dataFromSheet");
+            
+            var data = ds.Tables["dataFromSheet"].AsEnumerable();
+            ArrayList licenselist = new ArrayList();
+            foreach (var row in data)
+            {
+                PesticideApplicatorLicense license=new PesticideApplicatorLicense();
+                        license.Account = row.ItemArray[0].ToString();
+                        license.Contact_First_Name = row.ItemArray[5].ToString();
+                        license.Contact_Last_Name = row.ItemArray[7].ToString();
+                licenselist.Add(license);
+            }
+            foreach (PesticideApplicatorLicense eachitem in licenselist)
+            {
+                if (eachitem.Account.Equals(registrationNumber.Trim()))
+                {
+                    if (eachitem.Contact_First_Name.ToLower().Trim().Equals(firstname.ToLower().Trim()) && eachitem.Contact_Last_Name.ToLower().Trim().Equals(lastname.ToLower().Trim()))
+                    {
+                        retval[1] = "Successfully Read";
+                        retval[0] = "1";
+                        return retval;
+                    }
+                }
+            }
+            /*var query = data.Select(x =>
+                    new PesticideApplicatorLicense
+                    {
+                        Account = x.Field<string>("Account"),
+                        Account_Type = x.Field<string>("Account Type"),
+                        Expiration = x.Field<string>("Expiration"),
+                        Legal_Name = x.Field<string>("Legal Name"),
+                        DBA = x.Field<string>("DBA"),
+                        Contact_First_Name = x.Field<string>("Contact First Name"),
+                        Contact_Middle_Name = x.Field<string>("Contact Middle Name"),
+                        Contact_Last_Name = x.Field<string>("Contact Last Name"),
+                        Facility = x.Field<string>("Facility"),
+                        Region = x.Field<string>("Region"),
+                        County = x.Field<string>("County"),
+                        Address = x.Field<string>("Address"),
+                        City = x.Field<string>("City"),
+                        State = x.Field<string>("State"),
+                        Zip = x.Field<string>("Zip"),
+                        Phone = x.Field<string>("Phone"),
+                    });
+            foreach (var element in query)
+            {
+                if (element.Account.Equals(registrationNumber.Trim()))
+                {
+                    if (element.Contact_First_Name.ToLower().Trim().Equals(firstname.ToLower().Trim()) && element.Contact_Last_Name.ToLower().Trim().Equals(lastname.ToLower().Trim()))
+                    {
+                        retval[1] = "Successfully Read";
+                        retval[0] = "1";
+                        return retval;
+                    }
+                }
+            }*/
+            
+        }
+        catch (Exception e)
+        {
+            retval[1] = e.Message;
+            return retval;
+        }
         return retval;
     }
 }

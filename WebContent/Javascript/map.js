@@ -256,13 +256,13 @@ function showPolygonOnMap(recordId) {
         markCompleted = val[0].markCompleted;
         prodshareCropInfo = val[0].shareCropInfo;
         typeOfView = urlVars["typeOfView"].replace("#", "");
-        if (typeOfView != "watch"){
+        
             var customControl = null;
             var customControlDiv = document.createElement('div');
             customControl = new CustomControl(customControlDiv, map, typeOfView);
             customControlDiv.index = 1;
             map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(customControlDiv);
-        }
+        
         var coodichange = editPolycoordinates;
         var coordinates = coodichange.split(";");
         var arr = new Array();
@@ -356,7 +356,7 @@ function showPolygonOnMap(recordId) {
                 animation: google.maps.Animation.DROP
             }
         });
-        if(typeOfView!="watch")
+        
             drawingManager.setMap(map);
         google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
             if (drawingManager.getDrawingMode() != null && drawingManager.getDrawingMode() == 'marker') {
@@ -477,7 +477,7 @@ function SubmitNewLocation(event) {
     }
     var flagvalues = $('#flagoptions').text();
     var flagop = flagvalues.split("Flag");
-    var firstval = flagop[0].substring(2, flagop[0].length);
+    var firstval = flagop[0];
     var valuefirst = new CustomFlagMarker();
     var valueForFlags = "";
     if (firstval != "") {
@@ -880,28 +880,28 @@ function CustomControl(controlDiv, map, typeOfView) {
 
     // Setup the click event listeners
     google.maps.event.addDomListener(controlUI, 'click', function () {
-        if (typeOfView == "edit") {
-            var markerInPolygon = true;
-            var BreakException = {};
-            try {
-                arrmySetofmarkers.forEach(function (value, key) {
-                    markerInPolygon = google.maps.geometry.poly.containsLocation(value.position, drawnPolygon);
-                    if (!markerInPolygon) {
-                        throw BreakException;
-                    }
-                });
+        var markerInPolygon = true;
+        var BreakException = {};
+        try {
+            arrmySetofmarkers.forEach(function (value, key) {
+                markerInPolygon = google.maps.geometry.poly.containsLocation(value.position, drawnPolygon);
+                if (!markerInPolygon) {
+                    throw BreakException;
+                }
+            });
+            if (typeOfView == "edit") {
+                if (markerInPolygon)
+                    fillModalValues(polygons[0], true, false, false);
             }
-            catch (e) {
-                alert("Please place all markers inside the polygon");
+            else if (typeOfView == "build") {
+                fillModalValues(polygons[0], true, true, true);
             }
-            if (markerInPolygon)
-                fillModalValues(polygons[0], true, false, false);
+            else
+                fillModalValues(polygons[0], true, true, false);
         }
-        else if (typeOfView == "build") {
-            fillModalValues(polygons[0], true, true, true);
+        catch (e) {
+            alert("Please place all markers inside the polygon");
         }
-        else 
-            fillModalValues(polygons[0], true, true, false);
     });
 
 }

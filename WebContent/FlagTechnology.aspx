@@ -77,7 +77,7 @@ sorghum">
                                             <div class="[ form-group ]">
                                                 <input type="checkbox" name="flag" id="fancy-checkbox-success" value="WhiteFlag" autocomplete="off" />
                                                 <div class="[ btn-group ]">
-                                                    <label for="fancy-checkbox-success" class="[ btn btn-success ]" style="background-color: #fff">
+                                                    <label for="fancy-checkbox-success" class="[ btn btn-success ]" style="background-color: darkgrey">
                                                         <span class="[ glyphicon glyphicon-ok ]"></span>
                                                         <span></span>
                                                     </label>

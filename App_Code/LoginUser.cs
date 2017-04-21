@@ -151,6 +151,10 @@ public class LoginUser
                     {
                         auser.user_id = reader.GetInt32(16).ToString();
                     }
+                    if (!reader.IsDBNull(18))
+                    {
+                        auser.identification = reader.GetString(18);
+                    }
                     retval[0] = "1";
                 }
                 HttpContext.Current.Session["loggedon"] = 1;
@@ -219,7 +223,7 @@ public class LoginUser
             var body = new StringBuilder();
             //body.AppendFormat("Hello, {0}\n", email);
             body.AppendLine(@"Your Password link is here");
-            body.AppendLine("<a href='"+resetlink+"'>login</a>");
+            body.AppendLine("<a href='"+resetlink+"'>Reset Password</a>");
             string htmlBody = "<html><body><br><img src=\"cid:filename\">"
                 +"<h4>You recently requested a Password change form our website. Please click the below Link to reset the password<h4>"
                 + "</body></html>"+body;
@@ -231,10 +235,10 @@ public class LoginUser
             avHtml.LinkedResources.Add(inline);
             mail.AlternateViews.Add(avHtml);
             var client = new SmtpClient("smtp.gmail.com", 587){
-                Credentials = new NetworkCredential("netflix240890@gmail.com", "Arpit@240890"),
+                Credentials = new NetworkCredential("adm.hitthetarget@gmail.com", "Crop$@KEL_2017"),
                 EnableSsl = true
             };
-            mail.From = new MailAddress("netflix240890@gmail.com");
+            mail.From = new MailAddress("adm.hitthetarget@gmail.com");
             mail.To.Add(email);
             mail.Subject = "HittheTarget password reset link";
 
@@ -354,9 +358,10 @@ public class LoginUser
             conn.Open();
             if (conn.State == System.Data.ConnectionState.Open)
             {
-                StringBuilder sql = new StringBuilder("SELECT [email],[tokenHash],[expirationDate],[tokenUsed]");
+                StringBuilder sql = new StringBuilder("SELECT TOP 1 [email],[tokenHash],[expirationDate],[tokenUsed]");
                 sql.Append(" FROM [TX_CROPS].[dbo].[ResetTickets]");
                 sql.Append(" where email = '[EMAIL]'");
+                sql.Append(" order by expirationDate desc");
                 sql.Replace("[EMAIL]", email.Trim());
                 SqlCommand cmd = new SqlCommand(sql.ToString(), conn);
                 SqlDataReader reader;

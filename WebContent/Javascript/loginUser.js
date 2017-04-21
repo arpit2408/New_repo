@@ -470,14 +470,14 @@ function showModalForgotpass() {
             divforRadio.innerHTML = divforRadio.innerHTML +
             '<div class="form-group">' +
                 '<div class="row">'+
-                    '<label for="happy" required="required" class="col-sm-12  text-middle">Share Crop Info for Action?</label>' +
+                    '<label for="happy" required="required" class="col-sm-12  text-middle">Share Crop Info for?</label>' +
                 '</div>' +
                 '<div class="row">' +
-                    '<div class="col-sm-7 col-md-7">' +
+                    '<div class="col-sm-7 col-md-7" style="width: 100%;">' +
                         '<div class="input-group">' +
                             '<div id="radioBtn' + val[i].user_id + '" class="btn-group">' +
-                                '<a class="btn btn-primary btn-sm notActiveRadio" data-toggle="happy" data-title="Y" id="yes"  onclick="radioOptionChange(this);">YES</a>' +
-                                '<a class="btn btn-primary btn-sm activeRadio" data-toggle="happy" data-title="N" id = "no" onclick="radioOptionChange(this);">NO</a>' +
+                                '<a class="btn btn-primary btn-sm notActiveRadio" data-toggle="happy" data-title="Y" id="yes"  onclick="radioOptionChange(this);">Applicator</a>' +
+                                '<a class="btn btn-primary btn-sm activeRadio" data-toggle="happy" data-title="N" id = "no" onclick="radioOptionChange(this);">Consultant</a>' +
                             '</div>' +
                             '<input type="hidden" name="happy" id="happy">' +
                         '</div>' +

@@ -86,13 +86,15 @@ $(document).ready(function () {
     });
 });
 function checkforflag(ele) {
-    var atLeastOneIsChecked =  $('input:checkbox:checked').map(function() {
+    var atLeastOneIsChecked = $("input[name='flag']").map(function () {
+        if(this.checked==true)
         return this.value;
     }).get();
     //$("input:checkbox").prop('checked', $(this).prop("checked"));
     $('#flagoptions').empty();
     $('#flagoptions').append(atLeastOneIsChecked);
     alert(atLeastOneIsChecked);
+    alert($('#flagoptions').text());
     var checkboxes = document.getElementsByTagName('input');
     for (var i = 0; i < checkboxes.length; i++) {
             checkboxes[i].checked = false;

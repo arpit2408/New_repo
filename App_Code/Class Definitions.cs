@@ -13,7 +13,25 @@ using System.Collections.Generic;
 /// <summary>
 /// Summary description for Class_Definitions
 /// </summary>
-
+public class PesticideApplicatorLicense
+{
+     public string Account; 
+     public string Account_Type; 
+     public string Expiration; 
+     public string Legal_Name; 
+     public string DBA; 
+     public string Contact_First_Name; 
+     public string Contact_Middle_Name; 
+     public string Contact_Last_Name; 
+     public string Facility; 
+     public string Region; 
+     public string County; 
+     public string Address; 
+     public string City; 
+     public string State; 
+     public string Zip; 
+     public string Phone; 
+}
 public class MappingLocation
 {
     public string producerLocID = "";
@@ -44,6 +62,7 @@ public class user
     public string prefoptions = "";
     public string usertype = "";
     public string user_id = "";
+    public string identification = "";
     public user()
     {
 

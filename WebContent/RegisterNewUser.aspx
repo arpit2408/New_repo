@@ -135,7 +135,7 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-phone fa" aria-hidden="true"></i></span>
-                                <input type="password" class="form-control" name="txtPhone" id="txtPhone" placeholder="Enter your Phone Number" required />
+                                <input type="text" class="form-control" name="txtPhone" id="txtPhone" placeholder="Enter your Phone Number" required />
                             </div>
                             <span class="errorspan" id="txtPhoneerror"></span>
                         </div>

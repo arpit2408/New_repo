@@ -1,4 +1,10 @@
 ﻿var user = null;
+$(document).keypress(
+    function (event) {
+        if (event.which == '13') {
+            event.preventDefault();
+        }
+    });
 function getCountyInfo(croplocation) {
     $.ajax({
         type: 'POST',
@@ -282,6 +288,22 @@ function openProfileModal() {
     $("#phoneNum").val(function (index, val) {
         return val + user.phone;
     });
+    $("#usertype").val(function (index, val) {
+        var usertype = "";
+        if (user.usertype.includes("1")) {
+            usertype+="Producer"
+        }
+        if (user.usertype.includes("2")) {
+            usertype += usertype == "" ? "" : "," + "Applicator";
+        }
+        if (user.usertype.includes("3")) {
+            usertype += usertype == "" ? "" : "," + "Consultant";
+        }
+        return val + usertype;
+    });
+    $("#regNum").val(function (index, val) {
+        return val + user.identification;
+    });
     buildvaluesforDropDownState(user.state, user.city);
 }
 $(document).ready(function () {
@@ -447,7 +469,21 @@ function ProducerPolygons_Success(resultobj) {
 function Fail_ProducerPolygons(resultobj) {
     var val = resultobj.d;
 }
-
+var spinnerVisible = false;
+function showProgress() {
+    if (!spinnerVisible) {
+        $("div#spinner").fadeIn("fast");
+        spinnerVisible = true;
+    }
+};
+function hideProgress() {
+    if (spinnerVisible) {
+        var spinner = $("div#spinner");
+        spinner.stop();
+        spinner.fadeOut("fast");
+        spinnerVisible = false;
+    }
+};
 /*function createPublicCrops(map) {
     init_publicmap();
     var iconBase = '/WebContent/Images/IconsBase/';

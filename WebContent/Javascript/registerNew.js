@@ -255,6 +255,7 @@ function Signup() {
         det.usertype = usertypeVal;
         var str = JSON.stringify(det);
         PageMethods.RegisterUserDetails(str, onSucess, onError);
+        
         setTimeout(fade_out, 5000);
         function fade_out() {
             $("#errormessage").fadeOut().empty();
@@ -264,6 +265,7 @@ function Signup() {
 
 }
 function onSucess(val) {
+    
     if (val[0] == 1) {
         $("#successmessage").show();
         $("#successmessage").empty();

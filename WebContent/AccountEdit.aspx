@@ -81,12 +81,20 @@
                                                                 <td>Phone Number:</td>
                                                                 <td ><input type="text" class="form-control" id="phoneNum"/></td>
                                                             </tr>
+                                                            <tr>
+                                                                <td>User Type:</td>
+                                                                <td ><input type="text" class="form-control" id="usertype" readonly="readonly"/></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Registration Number:</td>
+                                                                <td ><input type="text" class="form-control" id="regNum" readonly="readonly"/></td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                     <div class="row">
                                                         <div class="col-md-2"><a href="#" class="btn btn-primary form-actions" type="submit" onclick="updateAccDetails()">Update Details</a></div>
-                                                        <div class="col-md-2"><a href="#" class="btn btn-danger form-actions" type="submit">Cancel</a></div>
-                                                        <div class="col-md-5"></div>
+                                                        
+                                                        <div class="col-md-7"></div>
                                                         <div class="col-md-3" id="changePwd" style="padding-left:28px;"><a href="#" class="btn btn-info form-actions" onclick="changePassword()">Change Password</a></div>
                                                     </div>
                                                 </div>

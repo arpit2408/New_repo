@@ -21,7 +21,7 @@
                                 <button type="button" id="closemyModal" onclick="closeevent();" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Choose your Applicator/Consultant</h4>
                             </div>
-                            <div class="modal-body" style="background-color: #eee">
+                            <div class="modal-body" style="background-color: #eee;height:378px;">
 
 
 
@@ -31,7 +31,7 @@
                                         
                                         <div class="row">
                                             <div class="form-group col-sm-12 searchclass">
-                                                    <input type="text" class="form-control input-sm searchheight" placeholder="Search Applicator" id="myInput" onkeyup="myFunction()"/>
+                                                    <input type="text" class="form-control input-sm searchheight" placeholder="Search Applicator" id="myInput" onkeyup="myFunction()" onkeydown="myFunction()"/>
                                             </div>
                                             <!-- <div class="form-group col-xs-4">
                                                 <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filter-panel">
@@ -90,8 +90,9 @@
                                 <ul id="check-list-box" class="list-group checked-list-box">
                                 </ul>
                                 <br />
+                                 </div>
                                 <input class="btn btn-primary col-xs-12" type="button" onclick="submitapplicatorlist()" value="Submit" id="get-checked-data" />
-                            </div>
+                           
                         </div>
                     </div>
                 </div>

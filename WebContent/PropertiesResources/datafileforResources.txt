@@ -1,0 +1,2 @@
+﻿connectionString=Provider=Microsoft.ACE.OLEDB.12.0; data source={0}; Extended Properties='Excel 8.0;IMEX=1;HDR=NO'
+sheetreadingstring=SELECT * FROM [sheet1$]
