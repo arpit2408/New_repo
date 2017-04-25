@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
+<head id="Head1" runat="server">
     <title></title>
     <script type="text/javascript" src="/WebContent/Javascript/loginUser.js"></script>
 </head>
@@ -29,12 +29,12 @@
 
                                     <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input id="email" type="text" class="form-control" name="username" value="" placeholder="username or email" />
+                                        <input id="email" type="text" class="form-control" name="username" value="" placeholder="Enter email" />
                                     </div>
 
                                     <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input id="password" type="password" class="form-control" name="password" placeholder="password" />
+                                        <input id="password" type="password" class="form-control" name="password" placeholder="Enter password" onkeypress="loginUserKeyPress(event)" />
                                     </div>
 
                                 </div>
@@ -52,7 +52,7 @@
 
                                 </div>
                                     <div class="cols-sm-8">
-                                        <input type="input" class="btn btn-primary" style="width: 120px" onclick="loginUser()" onkeydown="loginUser()" value="Login" />
+                                        <input class="btn btn-primary" style="width: 120px" onclick="loginUser()" value="Login" />
                                     </div>
                                 <div class="form-group">
                                     <div class="row" style="padding-top: 10px">

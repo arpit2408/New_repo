@@ -3,6 +3,7 @@ var user;
 var asc1 = 1;
 var asc2 = 1;
 var asc3 = 1;
+
 function loginUser() {
     var useremail = document.getElementById('email').value;
     var password = document.getElementById('password').value;
@@ -17,6 +18,16 @@ function loginUser() {
         error: Fail_User_Validate
     });
     //PageMethods.AuthenticateUser(useremail, password, Authenticate_User_Success, Fail_User_Validate);
+}
+
+function loginUserKeyPress(e) {
+
+    var key=e.keyCode || e.which;
+    if (key == 13) {
+        loginUser();
+    }
+    
+   
 }
 
 /*function passwordlinkcheck() {
@@ -636,20 +647,22 @@ function showModalForgotpass() {
 
     function myFunction() {
         var input, filter, table, tr, td, i;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("check-list-box");
-        tr = table.getElementsByTagName("li");
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("ul")[0];
-            if (td) {
-                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
+        
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("check-list-box");
+            tr = table.getElementsByTagName("li");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("ul")[0];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
                 }
             }
-        }
+        
     }
 
     function unsharePolygon(e) {

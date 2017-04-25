@@ -206,11 +206,11 @@ searchBoxPos {
     margin: 0 auto;
 }
 #indexImage {
-    width: 90%;
+    width: 100%;
 }
 #imageHold {
-    width: 1270px !important;
-    height: 270px !important;
+   /*  width: 1270px !important;
+    height: 270px !important; */
 }
 @media (max-width: 768px) {
     #imageHold {
@@ -321,3 +321,11 @@ div#spinner
     z-index:2;
     overflow: auto;
 }
+
+ #UserName:hover{
+	cursor:pointer;
+ }
+ #unshareModalheader:hover{
+	cursor:pointer;
+}
+

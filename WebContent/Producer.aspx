@@ -116,7 +116,7 @@
         <div id="loginModal" class="displayModal "></div>
         <div id="accountEdit"></div>
         <div id="changePass"></div>
-        <div id="custom-search-input" style="padding-left:3px;">
+        <div id="custom-search-input" style="padding-left:125px;">
             <div style="top: 10px !important; position: relative">
                 <div id="searchboxProd" class="input-group col-md-3">
                     <input id="pac-input" class="form-control input-md controls searchBoxPos" type="text" placeholder="Search Box">
