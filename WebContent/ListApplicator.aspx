@@ -31,7 +31,7 @@
                                         
                                         <div class="row">
                                             <div class="form-group col-sm-12 searchclass">
-                                                    <input type="text" class="form-control input-sm searchheight" placeholder="Search Applicator" id="myInput" onkeyup="myFunction()" onkeydown="myFunction()"/>
+                                                    <input type="text" class="form-control input-sm searchheight" placeholder="Search Applicator / Consultant" id="myInput" onkeyup="myFunction()" onkeydown="myFunction()"/>
                                             </div>
                                             <!-- <div class="form-group col-xs-4">
                                                 <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#filter-panel">

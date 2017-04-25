@@ -34,8 +34,7 @@ function print_crop(crop_id, plant_index) {
     return crop_arr;
 }
 
-function convertmeterToAcres(meterArea)
-{
+function convertmeterToAcres(meterArea) {
     var areatoAcres = 0.000247105 * meterArea;
     return areatoAcres.toFixed(2);
 }
@@ -48,9 +47,8 @@ function centeroid() {
 function calccentroid(cordinateslist) {
     var bounds = new google.maps.LatLngBounds();
     var polygonCoords = [];
-    for (var i = 0;i<cordinateslist.length;i++)
-    {
-        var coordinate=cordinateslist[i].split(",");
+    for (var i = 0; i < cordinateslist.length; i++) {
+        var coordinate = cordinateslist[i].split(",");
         polygonCoords.push(new google.maps.LatLng(coordinate[0], coordinate[1]));
     }
 
@@ -62,17 +60,21 @@ function calccentroid(cordinateslist) {
     return bounds.getCenter();
 }
 $(document).ready(function () {
+
+    $('[data-toggle="popover"]').popover({ trigger: 'focus' });
     $(function () {
         $('input[type="checkbox"]').on('change', function (e) {
             divClone = $("#trythis").clone();
             if (e.target.checked) {
-                if (e.currentTarget.name == "flagoptions"){
+                if (e.currentTarget.name == "flagoptions") {
                     $('#flagtechModal').modal('show');
                     $("#flagtechModal").draggable({ handle: ".modal-header" });
                 }
             }
         });
     });
+
+
     //Very important for modal display edit and remove with caution
     $(document).on('show.bs.modal', '.modal', function (event) {
         var zIndex = 1040 + (10 * $('.modal:visible').length);
@@ -87,8 +89,8 @@ $(document).ready(function () {
 });
 function checkforflag(ele) {
     var atLeastOneIsChecked = $("input[name='flag']").map(function () {
-        if(this.checked==true)
-        return this.value;
+        if (this.checked == true)
+            return this.value;
     }).get();
     //$("input:checkbox").prop('checked', $(this).prop("checked"));
     $('#flagoptions').empty();
@@ -97,7 +99,7 @@ function checkforflag(ele) {
     alert($('#flagoptions').text());
     var checkboxes = document.getElementsByTagName('input');
     for (var i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].checked = false;
+        checkboxes[i].checked = false;
     }
     var checkbox = document.getElementsByName('flagoptions');
     for (var i = 0; i < checkbox.length; i++) {
@@ -113,7 +115,7 @@ function buildvaluesforDropDown(planttype, croptype) {
             plant_index = i + 1;
     }
     var croptypeValues = print_crop('crop', plant_index);
-    var selectedIndex=0;
+    var selectedIndex = 0;
     for (var i = 0; i < croptypeValues.length; i++) {
         if (croptypeValues[i] === croptype)
             selectedIndex = i + 1;
