@@ -2,6 +2,7 @@
 var plant_arr = new Array("Field Crops", "Honeybees", "Vegetables", "Fruits and Nuts", "Greenhouse and Nursery", "Forage, Grassland");
 
 var s_a1 = new Array();
+
 s_a1[0] = "";
 s_a1[1] = "Barley|Beans, dry|Biofuels, sorghums, switchgrass, oilseeds, etc.|Canola/rapeseed|Castor|Corn|Cotton|Guar|Millets|Mungbeans|Oats |Peanuts|Peas, dry|Rice|Rye|Safflower|Sesame|Sorghum|Soybeans|Sugarcane|Sugar beets|Sunflower|Wheat|Fallow";
 s_a1[2] = "Bee-yard|Bee-pollination|Bee-honey foraging|Other";
