@@ -5,6 +5,8 @@ $(document).keypress(
             event.preventDefault();
         }
     });
+
+
 function getCountyInfo(croplocation) {
     $.ajax({
         type: 'POST',
