@@ -482,7 +482,7 @@ function SubmitNewLocation(event) {
     if (user == null)
         return;
     if (typeOfView == "edit" || typeOfView=="") {
-        if (confirm("Do you want the information of this crop to be visible to other producers..!!")) {
+        if (confirm("Do you want the information of this crop to be visible to other producers?")) {
             sharecropInfo = true;
         } else {
             sharecropInfo = false;
