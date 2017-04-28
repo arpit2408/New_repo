@@ -294,7 +294,7 @@ function Signup() {
         function fade_out() {
             $("#errormessage").fadeOut().empty();
             $("#successmessage").fadeOut().empty();
-            $('#loading').append('<div id="loading-image"><img src="/WebContent/img/ajax-loader.gif" alt="Loading..." /></div>');
+            //$('#loading').append('<div id="loading-image"><img src="/WebContent/img/ajax-loader.gif" alt="Loading..." /></div>');
         }
     }
 

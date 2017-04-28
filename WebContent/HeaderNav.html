@@ -3,6 +3,10 @@
 <head>
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <script type="text/javascript" src="/WebContent/Javascript/hit_navbar.js"></script>
+    <script type="text/javascript">
+        window.onload = navBarOnLoad;
+    </script>
     <script>
         $.get("/LoginUser.aspx", function (data) {
             $("#loginModal").replaceWith(data);
@@ -13,6 +17,7 @@
              $("#forgotPass").replaceWith(data);
          });
     </script>
+  
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="navBar" style="background-color:#4e0b0b;color:#fff">
@@ -41,10 +46,10 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 
                 <ul class="nav navbar-nav navbar-right">
-                    <li id="Homeli" class=" ">
+                    <li id="Homeli" >
                         <a href="/WebContent/index.html">HOME</a>
                     </li>
-                    <li id="producers">
+                    <li id="producers" class="active">
                         <a href="/WebContent/Producer.aspx#">PRODUCERS</a>
                     </li>
                     <!-- <li>
