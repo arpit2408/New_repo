@@ -45,11 +45,11 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>First Name:</td>
-                                                                <td ><input type="text" class="form-control" id="FirstName"/></td>
+                                                                <td ><input type="text" class="form-control" id="FirstName" readonly="readonly"/></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Last Name:</td>
-                                                                <td ><input type="text" class="form-control" id="LastName"/></td>
+                                                                <td ><input type="text" class="form-control" id="LastName" readonly="readonly"/></td>
                                                             </tr>
                                                             <tr>
                                                                 <td>Email:</td>

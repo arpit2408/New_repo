@@ -21,12 +21,36 @@
     <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="css/landingPage.css">
     <title>Admin</title>
+
     <script>
         $.get("HeaderNav.html", function (data) {
             $("#header").replaceWith(data);
         });
 
     </script>
+    <style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-right: 16px solid green;
+  border-bottom: 16px solid red;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
 </head>
 <body>
     <!-- /.header  -->
@@ -45,7 +69,23 @@
                 </div>
                 <label id="messages_content"/>
             </div>
-            
+            <div id="loading-modal" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <%--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>--%>
+                            <h4 class="modal-title">Registering user to the database. Please wait.</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                    <span class="sr-only">0% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="main-login main-center" >
                 <div id="messages" class="hide" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -219,7 +259,7 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-lock fa" aria-hidden="true"></i></span>
-                                <input type="text" class="form-control" id="identification" placeholder="Please provide your Identification number" required="required">
+                                <input class="form-control" type="number" id="identification" placeholder="Please provide your Identification number" required="required">
                             </div>
                             <span class="errorspan" id="identificationerror"></span>
                         </div>
@@ -237,6 +277,8 @@
     <!-- Footer -->
     <div id="footer">
     </div>
+   
+   
 </body>
 <script>
     $.get("footer.html", function (data) {
