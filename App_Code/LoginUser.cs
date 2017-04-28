@@ -28,6 +28,10 @@ public class LoginUser
         retval[2] = "";
         SqlConnection conn = null;
         user auser=null;
+        if (id==null || id.Equals("") || pwd==null || pwd.Equals(""))
+        {
+            return retval;
+        }
         try
         {
             string connection = System.Configuration.ConfigurationManager.AppSettings["connection_string"];//@"Data Source = 128.194.196.150\SQLEXPRESS;Initial Catalog=TXSCrops;Integrated Security=false;User ID=aspnet;Password=kelab";

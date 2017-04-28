@@ -39,7 +39,7 @@ function getUrlVars(hrefString) {
 function checkforLandingPage() {
     var user = checkloggedInUser();
     if (user != null) {
-        window.location.href = 'dashboard.aspx';
+        window.location.href = 'WebContent/dashboard.aspx';
     }
     else {
         $('#loginforModal').modal('show');
@@ -87,18 +87,23 @@ function CheckLogin_Success(val) {
         $('#UserName').attr('data-toggle', 'dropdown');
         $('#UserName').attr('class', 'dropdown-toggle');
         var dashboard = document.createElement('li');
+        dashboard.setAttribute("id", "dashboardId");
         dashboard.innerHTML = '<a href="/WebContent/Dashboard.aspx">User dashboard</a>';
         var account = document.createElement('li');
         account.innerHTML = '<a onclick="openProfileModal()">Account</a>';
         var logout = document.createElement('li');
         logout.innerHTML = '<a onclick="Logoff()">Log out</a>';
-        menuhead.appendChild(dashboard);
-        menuhead.appendChild(account);
-        menuhead.appendChild(logout);
+        if (document.getElementById("dashboardId")==null) {
+            menuhead.appendChild(dashboard);
+            menuhead.appendChild(account);
+            menuhead.appendChild(logout);
+        }
         $('#UserName').empty();
         $('#UserName').append(user.firstname);
         $('#UserName').append('<span class="caret"></span>');
-        $('#UserNameli').append(menuhead);
+        if (document.getElementById("dashboardId") == null) {
+            $('#UserNameli').append(menuhead);
+        }
         $('#UserNameli').prop('onclick', null).off('click');
         return user;
     }
@@ -149,7 +154,7 @@ function Logoff_Success(val) {
     $('#SignUpli').show();
     $('#Homeli').show();
     
-    window.location.href = '/WebContent/index.html' ;
+    window.location.href = '/index.html' ;
 }
 
 function FailedLogoff(name) {
@@ -290,14 +295,19 @@ function openProfileModal() {
     });
     $("#usertype").val(function (index, val) {
         var usertype = "";
+        var userstype = "";
         if (user.usertype.includes("1")) {
             usertype+="Producer"
         }
         if (user.usertype.includes("2")) {
-            usertype += usertype == "" ? "" : "," + "Applicator";
+            userstype="Applicator";
+            usertype += usertype == "" ? "" : ",";
+            usertype += userstype;
         }
         if (user.usertype.includes("3")) {
+            userstype = "Consultant";
             usertype += usertype == "" ? "" : "," + "Consultant";
+            usertype += userstype;
         }
         return val + usertype;
     });

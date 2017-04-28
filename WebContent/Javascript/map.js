@@ -30,7 +30,7 @@ function initMap() {
     var mapOptions = {
         zoom: 5,
         center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.SATELLITE,
+        mapTypeId: google.maps.MapTypeId.HYBRID,
         disableDefaultUI: false
     }
 
@@ -54,7 +54,7 @@ function initMap() {
     if (user == null)
         return;
     else if (user_id != "undefined" && user_id != "" && user_id != null && user_id != -1) {
-        map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+        //map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
         $.ajax({
             type: 'POST',
             url: 'Dashboard.aspx/GetSpecificUserPolygons',
@@ -67,7 +67,7 @@ function initMap() {
         loadProducerAreas();
     }
     else if (recordId != "undefined" && recordId != "" && recordId != null && recordId != -1) {
-        map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+        //map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
         showPolygonOnMap(recordId);
     }
     else {
@@ -104,7 +104,7 @@ function initMap() {
             //drawingMode: google.maps.drawing.OverlayType.POLYGON,
             drawingControl: true,
             drawingControlOptions: {
-                //position: google.maps.ControlPosition.TOP_RIGHT,
+                position: google.maps.ControlPosition.TOP_RIGHT,
                 drawingModes: ['polygon']
             },
             polygonOptions: {
@@ -119,20 +119,7 @@ function initMap() {
             }
         });
         drawingManager.setMap(map);
-        google.maps.event.addDomListener(map, 'tilesloaded', function () {
-            if ($('#newPos').length == 0) {
-                $('div.gmnoprint').last().wrap('<div id="newPos" />');
-                $('div.gmnoprint').css({
-                    opacity: 1
-                });
-            }
-        });
-
-        var setPos = function () {
-            google.maps.event.trigger(map, 'tilesloaded');
-        };
-
-        window.setTimeout(setPos, 1000);
+        
         // Add a listener for creating new shape event.
         google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
             newShape = event.overlay;
@@ -167,6 +154,12 @@ function initMap() {
                 overlayDragListener(event.overlay);
                 drawnPolygon = event.overlay;
                 $('#vertices').val(event.overlay.getPath().getArray());
+                if (google.maps.geometry.spherical.computeArea(drawnPolygon.getPath()) == 0.0) {
+                    alert("Please draw a shape greater with area greater than zero.");
+                    if (newShape != null)
+                        newShape.setMap(null);
+                }
+                else
                 fillModalValues(event.overlay, false, false);
             }
             else {

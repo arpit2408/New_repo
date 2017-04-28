@@ -7,17 +7,56 @@ var asc3 = 1;
 function loginUser() {
     var useremail = document.getElementById('email').value;
     var password = document.getElementById('password').value;
-    //parameters = "id=" + useremail + "&pwd=" + password;
-    $.ajax({
-        type: 'POST',
-        url: '/LoginUser.svc/AuthenticateUser',
-        contentType: 'application/json; charset=utf-8',
-        data: JSON.stringify({ id: useremail, pwd: password }),
-        dataType: 'json',
-        success: Authenticate_User_Success,
-        error: Fail_User_Validate
-    });
-    //PageMethods.AuthenticateUser(useremail, password, Authenticate_User_Success, Fail_User_Validate);
+    
+    if (useremail == "") {
+        $("#loginmsg").empty();
+        $("#loginmsg").show();
+        $('#loginmsg').append("Please enter email address" + "<br>");
+        $('#loginmsg').removeClass('alert-success').addClass('alert-danger');
+    }
+    else if (password == "") {
+        $("#loginmsg").empty();
+        $("#loginmsg").show();
+        $('#loginmsg').append("Please enter password" + "<br>");
+        $('#loginmsg').removeClass('alert-success').addClass('alert-danger');
+    }
+    else {
+        $.ajax({
+            type: 'POST',
+            url: '/LoginUser.svc/AuthenticateUser',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({ id: useremail, pwd: password }),
+            dataType: 'json',
+            success: Authenticate_User_Success,
+            error: Fail_User_Validate
+        });
+    }
+}
+function Authenticate_User_Success(returnObj) {
+
+    var val = returnObj.d;
+    if (val[0] == 1) {
+        var names = val[1].split(" ");
+        $("#loginmsg").empty();
+        $("#loginmsg").show();
+        $('#loginmsg').append(val[1] + "<br>");
+        $('#loginmsg').removeClass('alert-danger').addClass('alert-success');
+        window.location.href = 'WebContent/dashboard.aspx';
+        return false;
+    }
+    else {
+        $("#loginmsg").empty();
+        $("#loginmsg").show();
+        $('#loginmsg').append("Error Logging In" + "<br>");
+        $('#loginmsg').removeClass('alert-success').addClass('alert-danger');
+    }
+}
+function Fail_User_Validate(returnObj) {
+    var val = returnObj.d;
+    $("#loginmsg").empty();
+    $("#loginmsg").show();
+    $('#loginmsg').append("Error Logging In" + "<br>");
+    $('#loginmsg').removeClass('alert-success').addClass('alert-danger');
 }
 
 function loginUserKeyPress(e) {
@@ -88,7 +127,7 @@ function PasswordReset_Success(returnObj) {
         $("#passerrormessage").hide();
         $("#passsuccessmessage").append('<strong>Success! </strong>' + val[1]);
         setTimeout(function () {
-            window.location.href = '/WebContent/dashboard.aspx';
+            window.location.href = 'WebContent/dashboard.aspx';
         }, 2000);
         
     }
@@ -139,32 +178,7 @@ function showModalForgotpass() {
         }
     }
 
-    function Authenticate_User_Success(returnObj) {
-        
-        var val = returnObj.d;
-        if (val[0] == 1) {
-            var names = val[1].split(" ");
-            $("#loginmsg").empty();
-            $("#loginmsg").show();
-            $('#loginmsg').append(val[1] + "<br>");
-            $('#loginmsg').removeClass('alert-danger').addClass('alert-success');
-            window.location.href = 'dashboard.aspx';
-            return false;
-        }
-        else {
-            $("#loginmsg").empty();
-            $("#loginmsg").show();
-            $('#loginmsg').append("Error Logging In" + "<br>");
-            $('#loginmsg').removeClass('alert-success').addClass('alert-danger');
-        }
-    }
-    function Fail_User_Validate(returnObj) {
-        var val = returnObj.d;
-        $("#loginmsg").empty();
-        $("#loginmsg").show();
-        $('#loginmsg').append("Error Logging In" + "<br>");
-        $('#loginmsg').removeClass('alert-success').addClass('alert-danger');
-    }
+    
 
     function dashboardOnLoad() {
         var user = checkloggedInUser();

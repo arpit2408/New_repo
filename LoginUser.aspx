@@ -52,7 +52,7 @@
 
                                 </div>
                                     <div class="cols-sm-8">
-                                        <input class="btn btn-primary" style="width: 120px" onclick="loginUser()" value="Login" />
+                                        <input class="btn btn-primary" style="width: 120px" onclick="loginUser()" value="Login" readonly="readOnly"/>
                                     </div>
                                 <div class="form-group">
                                     <div class="row" style="padding-top: 10px">
