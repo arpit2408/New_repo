@@ -163,6 +163,8 @@ function validatefields() {
         }
     });
     $('#usremailadd').blur(function (e) {
+        console.log("hello");
+        $('.loader').show();
         if (document.getElementById('usremailadd') != null && !isValidEmailAddress(document.getElementById('usremailadd').value)) {
             $('#usremailadd').closest('.input-group').removeClass('success').addClass('has-error');
             $('#emailerror').text("Please enter a correct email address");
@@ -197,7 +199,7 @@ function validatefields() {
         }
     });
     $('#identification').blur(function (e) {
-        if (document.getElementById('identification').value.length < 6) {
+        if (document.getElementById('identification').value.length < 7) {
             $('#identification').closest('.input-group').removeClass('success').addClass('has-error');
             $('#identificationerror').text("Please enter valid identification number");
             flagforidentification = false;
@@ -209,6 +211,7 @@ function validatefields() {
         }
     });
 
+
 }
 function validatePassword() {
     if (document.getElementById('usrpassword').value.length < 8 || document.getElementById('usrpassword').value != document.getElementById('confirmusrpassword').value) {
@@ -218,11 +221,13 @@ function validatePassword() {
     }
 }
 function isValidEmailAddress(emailAddress) {
+   
     var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
     return pattern.test(emailAddress);
 }
 
 function Signup() {
+   
     var atLeastOneIsChecked = $('input:checkbox:checked').map(function () {
         return this.value;
     }).get();
@@ -230,6 +235,35 @@ function Signup() {
         confirm("Please select the type of user..!!")
     }
     else {
+
+        var progress = 0,
+            timer = 0;
+
+        $('#loading-modal').modal('show');
+
+        timer = setInterval(function () {
+            progress += 5;
+            if (progress < 100) {
+                $('#loading-modal .progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
+            } else {
+                clearInterval(timer)
+            }
+
+        }, 1000);
+
+        setTimeout(function () {
+            clearInterval(timer);
+            progress = 100;
+            $('#loading-modal .progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
+            setTimeout(function () {
+                $('#loading-modal').modal('hide');
+            }, 10000);
+
+        }, 10000);
+
+
+
+
         var det = null;
         det = new Details();
         det.email = document.getElementById('usremailadd').value; //'arpit2409@tamu.edu'//
@@ -260,6 +294,7 @@ function Signup() {
         function fade_out() {
             $("#errormessage").fadeOut().empty();
             $("#successmessage").fadeOut().empty();
+            $('#loading').append('<div id="loading-image"><img src="/WebContent/img/ajax-loader.gif" alt="Loading..." /></div>');
         }
     }
 
@@ -299,6 +334,8 @@ $(document).ready(function () {
         return false;
     });
 });
+$body = $("body");
+
 $(function () {
     $('#search').on('keyup', function () {
         var pattern = $(this).val();

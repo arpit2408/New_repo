@@ -39,7 +39,7 @@
 
                                 </div>
                                 <div class="alert alert-danger fade in" id="loginmsg" style="display: none">
-                                </div>
+                                </div>   
 
                                 <div class="input-group">
                                     <div class="checkbox">
