@@ -52,6 +52,14 @@ function enabledisableSubmitbutton() {
             $('button.btn').prop('disabled', 'disabled');
         }
     });
+    $('#registerUserForm input').on('keydown blur', function () {
+        if (flagforvalidforPhone && flagforvalidforPass && flagforvalidforConfirm && flagforvalidforCompany
+            && flagforvalidforAddr && flagforvalidforName && flagforvalidforEmail && flagforidentification) {
+            $('button.btn').prop('disabled', false);
+        } else {
+            $('button.btn').prop('disabled', 'disabled');
+        }
+    });
 }
 function validatefields() {
     $('#txtPhone').blur(function (e) {
