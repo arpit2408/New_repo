@@ -2,11 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+     <link rel="icon" href="/WebContent/Images/HomePage/logo_icon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
      <script type="text/javascript" src="/WebContent/Javascript/hit_navbar.js"></script>
-    <script type="text/javascript">
-        window.onload = navBarOnLoad;
-    </script>
     <script>
         $.get("/LoginUser.aspx", function (data) {
             $("#loginModal").replaceWith(data);
@@ -33,11 +31,11 @@
                 </button>
 
                 <a class="navbar-brand" href="https://www.tamu.edu" target="_blank">
-                    <img alt="TAMUlogo" src="/images/TAM-Logo-white.png" style="max-width: 81%;" /></a>
+                    <img alt="TAMUlogo" src="/images/TAM-Logo-white.png" style="max-width: 81%; padding-top:4px;" /></a>
                 <a class="navbar-brand" href="http://kelab.tamu.edu/" target="_blank">
                     <img alt="KELlogo" src="/images/KELlogo_sm.jpg" style="max-width: 93%; padding-top: 10px" /></a>
                 <a class="navbar-brand" href="https://agrilifeextension.tamu.edu/" target="_blank">
-                    <img alt="" src="/WebContent/Images/HomePage/agri_extension.jpg" class="img-responsive" style=" padding-left: 10px; padding-top: 10px" /></a>
+                    <img alt="" src="/WebContent/Images/HomePage/agri_extension.jpg" class="img-responsive" style=" padding-left: 10px; padding-top: 10px; max-width: 115%;" /></a>
 				
 
 
@@ -49,7 +47,7 @@
                     <li id="Homeli" >
                         <a href="/WebContent/index.html">HOME</a>
                     </li>
-                    <li id="producers" class="active">
+                    <li id="producers">
                         <a href="/WebContent/Producer.aspx#">PRODUCERS</a>
                     </li>
                     <!-- <li>

@@ -6,7 +6,7 @@
 <head id="Head1" runat="server">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-   
+   <link rel="icon" href="/WebContent/Images/HomePage/logo_icon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/Register.css">
