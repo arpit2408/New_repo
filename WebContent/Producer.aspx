@@ -4,7 +4,7 @@
 <html>
 <head>
 
-    <title>Geolocation</title>
+    <title>Hit the Target</title>
          <link rel="icon" href="/WebContent/Images/HomePage/logo_icon.ico" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

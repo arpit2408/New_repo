@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Hitthetarget Password Reset</title>
+    <title>Hit the Target</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../CSS/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/Register.css">

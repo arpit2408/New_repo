@@ -69,7 +69,7 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
         {
             MailMessage mail = new MailMessage();
             mail.IsBodyHtml = true;
-            string htmlBody = "<html><body><h1>Welcome</h1><br><img src=\"cid:filename\"></body></html>";
+            string htmlBody = "<html><body><h2>&nbsp;</h2><h2><strong>Welcome!</strong></h2><h4>Thank you for registering with Hit the Target!</h4><p>You have successfully created an account with Hit the Target!</p><p>What's next? &nbsp;You may now login&nbsp;with your credentials to start using the application.</p><p>If you have any questions, please take a look at the FAQ section.</p><p>&nbsp;</p><p>&nbsp;</p><img src=\"cid:filename\"></body></html>";
             AlternateView avHtml = AlternateView.CreateAlternateViewFromString
                (htmlBody, null, MediaTypeNames.Text.Html);
 
@@ -79,10 +79,10 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
             mail.AlternateViews.Add(avHtml);
             var client = new SmtpClient("smtp.gmail.com", 587)
             {
-                Credentials = new NetworkCredential("adm.hitthetarget@gmail.com", "Crop$@KEL_2017"),
+                Credentials = new NetworkCredential("HittheTarget.KEL@gmail.com", "Crop$@KEL_2017"),
                 EnableSsl = true
             };
-            mail.From = new MailAddress("adm.hitthetarget@gmail.com");
+            mail.From = new MailAddress("HittheTarget.KEL@gmail.com", "Hit the Target: The Crop Registry System");
             mail.To.Add(email);
             mail.Subject = "Welcome to Crop Registry System";
 
