@@ -4,8 +4,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-
-    <title>Geolocation</title>
+    <link rel="icon" href="/WebContent/Images/HomePage/logo_icon.ico" />
+    <title>Hit the Target</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">

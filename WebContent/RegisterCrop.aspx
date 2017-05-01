@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Texas Crop Website</title>
+    <title>Hit the Target</title>
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css' />
     <script type="text/javascript" src="/WebContent/Javascript/cropAdd.js"></script>
 </head>

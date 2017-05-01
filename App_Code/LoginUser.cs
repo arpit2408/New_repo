@@ -229,7 +229,7 @@ public class LoginUser
             body.AppendLine(@"Your Password link is here");
             body.AppendLine("<a href='"+resetlink+"'>Reset Password</a>");
             string htmlBody = "<html><body><br><img src=\"cid:filename\">"
-                +"<h4>You recently requested a Password change form our website. Please click the below Link to reset the password<h4>"
+                +"<h4>You recently requested a Password change form our website. Please click the below link to reset the password.<h4>"
                 + "</body></html>"+body;
             AlternateView avHtml = AlternateView.CreateAlternateViewFromString
                (htmlBody, null, MediaTypeNames.Text.Html);
@@ -239,10 +239,10 @@ public class LoginUser
             avHtml.LinkedResources.Add(inline);
             mail.AlternateViews.Add(avHtml);
             var client = new SmtpClient("smtp.gmail.com", 587){
-                Credentials = new NetworkCredential("adm.hitthetarget@gmail.com", "Crop$@KEL_2017"),
+                Credentials = new NetworkCredential("HittheTarget.KEL@gmail.com", "Crop$@KEL_2017"),
                 EnableSsl = true
             };
-            mail.From = new MailAddress("adm.hitthetarget@gmail.com");
+            mail.From = new MailAddress("HittheTarget.KEL@gmail.com", "Hit the Target: The Crop Registry System");
             mail.To.Add(email);
             mail.Subject = "HittheTarget password reset link";
 

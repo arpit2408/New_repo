@@ -329,3 +329,7 @@ div#spinner
 	cursor:pointer;
 }
 
+ #bs-example-navbar-collapse-1 li:active a{
+     background:#000; color:#FFF;
+
+ }

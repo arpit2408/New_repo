@@ -25,7 +25,7 @@
 
 
 
-                                <div class="well" style="max-height: 300px; overflow: auto;">
+                                 <div class="well" style="max-height: 305px; ">
 
                                     <div class="row">
                                         
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                 
-                                <ul id="check-list-box" class="list-group checked-list-box">
+                                <ul style="max-height: 230px; overflow: auto;" id="check-list-box" class="list-group checked-list-box">
                                 </ul>
                                 <br />
                                  </div>
