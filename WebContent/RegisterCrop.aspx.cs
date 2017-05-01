@@ -65,7 +65,7 @@ public partial class WebContent_RegisterCrop : System.Web.UI.Page
                 SqlCommand cmd = null;
                 SqlDataReader reader;
                 string sql = "";
-                sql = "select * from Counties where State = 'Texas' order by CountyName asc;";
+                sql = "select * from Counties  order by CountyName asc;";
                 cmd = new SqlCommand(sql, conn);
                 reader = cmd.ExecuteReader();
                 county co = null;

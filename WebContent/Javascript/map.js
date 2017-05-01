@@ -155,7 +155,7 @@ function initMap() {
                 drawnPolygon = event.overlay;
                 $('#vertices').val(event.overlay.getPath().getArray());
                 if (google.maps.geometry.spherical.computeArea(drawnPolygon.getPath()) == 0.0) {
-                    alert("Please draw a shape greater with area greater than zero.");
+                    alert("Please draw a shape with area greater than zero.");
                     if (newShape != null)
                         newShape.setMap(null);
                 }
@@ -199,7 +199,7 @@ function initMap() {
         var bounds = new google.maps.LatLngBounds();
         places.forEach(function (place) {
             if (!place.geometry) {
-                console.log("Returned place contains no geometry");
+                console.log("Returned place contains no geometry.");
                 return;
             }
             var icon = {
@@ -906,7 +906,7 @@ function CustomControl(controlDiv, map, typeOfView) {
                 fillModalValues(polygons[0], true, true, false);
         }
         catch (e) {
-            alert("Please place all markers inside the polygon");
+            alert("Please place all markers inside the polygon.");
         }
     });
 

@@ -62,7 +62,7 @@ function enabledisableSubmitbutton() {
     });
 }
 function validatefields() {
-    $('#txtPhone').blur(function (e) {
+    $('#txtPhone').on('keyup blur', function (e) {
         if (document.getElementById('txtPhone').value != "") {
             if (validatePhone('txtPhone')) {
                 $('#txtPhone').closest('.input-group').removeClass('has-error').addClass('has-success');
@@ -71,15 +71,15 @@ function validatefields() {
             }
             else {
                 $('#txtPhone').closest('.input-group').removeClass('success').addClass('has-error');
-                $('#txtPhoneerror').text("Please enter correct telephone number");
+                $('#txtPhoneerror').text("Please enter correct telephone number.");
                 flagforvalidforPhone = false;
             }
         }
     });
-    $('#usrpassword').blur(function (e) {
+    $('#usrpassword').on('keyup blur', function (e) {
         if (document.getElementById('usrpassword') != null && document.getElementById('usrpassword').value.length < 8) {
             $('#usrpassword').closest('.input-group').removeClass('success').addClass('has-error');
-            $('#passworderror').text("Invalid password(Min. 8 digits required)");
+            $('#passworderror').text("Invalid password(Min. 8 digits required).");
             flagforvalidforPass = false;
         }
         else if (!validatePassword()) {
@@ -97,7 +97,7 @@ function validatefields() {
             flagforvalidforPass = true;
         }
     });
-    $('#confirmusrpassword').blur(function (e) {
+    $('#confirmusrpassword').on('keyup blur', function (e) {
         if (document.getElementById('usrpassword').value != "") {
             if (validatePassword()) {
                 $('#confirmusrpassword').closest('.input-group').removeClass('has-error').addClass('has-success');
@@ -106,15 +106,15 @@ function validatefields() {
             }
             else {
                 $('#confirmusrpassword').closest('.input-group').removeClass('success').addClass('has-error');
-                $('#confirmerror').text("Passwords do not match");
+                $('#confirmerror').text("Passwords do not match.");
                 flagforvalidforConfirm = false;
             }
         }
     });
-    $('#companyName').blur(function (e) {
+    $('#companyName').on('keyup blur', function (e) {
         if (document.getElementById('companyName').value.length < 2) {
             $('#companyName').closest('.input-group').removeClass('success').addClass('has-error');
-            $('#companyNameerror').text("Please enter a valid company name");
+            $('#companyNameerror').text("Please enter a valid company name.");
             flagforvalidforCompany = false;
         }
         else {
@@ -123,10 +123,10 @@ function validatefields() {
             flagforvalidforCompany = true;
         }
     });
-    $('#Address').blur(function (e) {
+    $('#Address').on('keyup blur', function (e) {
         if (document.getElementById('Address').value.length < 2) {
             $('#Address').closest('.input-group').removeClass('success').addClass('has-error');
-            $('#Addresserror').text("Please enter a valid Address");
+            $('#Addresserror').text("Please enter a valid Address.");
             flagforvalidforAddr = false;
         }
         else {
@@ -135,10 +135,10 @@ function validatefields() {
             flagforvalidforAddr = true;
         }
     });
-    $('#name').blur(function (e) {
+    $('#name').on('keyup blur', function (e) {
         if (document.getElementById('name').value.length < 2) {
             $('#name').closest('.input-group').removeClass('success').addClass('has-error');
-            $('#nameerror').text("Please enter a valid name");
+            $('#nameerror').text("Please enter a valid name.");
             flagforvalidforName = false;
         }
         else {
@@ -147,10 +147,10 @@ function validatefields() {
             flagforvalidforName = true;
         }
     });
-    $('#lname').blur(function (e) {
+    $('#lname').on('keyup blur', function (e) {
         if (document.getElementById('lname').value.length < 2) {
             $('#lname').closest('.input-group').removeClass('success').addClass('has-error');
-            $('#lnameerror').text("Please enter a valid last name");
+            $('#lnameerror').text("Please enter a valid last name.");
             flagforvalidforName = false;
         }
         else {
@@ -159,10 +159,10 @@ function validatefields() {
             flagforvalidforName = true;
         }
     });
-    $('#zipCode').blur(function (e) {
+    $('#zipCode').on('keyup blur', function (e) {
         if (document.getElementById('zipCode') != null && document.getElementById('zipCode').value.length < 5) {
             $('#zipCode').closest('.input-group').removeClass('success').addClass('has-error');
-            $('#zipCodeerror').text("Please enter a valid zipcode");
+            $('#zipCodeerror').text("Please enter a valid zipcode.");
             return false;
         }
         else {
@@ -170,12 +170,12 @@ function validatefields() {
             $('#zipCodeerror').text("");
         }
     });
-    $('#usremailadd').blur(function (e) {
+    $('#usremailadd').on('keyup blur', function (e) {
         console.log("hello");
         $('.loader').show();
         if (document.getElementById('usremailadd') != null && !isValidEmailAddress(document.getElementById('usremailadd').value)) {
             $('#usremailadd').closest('.input-group').removeClass('success').addClass('has-error');
-            $('#emailerror').text("Please enter a correct email address");
+            $('#emailerror').text("Please enter a correct email address.");
             flagforvalidforEmail = false;
         }
         else {
@@ -184,10 +184,10 @@ function validatefields() {
             flagforvalidforEmail = true;
         }
     });
-    $('#state').blur(function (e) {
+    $('#state').on('keyup blur', function (e) {
         if (document.getElementById('state') != null && document.getElementById('state').value == "") {
             $('#state').closest('.input-group').removeClass('success').addClass('has-error');
-            $('#stateerror').text("Please select a state");
+            $('#stateerror').text("Please select a state.");
             return false;
         }
         else {
@@ -195,10 +195,10 @@ function validatefields() {
             $('#stateerror').text("");
         }
     });
-    $('#city').blur(function (e) {
+    $('#city').on('keyup blur', function (e) {
         if (document.getElementById('city') != null && document.getElementById('city').value == "") {
             $('#city').closest('.input-group').removeClass('success').addClass('has-error');
-            $('#cityerror').text("Please select a city");
+            $('#cityerror').text("Please select a city.");
             return false;
         }
         else {
@@ -206,10 +206,10 @@ function validatefields() {
             $('#cityerror').text("");
         }
     });
-    $('#identification').blur(function (e) {
+    $('#identification').on('keyup blur', function (e) {
         if (document.getElementById('identification').value.length < 7) {
             $('#identification').closest('.input-group').removeClass('success').addClass('has-error');
-            $('#identificationerror').text("Please enter valid identification number");
+            $('#identificationerror').text("Please enter valid identification number.");
             flagforidentification = false;
         }
         else {

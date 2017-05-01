@@ -11,13 +11,13 @@ function loginUser() {
     if (useremail == "") {
         $("#loginmsg").empty();
         $("#loginmsg").show();
-        $('#loginmsg').append("Please enter email address" + "<br>");
+        $('#loginmsg').append("Please enter email address." + "<br>");
         $('#loginmsg').removeClass('alert-success').addClass('alert-danger');
     }
     else if (password == "") {
         $("#loginmsg").empty();
         $("#loginmsg").show();
-        $('#loginmsg').append("Please enter password" + "<br>");
+        $('#loginmsg').append("Please enter password." + "<br>");
         $('#loginmsg').removeClass('alert-success').addClass('alert-danger');
     }
     else {
@@ -41,7 +41,7 @@ function Authenticate_User_Success(returnObj) {
         $("#loginmsg").show();
         $('#loginmsg').append(val[1] + "<br>");
         $('#loginmsg').removeClass('alert-danger').addClass('alert-success');
-        window.location.href = 'WebContent/dashboard.aspx';
+        window.location.href = '/WebContent/dashboard.aspx';
         return false;
     }
     else {
@@ -96,13 +96,13 @@ function passWordResetVialink() {
         $("#passerrormessage").empty();
         $("#passsuccessmessage").empty();
         $("#passsuccessmessage").hide();
-        $("#passerrormessage").append('<strong>Error! </strong>' + "Password should be more than 7 characters");
+        $("#passerrormessage").append('<strong>Error! </strong>' + "Password should be more than 7 characters.");
         if (confirmPass != newPass) {
             $("#passerrormessage").show();
             $("#passerrormessage").empty();
             $("#passsuccessmessage").empty();
             $("#passsuccessmessage").hide();
-            $("#passerrormessage").append('<strong>Error! </strong>' + "Passwords do not match");
+            $("#passerrormessage").append('<strong>Error! </strong>' + "Passwords do not match.");
             return;
         }
     }
@@ -127,7 +127,7 @@ function PasswordReset_Success(returnObj) {
         $("#passerrormessage").hide();
         $("#passsuccessmessage").append('<strong>Success! </strong>' + val[1]);
         setTimeout(function () {
-            window.location.href = 'WebContent/dashboard.aspx';
+            window.location.href = '/WebContent/dashboard.aspx';
         }, 2000);
         
     }
@@ -447,7 +447,7 @@ function showModalForgotpass() {
                 Applicator_list(data)
             },
             error: function (textStatus, errorThrown) {
-                Applicator_list("No Applicators found in your area")
+                Applicator_list("No Applicators found in your area.")
             }
         });
 
@@ -627,7 +627,7 @@ function showModalForgotpass() {
             if (det.MappedForAction == 1) {
                 listMappings.forEach(function (element) {
                     if (element.MappedForAction == 1) {
-                        alert("Please map only one user for action")
+                        alert("Please map only one user for action.")
                         flag = 1;
                         return;
                     }
@@ -797,7 +797,7 @@ function showModalForgotpass() {
             });
         }
         else {
-            alert("Please deselect the checkboxes against the user you want to remove..!!")
+            alert("Please deselect the checkboxes against the user you want to remove.")
         }
         function Unmap_Success(resultObj) {
             if (resultObj.d[0] == 0) {

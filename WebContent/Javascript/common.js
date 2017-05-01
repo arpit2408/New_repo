@@ -81,6 +81,7 @@ function CheckLogin_Success(val) {
         menuhead.setAttribute("class", "dropdown-menu");
         $('#SignUpli').hide();
         $('#Homeli').hide();
+        $('#Faqli').hide();
         if (!user.usertype.includes("1")) {
             $('#producers').hide();
             $('#AddCrop').hide();
@@ -222,13 +223,13 @@ function updateUsrPassword() {
         $("#passerrormessage").empty();
         $("#passsuccessmessage").empty();
         $("#passsuccessmessage").hide();
-        $("#passerrormessage").append('<strong>Error! </strong>' + "Password should be more than 7 characters");
+        $("#passerrormessage").append('<strong>Error! </strong>' + "Password should be more than 7 characters.");
         if (confirmPass != newPass) {
             $("#passerrormessage").show();
             $("#passerrormessage").empty();
             $("#passsuccessmessage").empty();
             $("#passsuccessmessage").hide();
-            $("#passerrormessage").append('<strong>Error! </strong>' + "Passwords do not match");
+            $("#passerrormessage").append('<strong>Error! </strong>' + "Passwords do not match.");
             return;
         }
     }

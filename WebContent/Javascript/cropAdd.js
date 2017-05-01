@@ -96,8 +96,8 @@ function checkforflag(ele) {
     //$("input:checkbox").prop('checked', $(this).prop("checked"));
     $('#flagoptions').empty();
     $('#flagoptions').append(atLeastOneIsChecked);
-    alert(atLeastOneIsChecked);
-    alert($('#flagoptions').text());
+    //alert(atLeastOneIsChecked);
+    //alert($('#flagoptions').text());
     var checkboxes = document.getElementsByTagName('input');
     for (var i = 0; i < checkboxes.length; i++) {
         checkboxes[i].checked = false;
