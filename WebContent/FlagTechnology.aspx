@@ -52,7 +52,7 @@ width:250px;
                                                         <span></span>
                                                     </label>
                                                     <label for="fancy-checkbox-default" class="[ btn btn-default active ] ">
-                                                        Set Flag Red
+                                                        Set Flag Red&nbsp;&nbsp;&nbsp;&nbsp;
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
 													title="Red Flag " data-content="Red color signifies conventional varieties with no herbicide technology traits, vineyards, apiaries, orchards, vegetable fields and organic crop production. Extreme caution">
@@ -79,7 +79,7 @@ sorghum">
                
                                                     </label> -->
 													<label for="fancy-checkbox-primary" class="[ btn btn-default active ] ">
-                                                        Set Flag Yellow
+                                                        Set Flag Yellow&nbsp;
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
 													title="Yellow Flag" data-content="Yellow color is chosen for Clearfield® rice, sunflower, wheat and canola technologies, STS® soybeans1 and INZEN grain">Read more </a>
@@ -100,7 +100,7 @@ Ready, Glytol)">
                
                                                     </label> -->
 													<label for="fancy-checkbox-success" class="[ btn btn-default active ] ">
-                                                        Set Flag White
+                                                        Set Flag White&nbsp;
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
 													title="White Flag" data-content="White flag represents technology that is tolerant to glyphosate herbicide. (e.g: Roundup Ready, Glytol)">Read more </a>
@@ -126,7 +126,7 @@ to denote tolerance to glufosinate
                                                         Set Flag Teal
                                                     </label> -->
 													<label for="fancy-checkbox-info" class="[ btn btn-default active ] ">
-                                                        Set Flag Teal
+                                                        Set Flag Teal&nbsp;&nbsp;&nbsp;&nbsp;
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
 													title="Teal Flag" data-content="Teal Flag indicates tolerance to both 2,4-D and FOP (ACCase) herbicides. The white stripes indicate tolerance to glyphosate. Where glufosinate tolerant cotton and soybean are planted, a green flag should be added to denote tolerance to glufosinate2">Read more </a>
@@ -166,7 +166,7 @@ tolerance">
                                                         Set Flag Black
                                                     </label> -->
 													<label for="fancy-checkbox-danger2" class="[ btn btn-default active ] ">
-                                                        Set Flag Black
+                                                        Set Flag Black&nbsp;&nbsp;
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
 													title="Black Flag" data-content="In Black Flag technology, the black and white checks indicate tolerance to both dicamba and glyphosate. A green flag should be added for cotton to denote glufosinate tolerance">Read more </a>

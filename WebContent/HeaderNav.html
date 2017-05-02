@@ -9,6 +9,7 @@
         $.get("/LoginUser.aspx", function (data) {
             $("#loginModal").replaceWith(data);
         });
+        
     </script>
      <script>
          $.get("/WebContent/ForgotPass.aspx", function (data) {
@@ -31,11 +32,11 @@
                 </button>
 
                 <a class="navbar-brand" href="https://www.tamu.edu" target="_blank">
-                    <img alt="TAMUlogo" src="/images/TAM-Logo-white.png" style="max-width: 81%; padding-top:4px;" /></a>
+                    <img alt="TAMUlogo" src="/images/TAM-Logo-white.png" style="max-width: 81%; " /></a>
                 <a class="navbar-brand" href="http://kelab.tamu.edu/" target="_blank">
-                    <img alt="KELlogo" src="/images/KELlogo_sm.jpg" style="max-width: 93%; padding-top: 10px" /></a>
+                    <img alt="KELlogo" src="/images/KELlogo_sm.jpg" style="max-width: 93%;" /></a>
                 <a class="navbar-brand" href="https://agrilifeextension.tamu.edu/" target="_blank">
-                    <img alt="" src="/WebContent/Images/HomePage/agri_extension.jpg" class="img-responsive" style=" padding-left: 10px; padding-top: 10px; max-width: 115%;" /></a>
+                    <img alt="" src="/WebContent/Images/HomePage/agri_extension.jpg" class="img-responsive" style=" padding-left: 10px; max-width: 115%;" /></a>
 				
 
 
@@ -47,8 +48,11 @@
                     <li id="Homeli" >
                         <a href="/WebContent/index.html">HOME</a>
                     </li>
-                    <li id="producers">
-                        <a href="/WebContent/Producer.aspx#">PRODUCERS</a>
+                    <li id="producers" style="display:none;">
+                        <a href="/WebContent/Producer.aspx#">CROPS MAP</a>
+                    </li>
+                    <li id="FAQ">
+                        <a href="/WebContent/FAQ.html">FAQ</a>
                     </li>
                     <!-- <li>
                         <a href="/WebContent/ApplicatorNew.aspx#">APPLICATORS</a>

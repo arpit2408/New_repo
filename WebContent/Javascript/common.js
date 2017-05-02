@@ -80,7 +80,9 @@ function CheckLogin_Success(val) {
         var menuhead = document.createElement('ul');
         menuhead.setAttribute("class", "dropdown-menu");
         $('#SignUpli').hide();
-        $('#Homeli').hide();
+        $('#producers').show();
+        //$('#Homeli').hide();
+     
         if (!user.usertype.includes("1")) {
             $('#producers').hide();
             $('#AddCrop').hide();
