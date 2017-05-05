@@ -82,7 +82,7 @@ sorghum">
                                                         Set Flag Yellow
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
-													title="Yellow Flag" data-content="Yellow color is chosen for Clearfield® rice, sunflower, wheat and canola technologies, STS® soybeans1 and INZEN grain.">Read more </a>
+													title="Yellow Flag" data-content="Yellow color is chosen for Clearfield® rice, sunflower, wheat and canola technologies, STS® soybeans and INZEN grain.">Read more </a>
                                                 </div>
                                             </div>
                                             <div class="[ form-group ]">

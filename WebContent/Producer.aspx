@@ -120,9 +120,9 @@
         <div id="custom-search-input" style="padding-left:125px;">
             <div style="top: 10px !important; position: relative">
                 <div id="searchboxProd" class="input-group col-md-3">
-                    <input id="pac-input" class="form-control input-md controls searchBoxPos" type="text" placeholder="Search Box">
+                    <input id="pac-input" class="form-control input-md controls searchBoxPos" type="text" placeholder="Search Box" >
                     <span class="input-group-btn">
-                        <button class="btn btn-primary btn-md" type="button">
+                        <button class="btn btn-primary btn-md" type="button" value="Geocode" onclick="codeAddress()">
                             <i class="glyphicon glyphicon-search"></i>
                         </button>
                     </span>

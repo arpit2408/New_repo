@@ -69,7 +69,12 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
         {
             MailMessage mail = new MailMessage();
             mail.IsBodyHtml = true;
-            string htmlBody = "<html><body><h2>&nbsp;</h2><h2><strong>Welcome!</strong></h2><h4>Thank you for registering with Hit the Target!</h4><p>You have successfully created an account with Hit the Target!</p><p>What's next? &nbsp;You may now login&nbsp;with your credentials to start using the application.</p><p>If you have any questions, please take a look at the FAQ section.</p><p>&nbsp;</p><p>&nbsp;</p><img src=\"cid:filename\"></body></html>";
+            string htmlBody = "<html><body><h2>&nbsp;</h2><h2><strong>Welcome!</strong></h2>"+
+                "<h4>Thank you for registering with Hit the Target!</h4><p>You have successfully created an account with "
+                +"Hit the Target!</p><p>What's next? &nbsp;You may now login&nbsp;with your credentials to start using "
+                +"the application.</p><p>If you have any questions, please take a look at the FAQ section.</p><p>&nbsp;"
+                +"</p><p>&nbsp;</p><img src=\"cid:filename\">"
+                +"<a href='http://hitthetarget.tamu.edu'>Visit the website here</a></body></html>";
             AlternateView avHtml = AlternateView.CreateAlternateViewFromString
                (htmlBody, null, MediaTypeNames.Text.Html);
 

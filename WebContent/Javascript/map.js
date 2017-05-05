@@ -24,8 +24,9 @@ var markCompleted = "";
 var prodshareCropInfo = false;
 var typeOfView = "";
 var newShape;
+var geocoder;
 function initMap() {
-    
+    geocoder = new google.maps.Geocoder();
     var myLatlng = new google.maps.LatLng(30.658354982307571, -96.396270512761134);
     var mapOptions = {
         zoom: 5,
@@ -228,6 +229,39 @@ function initMap() {
             }
         });
         map.fitBounds(bounds);
+    });
+    $(map.getDiv()).one('mouseover', 'img[src="https://maps.gstatic.com/mapfiles/drawing.png"]', function (e) {
+
+        $(e.delegateTarget).find('img[src="https://maps.gstatic.com/mapfiles/drawing.png"]').each(function () {
+            $(this).closest('div[title]').attr('title', function () {
+                switch (this.title) {
+                    case 'Stop drawing':
+                        return 'Click here to move around the map';
+                        break;
+                    case 'Draw a shape':
+                        return 'Draw your crop location';
+                        break;
+                    default: return this.title;
+                }
+
+            });
+        });
+    });
+}
+function codeAddress() {
+    var address = document.getElementById("pac-input").value;
+    geocoder.geocode({ 'address': address }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            /*var marker = new google.maps.Marker(
+            {
+                map: map,
+                position: results[0].geometry.location
+            });*/
+        }
+        else {
+            alert("Geocode was not successful for the following reason: " + status);
+        }
     });
 }
 function showPolygon(e) {
