@@ -182,12 +182,12 @@ public partial class WebContent_RegisterNewUser : System.Web.UI.Page
                
                 if (email_result == "sent")
                 {
-                    retval[1] += "Password sent to " + obj.email;// +" to email address";
+                    retval[1] += " An email has been sent to " + obj.email;// +" to email address";
                     retval[0] = "1";
                 }
                 else
                 {
-                    retval[1] += "User registration failed: " + email_result;
+                    retval[1] += " User registration failed: " + email_result;
                     retval[0] = "0";
                 }
             }

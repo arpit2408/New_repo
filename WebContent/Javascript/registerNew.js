@@ -250,7 +250,7 @@ function Signup() {
         $('#loading-modal').modal('show');
 
         timer = setInterval(function () {
-            progress += 5;
+            progress += 3;
             if (progress < 100) {
                 $('#loading-modal .progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
             } else {
@@ -265,9 +265,9 @@ function Signup() {
             $('#loading-modal .progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
             setTimeout(function () {
                 $('#loading-modal').modal('hide');
-            }, 10000);
+            }, 15000);
 
-        }, 10000);
+        }, 15000);
 
 
 

@@ -35,10 +35,11 @@
 
                 <a class="navbar-brand" href="#">
                     <img alt="TAMUlogo" src="/images/TAM-Logo-white.png" style="max-width: 81%;" /></a>
-                <a class="navbar-brand" href="#">
-                    <img alt="KELlogo" src="/images/KELlogo_sm.jpg" style="max-width: 93%; padding-top: 10px" /></a>
-                <a class="navbar-brand" href="#">
-                    <img alt="" src="/WebContent/Images/HomePage/LogoTX_header.png" class="img-responsive" style="padding-left: 10px; padding-top: 10px" /></a>
+                <a class="navbar-brand" href="http://kelab.tamu.edu/" target="_blank">
+                    <img alt="KELlogo" src="/WebContent/Images/HomePage/KELlogo_sm.jpg" style="max-width: 93%; padding-top: 10px" /></a>
+                <a class="navbar-brand" href="https://agrilifeextension.tamu.edu/" target="_blank">
+                    <img alt="" src="/WebContent/Images/HomePage/agri_extension.jpg" class="img-responsive" style=" padding-left: 10px; padding-top: 10px; max-width: 115%;" /></a>
+				
 
 
             </div>

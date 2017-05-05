@@ -118,7 +118,9 @@ function initMap() {
                 animation: google.maps.Animation.DROP
             }
         });
-        drawingManager.setMap(map);
+        //To hide drawing manager for applicator and consultant view
+        if (user.usertype.includes("1"))
+            drawingManager.setMap(map);
         
         // Add a listener for creating new shape event.
         google.maps.event.addListener(drawingManager, "overlaycomplete", function (event) {
@@ -867,7 +869,7 @@ function CustomControl(controlDiv, map, typeOfView) {
     controlUI.style.borderBottomRightRadius = '2px';
     controlUI.style.borderTopRightRadius = '2px';
     controlUI.style.bottom = '4px'
-    controlUI.title = 'Click to set the map to Home';
+    controlUI.title = 'Click to save or modify crop information';
     controlUI.id = 'Savepoly'
     //controlUI.innerText = typeOfView;
     controlDiv.appendChild(controlUI);

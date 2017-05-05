@@ -82,8 +82,9 @@ function CheckLogin_Success(val) {
         $('#SignUpli').hide();
         $('#Homeli').hide();
         $('#Faqli').hide();
+        $('#producers').show();
         if (!user.usertype.includes("1")) {
-            $('#producers').hide();
+            //$('#producers').hide();
             $('#AddCrop').hide();
         }
         $('#UserName').removeAttr('data-target');

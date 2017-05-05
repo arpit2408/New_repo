@@ -26,7 +26,7 @@ width:250px;
                 <div class="modal-dialog">
 
                     <!-- Modal content-->
-                    <div class="modal-content" style="height: auto; width: 400px;">
+                    <div class="modal-content" style="height: auto; width: 325px;">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title">Choose your Flag</h4>
@@ -51,11 +51,11 @@ width:250px;
                                                         <span class="[ glyphicon glyphicon-ok ]"></span>
                                                         <span></span>
                                                     </label>
-                                                    <label for="fancy-checkbox-default" class="[ btn btn-default active ] ">
-                                                        Set Flag Red
+                                                    <label for="fancy-checkbox-default" class="[ btn btn-default active ] flagicons ">
+                                                        Set Flag Red 
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
-													title="Red Flag " data-content="Red color signifies conventional varieties with no herbicide technology traits, vineyards, apiaries, orchards, vegetable fields and organic crop production. Extreme caution">
+													title="Red Flag " data-content="Red color signifies conventional varieties with no herbicide technology traits, vineyards, apiaries, orchards, vegetable fields and organic crop production. Extreme caution!">
                                                         Read more
                                                     </a>
                                                 </div>
@@ -78,11 +78,11 @@ sorghum">
                                                         Set Flag Yellow
                
                                                     </label> -->
-													<label for="fancy-checkbox-primary" class="[ btn btn-default active ] ">
+													<label for="fancy-checkbox-primary" class="[ btn btn-default active ] flagicons">
                                                         Set Flag Yellow
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
-													title="Yellow Flag" data-content="Yellow color is chosen for Clearfield® rice, sunflower, wheat and canola technologies, STS® soybeans1 and INZEN grain">Read more </a>
+													title="Yellow Flag" data-content="Yellow color is chosen for Clearfield® rice, sunflower, wheat and canola technologies, STS® soybeans1 and INZEN grain.">Read more </a>
                                                 </div>
                                             </div>
                                             <div class="[ form-group ]">
@@ -99,11 +99,11 @@ Ready, Glytol)">
                                                         Set Flag White
                
                                                     </label> -->
-													<label for="fancy-checkbox-success" class="[ btn btn-default active ] ">
+													<label for="fancy-checkbox-success" class="[ btn btn-default active ] flagicons">
                                                         Set Flag White
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
-													title="White Flag" data-content="White flag represents technology that is tolerant to glyphosate herbicide. (e.g: Roundup Ready, Glytol)">Read more </a>
+													title="White Flag" data-content="White flag represents technology that is tolerant to glyphosate herbicide (e.g., Roundup Ready, Glytol).">Read more </a>
                                                 </div>
                                             </div>
                                             <div class="[ form-group ]">
@@ -125,11 +125,11 @@ to denote tolerance to glufosinate
 2">
                                                         Set Flag Teal
                                                     </label> -->
-													<label for="fancy-checkbox-info" class="[ btn btn-default active ] ">
+													<label for="fancy-checkbox-info" class="[ btn btn-default active ] flagicons">
                                                         Set Flag Teal
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
-													title="Teal Flag" data-content="Teal Flag indicates tolerance to both 2,4-D and FOP (ACCase) herbicides. The white stripes indicate tolerance to glyphosate. Where glufosinate tolerant cotton and soybean are planted, a green flag should be added to denote tolerance to glufosinate2">Read more </a>
+													title="Teal Flag" data-content="Teal flag indicates tolerance to both 2,4-D and FOP (ACCase) herbicides. The white stripes indicate tolerance to glyphosate. Where glufosinate tolerant cotton and soybean are planted, a green flag should be added to denote tolerance to glufosinate.">Read more </a>
                                                 </div>
                                             </div>
                                             <div class="[ form-group ]">
@@ -143,11 +143,11 @@ to denote tolerance to glufosinate
 to glufosinate. ">
                                                         Set Flag Green
                                                     </label> -->
-													<label for="fancy-checkbox-danger" class="[ btn btn-default active ] ">
+													<label for="fancy-checkbox-danger" class="[ btn btn-default active ] flagicons">
                                                         Set Flag Green
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
-													title="Green Flag" data-content="Green Flag technology is tolerant to glufosinate ">Read more </a>
+													title="Green Flag" data-content="Green flag technology is tolerant to glufosinate. ">Read more </a>
                                                 </div>
                                             </div>
                                             <div class="[ form-group ]">
@@ -165,11 +165,11 @@ for cotton to denote glufosinate
 tolerance">
                                                         Set Flag Black
                                                     </label> -->
-													<label for="fancy-checkbox-danger2" class="[ btn btn-default active ] ">
+													<label for="fancy-checkbox-danger2" class="[ btn btn-default active ] flagicons">
                                                         Set Flag Black
                                                     </label>
 													<a href="#" tabindex="0" class="[  btn ] " data-toggle="popover" data-placement="bottom" data-trigger="focus"
-													title="Black Flag" data-content="In Black Flag technology, the black and white checks indicate tolerance to both dicamba and glyphosate. A green flag should be added for cotton to denote glufosinate tolerance">Read more </a>
+													title="Black Flag" data-content="The black and white checks indicate tolerance to both dicamba and glyphosate. A green flag should be added for cotton to denote glufosinate tolerance.">Read more </a>
                                                 </div>
                                             </div>
                                         </div>

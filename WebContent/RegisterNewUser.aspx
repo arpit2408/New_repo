@@ -69,7 +69,7 @@
                 </div>
                 <label id="messages_content"/>
             </div>
-            <div id="loading-modal" class="modal fade">
+            <div id="loading-modal" class="modal fade" data-keyboard="false" data-backdrop="static">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -259,7 +259,7 @@
                         <div class="cols-sm-10">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-lock fa" aria-hidden="true"></i></span>
-                                <input class="form-control" type="number" id="identification" placeholder="Please provide your Identification number" required="required">
+                                <input class="form-control" type="number" id="identification" placeholder="Please provide your pesticide applicator license number" required="required">
                             </div>
                             <span class="errorspan" id="identificationerror"></span>
                         </div>

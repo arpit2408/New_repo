@@ -761,7 +761,7 @@ function showModalForgotpass() {
         var appliedId = id.replace("unshare", "applied");
         var mappedId = id.replace("unshare", "mapped");
         if (document.getElementById(appliedId).innerText == 1 && document.getElementById(mappedId).innerText == 1) {
-            alert("Cannot unmap the user as the pesticide is already applied.Contact your applicator.");
+            alert("Cannot unmap the user as the pesticide has already been applied. Contact your applicator.");
             document.getElementById(id).checked = true;
         }
     }

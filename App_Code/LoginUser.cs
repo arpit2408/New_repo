@@ -229,7 +229,7 @@ public class LoginUser
             body.AppendLine(@"Your Password link is here");
             body.AppendLine("<a href='"+resetlink+"'>Reset Password</a>");
             string htmlBody = "<html><body><br><img src=\"cid:filename\">"
-                +"<h4>You recently requested a Password change form our website. Please click the below link to reset the password.<h4>"
+                +"<h4>You recently requested a password change form our website. Please click the link below to reset the password.<h4>"
                 + "</body></html>"+body;
             AlternateView avHtml = AlternateView.CreateAlternateViewFromString
                (htmlBody, null, MediaTypeNames.Text.Html);
@@ -321,7 +321,7 @@ public class LoginUser
                         string email_result = send(email, tokenhashstr, "Registration");
                         if (email_result == "sent")
                         {
-                            retval[1] += "Password reset link has bee sent to " + auser.email + ".Please visit you email to follow futher instructions";
+                            retval[1] += "Password reset link has been sent to " + auser.email + ". Please visit you email to follow further instructions";
                             retval[0] = "1";
                             return retval;
                         }
